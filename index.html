@@ -7,191 +7,216 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap');
+        
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-arabic { font-family: 'Amiri', serif; }
         
-        /* Custom Colors inspired by the reference */
+        /* Palet Warna Megah */
         .text-emas { color: #D4AF37; }
         .bg-emas { background-color: #D4AF37; }
-        .hover-bg-emas:hover { background-color: #b5952f; }
+        .text-emas-gradient {
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
         .bg-zamrud { background-color: #14362B; }
         .text-zamrud { color: #14362B; }
         
-        .hero-overlay {
-            background: linear-gradient(150deg, rgba(20,54,43,.85) 0%, rgba(15,81,50,.75) 45%, rgba(31,111,99,.68) 100%);
+        /* Efek Warm Film & Soft Matte Fade */
+        .film-overlay {
+            background: linear-gradient(150deg, rgba(20,54,43,.85) 0%, rgba(45, 35, 20, 0.6) 50%, rgba(31,111,99,.75) 100%);
+            mix-blend-mode: multiply;
+        }
+        .matte-fade {
+            filter: sepia(0.2) contrast(0.95) brightness(0.9);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased selection:bg-emerald-100 selection:text-emerald-900 flex flex-col min-h-screen">
+<body class="bg-[#FAFAF9] text-gray-800 antialiased selection:bg-emerald-100 selection:text-emerald-900 flex flex-col min-h-screen">
 
-    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-zamrud shadow-lg">
+    <!-- Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-zamrud/95 backdrop-blur-md shadow-lg border-b border-emas/20">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <div class="flex items-center justify-between h-16 lg:h-20">
-                <a href="#" class="flex items-center gap-3">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="flex items-center gap-4">
+                    <img src="logo.png" alt="Logo Al-Ittifaqiah" class="w-14 h-14 object-contain drop-shadow-md" onerror="this.style.display='none'">
                     <div class="leading-tight">
-                        <div class="text-[16px] font-bold text-white tracking-wide leading-none">Panti Asuhan</div>
-                        <div class="text-[12px] text-emas font-semibold tracking-widest mt-1 leading-none">AL-ITTIFAQIAH</div>
+                        <div class="text-[17px] font-bold text-white tracking-wide leading-none mb-1">Panti Asuhan Islam</div>
+                        <div class="text-[12px] text-emas font-bold tracking-[0.15em] leading-none uppercase">Al-Ittifaqiah</div>
                     </div>
                 </a>
                 <nav class="hidden lg:block">
-                    <ul class="flex items-center gap-2 text-sm font-semibold text-white/90">
-                        <li><a href="#" class="px-4 py-2 hover:text-emas transition-colors">Beranda</a></li>
-                        <li><a href="#profil" class="px-4 py-2 hover:text-emas transition-colors">Profil</a></li>
-                        <li><a href="#program" class="px-4 py-2 hover:text-emas transition-colors">Program</a></li>
-                        <li><a href="#kontak" class="px-4 py-2 hover:text-emas transition-colors">Kontak</a></li>
+                    <ul class="flex items-center gap-1 text-sm font-semibold text-white/90">
+                        <li><a href="#" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-white/5 transition-all">Beranda</a></li>
+                        <li><a href="#profil" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-white/5 transition-all">Profil</a></li>
+                        <li><a href="#kegiatan" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-white/5 transition-all">Kegiatan</a></li>
+                        <li><a href="#kontak" class="px-5 py-2.5 rounded-lg text-zamrud bg-emas hover:bg-[#b5952f] transition-all shadow-md ml-2">Hubungi Kami</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
 
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?q=80&w=2000&auto=format&fit=crop');"></div>
-        <div class="absolute inset-0 hero-overlay"></div>
+    <!-- Hero Section -->
+    <section class="relative min-h-[100vh] flex items-center justify-center overflow-hidden pt-20">
+        <!-- Background Image with Warm Matte Tone -->
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat matte-fade scale-105" style="background-image: url('hero.JPG');"></div>
+        <div class="absolute inset-0 film-overlay"></div>
         
         <div class="relative z-10 text-center px-6 max-w-4xl mx-auto pt-10 pb-16">
-            <p class="font-arabic text-4xl md:text-5xl text-emas mb-6" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+            <p class="font-arabic text-4xl md:text-5xl text-emas mb-8 drop-shadow-lg" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p>
+            
             <div class="flex items-center justify-center gap-3 mb-8">
-                <div class="h-px w-16 bg-emas/40"></div>
-                <div class="w-1.5 h-1.5 rounded-full bg-emas/70"></div>
-                <div class="h-px w-16 bg-emas/40"></div>
+                <div class="h-px w-20 bg-gradient-to-r from-transparent to-emas"></div>
+                <div class="w-2 h-2 rotate-45 bg-emas"></div>
+                <div class="h-px w-20 bg-gradient-to-l from-transparent to-emas"></div>
             </div>
             
-            <p class="inline-block text-emas text-sm font-bold tracking-[.2em] uppercase mb-4 bg-black/30 backdrop-blur-sm px-5 py-2 rounded-full">
-                Menebar Rahmah, Mencetak Generasi Qur'ani
-            </p>
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6 drop-shadow-md">
                 Panti Asuhan <br/>
-                <span class="text-emas font-arabic font-normal text-6xl md:text-8xl block mt-2">Al-Ittifaqiah</span>
+                <span class="text-emas-gradient font-arabic font-normal text-6xl md:text-8xl block mt-4 drop-shadow-xl">Al-Ittifaqiah</span>
             </h1>
-            <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-medium mb-10">
-                Wadah pembinaan generasi penerus bangsa yang berakhlak mulia, mandiri, dan mencintai Al-Qur'an di lingkungan Indralaya.
+            <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-medium mb-12 drop-shadow">
+                Membina generasi Qur'ani yang mandiri, berilmu, dan berakhlak mulia di lingkungan Pondok Pesantren Al-Ittifaqiah, Indralaya.
             </p>
-            
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#donasi" class="bg-emas hover-bg-emas text-zamrud font-bold px-8 py-3.5 rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-emas/30 text-[15px]">
-                    Salurkan Donasi
-                </a>
-                <a href="#profil" class="text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-200 border-2 border-white/30 hover:bg-white/10 text-[15px]">
-                    Pelajari Program Kami
-                </a>
-            </div>
         </div>
     </section>
 
-    <section class="py-16 bg-white border-b border-gray-100">
+    <!-- Section Profil -->
+    <section id="profil" class="py-24 bg-[#FAFAF9] relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-                <div class="p-6 rounded-2xl bg-gray-50 border border-gray-100 shadow-sm">
-                    <div class="text-4xl font-extrabold text-zamrud mb-2">150+</div>
-                    <div class="text-gray-500 text-sm font-medium">Santri & Anak Asuh</div>
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <!-- Image Side -->
+                <div class="w-full lg:w-1/2 relative">
+                    <div class="absolute -inset-4 border-2 border-emas/30 rounded-2xl translate-x-4 translate-y-4"></div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl group">
+                        <div class="absolute inset-0 bg-amber-900/10 mix-blend-overlay z-10 transition-opacity group-hover:opacity-0"></div>
+                        <img src="about.JPG" alt="Keluarga Besar Panti Asuhan Al-Ittifaqiah" class="w-full h-auto object-cover matte-fade transition-transform duration-700 group-hover:scale-105">
+                    </div>
                 </div>
-                <div class="p-6 rounded-2xl bg-gray-50 border border-gray-100 shadow-sm">
-                    <div class="text-4xl font-extrabold text-zamrud mb-2">25</div>
-                    <div class="text-gray-500 text-sm font-medium">Pengajar & Pengasuh</div>
-                </div>
-                <div class="p-6 rounded-2xl bg-gray-50 border border-gray-100 shadow-sm">
-                    <div class="text-4xl font-extrabold text-zamrud mb-2">10+</div>
-                    <div class="text-gray-500 text-sm font-medium">Program Kemandirian</div>
-                </div>
-                <div class="p-6 rounded-2xl bg-gray-50 border border-gray-100 shadow-sm">
-                    <div class="text-4xl font-extrabold text-zamrud mb-2">Banyak</div>
-                    <div class="text-gray-500 text-sm font-medium">Alumni Berprestasi</div>
+                
+                <!-- Text Side -->
+                <div class="w-full lg:w-1/2">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emas/10 text-emas font-bold text-sm tracking-widest uppercase mb-6 border border-emas/20">
+                        <span class="w-2 h-2 rounded-full bg-emas"></span>
+                        Tentang Kami
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-zamrud mb-6 leading-snug">Berkhidmat Membangun Generasi Penerus Umat</h2>
+                    <div class="w-16 h-1 bg-emas rounded-full mb-8"></div>
+                    
+                    <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                        Panti Asuhan Islam Al-Ittifaqiah hadir sebagai wadah pengasuhan, pendidikan, dan pembinaan anak-anak yatim dan dhuafa. Kami berkomitmen untuk tidak hanya memberikan perlindungan fisik, tetapi juga pembekalan ilmu agama, keterampilan, dan kemandirian.
+                    </p>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-8">
+                        Dengan dukungan lingkungan Pondok Pesantren di Indralaya, anak-anak asuh kami dibina agar tumbuh menjadi pribadi yang memegang teguh nilai-nilai Al-Qur'an dan siap berkontribusi untuk masyarakat.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-200">
+                        <div>
+                            <div class="text-3xl font-extrabold text-emas mb-1">Berakhlak</div>
+                            <div class="text-sm font-semibold text-zamrud">Pendidikan Karakter</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-extrabold text-emas mb-1">Mandiri</div>
+                            <div class="text-sm font-semibold text-zamrud">Pembekalan Skill</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="program" class="py-20 md:py-28 bg-gray-50">
+    <!-- Section Kegiatan / Galeri -->
+    <section id="kegiatan" class="py-24 bg-white border-y border-gray-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-zamrud mb-4">Program Unggulan</h2>
-                <div class="h-1 w-20 bg-emas mx-auto rounded-full mb-6"></div>
-                <p class="text-gray-600 text-lg">Kami merancang program yang komprehensif untuk memastikan kesejahteraan dan masa depan cerah bagi anak-anak asuh.</p>
+                <span class="text-emas font-bold tracking-widest uppercase text-sm mb-3 block">Dokumentasi</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-zamrud mb-6">Kegiatan & Kebersamaan</h2>
+                <div class="h-1 w-20 bg-emas mx-auto rounded-full"></div>
             </div>
             
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="h-48 bg-zamrud/10 flex items-center justify-center">
-                        <span class="text-5xl">📖</span>
-                    </div>
-                    <div class="p-6 text-center">
-                        <h3 class="text-xl font-bold text-zamrud mb-3">Tahfidz Al-Qur'an</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">Pembinaan hafalan dan pemahaman nilai-nilai Al-Qur'an sebagai fondasi akhlak sehari-hari.</p>
-                    </div>
-                </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="h-48 bg-zamrud/10 flex items-center justify-center">
-                        <span class="text-5xl">🎓</span>
-                    </div>
-                    <div class="p-6 text-center">
-                        <h3 class="text-xl font-bold text-zamrud mb-3">Pendidikan Formal</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">Akses penuh terhadap pendidikan madrasah dan sekolah umum untuk bekal akademis yang kuat.</p>
-                    </div>
-                </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <div class="h-48 bg-zamrud/10 flex items-center justify-center">
-                        <span class="text-5xl">🌱</span>
-                    </div>
-                    <div class="p-6 text-center">
-                        <h3 class="text-xl font-bold text-zamrud mb-3">Skill & Kemandirian</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">Pelatihan keterampilan mulai dari IT, bahasa, hingga kewirausahaan untuk kemandirian di masa depan.</p>
-                    </div>
+            <div class="relative rounded-3xl overflow-hidden shadow-2xl group">
+                <div class="absolute inset-0 bg-gradient-to-t from-zamrud/90 via-zamrud/20 to-transparent z-10"></div>
+                <!-- Gallery Image with warm styling -->
+                <img src="gallery1.JPG" alt="Kegiatan Panti Asuhan" class="w-full h-[500px] object-cover matte-fade transition-transform duration-1000 group-hover:scale-105">
+                
+                <div class="absolute bottom-0 left-0 right-0 z-20 p-8 md:p-12">
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 drop-shadow-md">Harmoni dalam Kebersamaan</h3>
+                    <p class="text-white/80 max-w-2xl text-lg drop-shadow">Momen kebersamaan, doa, dan rasa syukur yang terus dipupuk untuk mempererat ukhuwah islamiyah di antara santri, pengurus, dan para donatur.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="kontak" class="py-20 md:py-28 bg-white">
-        <div class="max-w-[800px] mx-auto px-5 lg:px-8">
-            <div class="bg-zamrud rounded-3xl p-8 md:p-12 text-white shadow-xl relative overflow-hidden">
-                <div class="relative z-10">
-                    <h2 class="text-3xl font-bold mb-2">Mari Menjadi Bagian dari Mereka</h2>
-                    <p class="text-white/80 mb-8">Tinggalkan pesan atau niat baik Anda melalui form di bawah ini.</p>
+    <!-- Form & Kontak -->
+    <section id="kontak" class="py-24 bg-[#FAFAF9]">
+        <div class="max-w-[1000px] mx-auto px-5 lg:px-8">
+            <div class="bg-zamrud rounded-[2rem] p-8 md:p-14 text-white shadow-2xl relative overflow-hidden">
+                <!-- Ornamen Latar -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-emas/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-emas/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+                
+                <div class="relative z-10 grid md:grid-cols-5 gap-12 items-center">
+                    <div class="md:col-span-2">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">Mari Menjadi <br/><span class="text-emas">Jalan Kebaikan</span></h2>
+                        <p class="text-white/70 mb-8 leading-relaxed">
+                            Dukungan Anda sangat berarti bagi kelangsungan pendidikan dan kesejahteraan anak-anak kami. Hubungi kami untuk informasi donasi atau kunjungan.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 text-emas">📍</div>
+                                <p class="text-sm text-white/80 mt-1">Pondok Pesantren Al-Ittifaqiah,<br/>Indralaya, Ogan Ilir, Sumatera Selatan</p>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <form class="space-y-5">
-                        <div>
-                            <label class="block text-sm font-semibold text-white/90 mb-1">Nama Lengkap <span class="text-emas">*WAJIB DIISI</span></label>
-                            <input type="text" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-emas transition-colors" placeholder="Masukkan nama Anda">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-white/90 mb-1">Nomor WhatsApp <span class="text-emas">*WAJIB DIISI</span></label>
-                            <input type="tel" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-emas transition-colors" placeholder="Contoh: 08123456789">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-white/90 mb-1">Pesan / Niat Donasi</label>
-                            <textarea rows="4" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-emas transition-colors" placeholder="Tuliskan pesan Anda di sini..."></textarea>
-                        </div>
-                        <button type="button" class="w-full bg-emas hover-bg-emas text-zamrud font-bold py-3.5 rounded-xl transition-colors mt-4">
-                            Kirim Pesan
-                        </button>
-                    </form>
+                    <!-- Form Pendaftaran / Kontak -->
+                    <div class="md:col-span-3 bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
+                        <form class="space-y-5">
+                            <div>
+                                <label class="block text-[13px] font-bold text-white/90 mb-2 uppercase tracking-wide">Nama Lengkap <span class="text-emas normal-case font-normal">*WAJIB DIISI</span></label>
+                                <input type="text" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all" placeholder="Masukkan nama Anda">
+                            </div>
+                            <div>
+                                <label class="block text-[13px] font-bold text-white/90 mb-2 uppercase tracking-wide">Nomor WhatsApp <span class="text-emas normal-case font-normal">*WAJIB DIISI</span></label>
+                                <input type="tel" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all" placeholder="Contoh: 08123456789">
+                            </div>
+                            <div>
+                                <label class="block text-[13px] font-bold text-white/90 mb-2 uppercase tracking-wide">Pesan / Niat Donasi</label>
+                                <textarea rows="3" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all resize-none" placeholder="Tuliskan pesan Anda di sini..."></textarea>
+                            </div>
+                            <button type="button" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-4 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] mt-2">
+                                Kirim Pesan
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-zamrud text-white pt-16 pb-8 border-t border-white/10 mt-auto">
+    <!-- Footer -->
+    <footer class="bg-[#0c241c] text-white pt-16 pb-8 border-t border-white/5 mt-auto">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-8 mb-12">
-                <div>
-                    <div class="text-xl font-bold mb-2">Panti Asuhan Al-Ittifaqiah</div>
-                    <p class="text-white/60 text-sm max-w-sm leading-relaxed">
-                        Membina generasi mandiri, berilmu, dan berakhlak mulia dengan landasan cinta kepada Al-Qur'an.
-                    </p>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
+                <div class="flex items-center gap-4">
+                    <img src="logo.png" alt="Logo" class="w-12 h-12 grayscale opacity-50" onerror="this.style.display='none'">
+                    <div>
+                        <div class="text-lg font-bold tracking-wide">Al-Ittifaqiah</div>
+                        <div class="text-xs text-white/40 uppercase tracking-widest">Panti Asuhan Islam</div>
+                    </div>
                 </div>
-                <div class="md:text-right">
-                    <h3 class="text-emas font-semibold mb-3">Alamat Kami</h3>
-                    <p class="text-white/70 text-sm">
-                        Pondok Pesantren Al-Ittifaqiah<br/>
-                        Indralaya, Ogan Ilir<br/>
-                        Sumatera Selatan
-                    </p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-white/40 hover:text-emas transition-colors text-sm font-semibold">Beranda</a>
+                    <a href="#profil" class="text-white/40 hover:text-emas transition-colors text-sm font-semibold">Profil</a>
+                    <a href="#kegiatan" class="text-white/40 hover:text-emas transition-colors text-sm font-semibold">Kegiatan</a>
                 </div>
             </div>
-            <div class="border-t border-white/10 pt-8 text-center md:flex md:justify-between md:items-center">
-                <p class="text-white/40 text-sm mb-4 md:mb-0">© 2026 Panti Asuhan Al-Ittifaqiah. Hak Cipta Dilindungi.</p>
-                <p class="font-arabic text-emas/50 text-lg" lang="ar" dir="rtl">خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ</p>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-white/30 text-sm">© 2026 Panti Asuhan Islam Al-Ittifaqiah. Indralaya.</p>
+                <p class="font-arabic text-emas/40 text-xl" lang="ar" dir="rtl">خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ</p>
             </div>
         </div>
     </footer>
