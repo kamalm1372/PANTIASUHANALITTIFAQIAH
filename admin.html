@@ -74,7 +74,6 @@
             let u = document.getElementById('username').value;
             let p = document.getElementById('password').value;
             
-            // Logika login front-end (untuk keamanan lebih baik, verifikasi ke URL_API)
             if(u === 'admin' && p === 'admin') {
                 document.getElementById('loginPanel').classList.add('hidden');
                 document.getElementById('dashboardPanel').classList.remove('hidden');
@@ -85,8 +84,77 @@
             }
         }
 
-        // Fungsi kirimBerita() menggunakan FileReader untuk konversi foto ke base64
-        // lalu dikirim via fetch() ke URL_API akan diletakkan di sini.
+        // --- FUNGSI UPLOAD BERITA ---
+        async function kirimBerita() {
+            const judul = document.getElementById('judulBerita').value;
+            const isi = document.getElementById('isiBerita').value;
+            const fileInput = document.getElementById('fotoBerita');
+            const tombol = document.querySelector('button[onclick="kirimBerita()"]');
+
+            // Validasi input
+            if (!judul || fileInput.files.length === 0) {
+                alert("Judul dan Foto WAJIB diisi!");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            
+            // Ubah tombol jadi "Mengirim..." agar admin tahu sistem sedang bekerja
+            tombol.innerText = "⏳ Sedang Menyimpan...";
+            tombol.disabled = true;
+            tombol.classList.add("opacity-50", "cursor-not-allowed");
+
+            // Mengubah file gambar menjadi format Base64 (Teks panjang)
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async function () {
+                const base64Data = reader.result;
+
+                // Siapkan paket data untuk dikirim ke Google Apps Script
+                const payload = {
+                    action: "upload_berita",
+                    judul: judul,
+                    isi: isi,
+                    namaFile: file.name,
+                    fotoBase64: base64Data
+                };
+
+                try {
+                    // Kirim data menggunakan metode POST
+                    const response = await fetch(URL_API, {
+                        method: "POST",
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.status === "success") {
+                        alert("✅ " + result.message);
+                        // Bersihkan form setelah berhasil
+                        document.getElementById('judulBerita').value = '';
+                        document.getElementById('isiBerita').value = '';
+                        document.getElementById('fotoBerita').value = '';
+                    } else {
+                        alert("❌ Gagal: " + result.message);
+                    }
+                } catch (error) {
+                    alert("Terjadi kesalahan koneksi!");
+                    console.error(error);
+                } finally {
+                    // Kembalikan tombol seperti semula
+                    tombol.innerText = "Simpan Berita";
+                    tombol.disabled = false;
+                    tombol.classList.remove("opacity-50", "cursor-not-allowed");
+                }
+            };
+            
+            reader.onerror = function (error) {
+                alert("Gagal membaca file gambar!");
+                tombol.innerText = "Simpan Berita";
+                tombol.disabled = false;
+                tombol.classList.remove("opacity-50", "cursor-not-allowed");
+            };
+        }
     </script>
 </body>
 </html>
