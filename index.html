@@ -281,7 +281,40 @@
         }
 
         // Jalankan fungsi otomatis saat halaman web dibuka
-        document.addEventListener("DOMContentLoaded", muatBerita);
+        async function muatStruktur() {
+            const container = document.getElementById('struktur-container');
+            try {
+                // Perhatikan penambahan "?sheet=Struktur" di akhir URL
+                const response = await fetch(URL_API + "?sheet=Struktur");
+                const data = await response.json();
+                
+                if (data.length > 0) {
+                    container.innerHTML = ''; 
+                    data.forEach(item => {
+                        if(!item.nama) return; 
+
+                        const card = `
+                        <div class="bg-[#FAFAF9] rounded-2xl overflow-hidden shadow-sm text-center border border-gray-100 p-6 hover:shadow-md transition-shadow">
+                            <img src="${item.fotoUrl}" alt="${item.nama}" class="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-emas/20">
+                            <h3 class="text-lg font-bold text-zamrud leading-tight">${item.nama}</h3>
+                            <p class="text-emas text-sm font-semibold mt-1">${item.jabatan}</p>
+                        </div>
+                        `;
+                        container.innerHTML += card;
+                    });
+                } else {
+                    container.innerHTML = '<p class="text-center text-gray-500 col-span-full py-10">Struktur organisasi belum diunggah.</p>';
+                }
+            } catch (error) {
+                console.error("Gagal memuat struktur:", error);
+            }
+        }
+
+        // Jalankan kedua fungsi secara berurutan saat web dibuka
+        document.addEventListener("DOMContentLoaded", () => {
+            muatBerita();
+            muatStruktur();
+        });
     </script>
 </body>
 </html>
