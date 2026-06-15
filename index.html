@@ -36,26 +36,28 @@
 <body class="bg-[#FAFAF9] text-gray-800 antialiased selection:bg-emerald-100 selection:text-emerald-900 flex flex-col min-h-screen">
 
     <!-- Navbar -->
-    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-zamrud/95 backdrop-blur-md shadow-lg border-b border-emas/20">
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white shadow-md border-b border-gray-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <a href="#" class="flex items-center gap-4">
-                    <img src="logo.png" alt="Logo Al-Ittifaqiah" class="w-14 h-14 object-contain drop-shadow-md" onerror="this.style.display='none'">
+                    <img src="logo.png" alt="Logo Al-Ittifaqiah" class="w-14 h-14 object-contain" onerror="this.style.display='none'">
                     <div class="leading-tight">
-                        <div class="text-[17px] font-bold text-white tracking-wide leading-none mb-1">Panti Asuhan Islam</div>
+                        <!-- Teks "Panti Asuhan Islam" diubah menjadi text-zamrud agar terlihat di background putih -->
+                        <div class="text-[17px] font-bold text-zamrud tracking-wide leading-none mb-1">Panti Asuhan Islam</div>
                         <div class="text-[12px] text-emas font-bold tracking-[0.15em] leading-none uppercase">Al-Ittifaqiah</div>
                     </div>
                 </a>
                 <nav class="hidden lg:block">
-                    <ul class="flex items-center gap-1 text-sm font-semibold text-white/90">
-                        <li><a href="#" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-white/5 transition-all">Beranda</a></li>
-                        <li><a href="#profil" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-white/5 transition-all">Profil</a></li>
-                        <li><a href="#kegiatan" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-white/5 transition-all">Galeri</a></li>
-                        <li><a href="#struktur" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-white/5 transition-all">Struktur</a></li>
-                        <li><a href="#kontak" class="px-5 py-2.5 rounded-lg text-zamrud bg-emas hover:bg-[#b5952f] transition-all shadow-md ml-2">Kontak</a></li>
+                    <!-- Teks menu diubah menjadi text-gray-700 -->
+                    <ul class="flex items-center gap-1 text-sm font-semibold text-gray-700">
+                        <li><a href="#" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-gray-50 transition-all">Beranda</a></li>
+                        <li><a href="#profil" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-gray-50 transition-all">Profil</a></li>
+                        <li><a href="#kegiatan" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-gray-50 transition-all">Kegiatan</a></li>
+                        <li><a href="#kontak" class="px-5 py-2.5 rounded-lg text-zamrud bg-emas hover:bg-[#b5952f] transition-all shadow-sm ml-2">Kontak</a></li>
                         
+                        <!-- Ikon Login Admin diubah warnanya agar gelap -->
                         <li>
-                            <a href="admin.html" title="Login Admin" class="flex items-center justify-center w-10 h-10 ml-2 rounded-full border border-white/20 text-white/80 hover:bg-white/10 hover:text-emas transition-all">
+                            <a href="admin.html" title="Login Admin" class="flex items-center justify-center w-10 h-10 ml-2 rounded-full border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-emas transition-all">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                                 </svg>
