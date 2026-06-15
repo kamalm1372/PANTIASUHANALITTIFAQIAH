@@ -89,7 +89,10 @@
 
             <!-- TAB 3: Form Struktur Organisasi -->
             <div id="formStruktur" class="tab-content hidden space-y-5">
-                <h3 class="text-xl font-bold mb-4">Tambah Pengurus Baru</h3>
+                <h3 class="text-xl font-bold mb-4">Tambah / Edit Pengurus</h3>
+                
+                <input type="hidden" id="editRowId" value="">
+
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap <span class="text-emas">*WAJIB DIISI</span></label>
                     <input type="text" id="namaPengurus" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
@@ -99,11 +102,13 @@
                     <input type="text" id="jabatanPengurus" placeholder="Contoh: Pimpinan Panti, Sekretaris, dll" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Foto <span class="text-emas">*WAJIB DIISI</span></label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Foto <span id="labelFoto" class="text-emas">*WAJIB DIISI</span></label>
                     <input type="file" id="fotoPengurus" accept="image/*" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
+                    <p id="infoFotoEdit" class="text-xs text-gray-500 mt-1 hidden">Biarkan kosong jika tidak ingin mengubah foto.</p>
                 </div>
-                <button onclick="tambahPengurus()" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-3.5 rounded-xl transition-colors mt-4">Simpan Pengurus</button>
-                <!-- Garis Pemisah -->
+                <button onclick="tambahPengurus()" id="btnSimpanPengurus" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-3.5 rounded-xl transition-colors mt-4">Simpan Pengurus</button>
+                
+                <!-- Garis Pemisah agar rapi -->
                 <hr class="my-10 border-gray-200">
                 
                 <!-- Tabel Daftar Pengurus -->
@@ -122,8 +127,8 @@
                             <tr><td colspan="4" class="p-4 text-center text-gray-500">Silakan tunggu...</td></tr>
                         </tbody>
                     </table>
-                </div>            
-            </div>
+                </div>
+            </div> <!-- Ini penutup formStruktur yang benar -->
             
         </div>
     </div>
@@ -250,50 +255,111 @@
         }
 
         // --- FUNGSI TAMBAH PENGURUS ---
+        function siapkanEditStruktur(row, nama, jabatan) {
+            // Isi form dengan data yang ditarik dari tabel
+            document.getElementById('namaPengurus').value = nama;
+            document.getElementById('jabatanPengurus').value = jabatan;
+            document.getElementById('editRowId').value = row; 
+
+            // Ubah tampilan form agar sesuai mode Edit
+            document.getElementById('labelFoto').classList.add('hidden');
+            document.getElementById('infoFotoEdit').classList.remove('hidden');
+            
+            const btn = document.getElementById('btnSimpanPengurus');
+            btn.innerText = "Update Data Pengurus";
+            btn.classList.replace('bg-emas', 'bg-blue-500');
+            btn.classList.replace('hover:bg-[#b5952f]', 'hover:bg-blue-600');
+            btn.classList.replace('text-zamrud', 'text-white');
+
+            // Scroll perlahan ke atas form
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- FUNGSI TAMBAH ATAU UPDATE PENGURUS ---
         async function tambahPengurus() {
             const nama = document.getElementById('namaPengurus').value;
             const jabatan = document.getElementById('jabatanPengurus').value;
             const fileInput = document.getElementById('fotoPengurus');
-            const tombol = document.querySelector('button[onclick="tambahPengurus()"]');
+            const rowId = document.getElementById('editRowId').value; // Jika ada isinya, berarti mode Edit
+            const tombol = document.getElementById('btnSimpanPengurus');
 
-            if (!nama || !jabatan || fileInput.files.length === 0) {
-                alert("Nama, Jabatan, dan Foto WAJIB diisi!");
+            // Validasi Input
+            if (!nama || !jabatan) {
+                alert("Nama dan Jabatan WAJIB diisi!");
+                return;
+            }
+            if (!rowId && fileInput.files.length === 0) {
+                alert("Foto WAJIB diisi untuk pengurus baru!");
                 return;
             }
 
-            const file = fileInput.files[0];
             tombol.innerText = "⏳ Sedang Menyimpan...";
             tombol.disabled = true;
 
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = async function () {
-                const payload = {
-                    action: "tambah_pengurus",
-                    nama: nama,
-                    jabatan: jabatan,
-                    namaFile: file.name,
-                    fotoBase64: reader.result
-                };
+            let actionType = rowId ? "update_pengurus" : "tambah_pengurus";
 
+            const kirimDataPayload = async (payload) => {
                 try {
                     const response = await fetch(URL_API, { method: "POST", body: JSON.stringify(payload) });
                     const result = await response.json();
+                    
                     if (result.status === "success") {
                         alert("✅ " + result.message);
+                        
+                        // Bersihkan dan kembalikan form ke mode default (Tambah)
                         document.getElementById('namaPengurus').value = '';
                         document.getElementById('jabatanPengurus').value = '';
                         document.getElementById('fotoPengurus').value = '';
-                    } else alert("❌ Gagal: " + result.message);
+                        document.getElementById('editRowId').value = '';
+                        
+                        document.getElementById('labelFoto').classList.remove('hidden');
+                        document.getElementById('infoFotoEdit').classList.add('hidden');
+
+                        tombol.innerText = "Simpan Pengurus";
+                        tombol.classList.replace('bg-blue-500', 'bg-emas');
+                        tombol.classList.replace('hover:bg-blue-600', 'hover:bg-[#b5952f]');
+                        tombol.classList.replace('text-white', 'text-zamrud');
+
+                        muatDaftarPengurus(); // Refresh tabel
+                    } else {
+                        alert("❌ Gagal: " + result.message);
+                        tombol.innerText = rowId ? "Update Data Pengurus" : "Simpan Pengurus";
+                    }
                 } catch (error) {
                     alert("Terjadi kesalahan koneksi!");
+                    tombol.innerText = rowId ? "Update Data Pengurus" : "Simpan Pengurus";
                 } finally {
-                    tombol.innerText = "Simpan Pengurus";
                     tombol.disabled = false;
                 }
             };
+
+            // Jika ada foto baru yang diupload
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    kirimDataPayload({
+                        action: actionType,
+                        row: rowId,
+                        nama: nama,
+                        jabatan: jabatan,
+                        namaFile: file.name,
+                        fotoBase64: reader.result
+                    });
+                };
+            } else {
+                // Jika hanya update teks tanpa mengubah foto
+                kirimDataPayload({
+                    action: actionType,
+                    row: rowId,
+                    nama: nama,
+                    jabatan: jabatan,
+                    fotoBase64: "" 
+                });
+            }
         }
-// --- FUNGSI TAMPILKAN DAFTAR PENGURUS ---
+        // --- FUNGSI TAMPILKAN DAFTAR PENGURUS ---
         async function muatDaftarPengurus() {
             const tbody = document.getElementById('tabelPengurus');
             tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">Memuat data dari database...</td></tr>';
@@ -313,7 +379,8 @@
                             </td>
                             <td class="p-3 font-bold text-zamrud">${item.nama}</td>
                             <td class="p-3 text-sm text-gray-600">${item.jabatan}</td>
-                            <td class="p-3 text-center">
+                            <td class="p-3 text-center whitespace-nowrap">
+                                <button onclick="siapkanEditStruktur(${item.row}, '${item.nama}', '${item.jabatan}')" class="text-blue-500 hover:text-white border border-blue-500 hover:bg-blue-500 text-xs font-bold px-3 py-1.5 rounded transition-colors mr-1">Edit</button>
                                 <button onclick="hapusData('Struktur', ${item.row})" class="text-red-500 hover:text-white border border-red-500 hover:bg-red-500 text-xs font-bold px-3 py-1.5 rounded transition-colors">Hapus</button>
                             </td>
                         </tr>`;
