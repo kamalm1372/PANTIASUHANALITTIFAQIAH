@@ -136,6 +136,7 @@
     </section>
 
     <!-- Section Kegiatan / Galeri -->
+    <!-- Section Kegiatan / Galeri -->
     <section id="kegiatan" class="py-24 bg-white border-y border-gray-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16">
@@ -144,16 +145,11 @@
                 <div class="h-1 w-20 bg-emas mx-auto rounded-full"></div>
             </div>
             
-            <div class="relative rounded-3xl overflow-hidden shadow-2xl group">
-                <div class="absolute inset-0 bg-gradient-to-t from-zamrud/90 via-zamrud/20 to-transparent z-10"></div>
-                <!-- Gallery Image with warm styling -->
-                <img src="gallery1.JPG" alt="Kegiatan Panti Asuhan" class="w-full h-[500px] object-cover matte-fade transition-transform duration-1000 group-hover:scale-105">
-                
-                <div class="absolute bottom-0 left-0 right-0 z-20 p-8 md:p-12">
-                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 drop-shadow-md">Harmoni dalam Kebersamaan</h3>
-                    <p class="text-white/80 max-w-2xl text-lg drop-shadow">Momen kebersamaan, doa, dan rasa syukur yang terus dipupuk untuk mempererat ukhuwah islamiyah di antara santri, pengurus, dan para donatur.</p>
-                </div>
+            <!-- Tempat foto akan dimunculkan oleh JavaScript -->
+            <div id="galeri-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <p class="text-center text-gray-500 col-span-full py-10">⏳ Sedang memuat kegiatan terbaru...</p>
             </div>
+            
         </div>
     </section>
 
@@ -228,6 +224,49 @@
             </div>
         </div>
     </footer>
+    <!-- Script untuk menyedot data dari Google Sheets -->
+    <script>
+        // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+        const URL_API = 'https://script.google.com/macros/s/AKfycbyY_jo_Fqm5fRzj-b1hehIlE6ZclTV8rHrBnTrpRZlfssbKmSltRXMlbr50WPoR9Z2FlA/exec'; 
 
+        async function muatBerita() {
+            const container = document.getElementById('galeri-container');
+            try {
+                // Ambil data dari Apps Script
+                const response = await fetch(URL_API);
+                const data = await response.json();
+                
+                if (data.length > 0) {
+                    container.innerHTML = ''; // Bersihkan teks "Sedang memuat..."
+                    
+                    // Kita balik datanya (reverse) agar berita terbaru (baris paling bawah di sheet) muncul duluan
+                    data.reverse().forEach(item => {
+                        // Lewati baris yang kosong
+                        if(!item.judul) return; 
+
+                        const card = `
+                        <div class="relative rounded-2xl overflow-hidden shadow-lg group h-[300px]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-zamrud/90 via-zamrud/20 to-transparent z-10 opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                            <img src="${item.fotoUrl}" alt="${item.judul}" class="w-full h-full object-cover matte-fade transition-transform duration-1000 group-hover:scale-110">
+                            <div class="absolute bottom-0 left-0 right-0 z-20 p-6 translate-y-2 group-hover:translate-y-0 transition-transform">
+                                <h3 class="text-xl font-bold text-white mb-1 drop-shadow-md">${item.judul}</h3>
+                                <p class="text-white/80 text-sm line-clamp-2">${item.isi}</p>
+                            </div>
+                        </div>
+                        `;
+                        container.innerHTML += card;
+                    });
+                } else {
+                    container.innerHTML = '<p class="text-center text-gray-500 col-span-full py-10">Belum ada kegiatan yang diunggah.</p>';
+                }
+            } catch (error) {
+                console.error("Gagal memuat data:", error);
+                container.innerHTML = '<p class="text-center text-red-500 col-span-full py-10">Gagal memuat kegiatan. Periksa koneksi internet Anda.</p>';
+            }
+        }
+
+        // Jalankan fungsi otomatis saat halaman web dibuka
+        document.addEventListener("DOMContentLoaded", muatBerita);
+    </script>
 </body>
 </html>
