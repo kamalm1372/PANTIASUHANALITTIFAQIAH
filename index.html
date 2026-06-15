@@ -227,17 +227,17 @@
                         <form class="space-y-5">
                             <div>
                                 <label class="block text-[13px] font-bold text-white/90 mb-2 uppercase tracking-wide">Nama Lengkap <span class="text-emas normal-case font-normal">*WAJIB DIISI</span></label>
-                                <input type="text" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all" placeholder="Masukkan nama Anda">
+                                <input type="text" id="namaDonatur" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all" placeholder="Masukkan nama Anda">
                             </div>
                             <div>
                                 <label class="block text-[13px] font-bold text-white/90 mb-2 uppercase tracking-wide">Nomor WhatsApp <span class="text-emas normal-case font-normal">*WAJIB DIISI</span></label>
-                                <input type="tel" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all" placeholder="Contoh: 08123456789">
+                                <input type="tel" id="noWaDonatur" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all" placeholder="Contoh: 08123456789">
                             </div>
                             <div>
                                 <label class="block text-[13px] font-bold text-white/90 mb-2 uppercase tracking-wide">Pesan / Niat Donasi</label>
-                                <textarea rows="3" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all resize-none" placeholder="Tuliskan pesan Anda di sini..."></textarea>
+                                <textarea rows="3" id="pesanDonatur" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all resize-none" placeholder="Tuliskan pesan Anda di sini..."></textarea>
                             </div>
-                            <button type="button" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-4 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] mt-2">
+                            <button type="button" onclick="kirimPesanWA()" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-4 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] mt-2">
                                 Kirim Pesan
                             </button>
                         </form>
@@ -358,6 +358,32 @@
                 alert("❌ Gagal menyalin nomor rekening. Silakan salin secara manual.");
                 console.error('Gagal menyalin:', err);
             });
+        }    
+        // --- FUNGSI KIRIM PESAN KE WHATSAPP ---
+        function kirimPesanWA() {
+            // Ambil data dari inputan form
+            const nama = document.getElementById('namaDonatur').value;
+            const noWa = document.getElementById('noWaDonatur').value;
+            const pesan = document.getElementById('pesanDonatur').value;
+
+            // Validasi: pastikan nama dan no WA tidak kosong
+            if (!nama || !noWa) {
+                alert("Mohon lengkapi Nama dan Nomor WhatsApp Anda terlebih dahulu.");
+                return;
+            }
+
+            // Nomor tujuan (085... diubah menjadi format internasional 6285...)
+            const nomorTujuan = "6285709308034";
+            
+            // Format pesan yang akan muncul di WhatsApp
+            // %0A adalah kode HTML untuk baris baru (Enter)
+            const teksPesan = `Assalamu'alaikum, Pengurus Panti Asuhan Al-Ittifaqiah.%0A%0ASaya ingin menyampaikan pesan/niat donasi:%0A%0A*Nama:* ${nama}%0A*No. WhatsApp:* ${noWa}%0A*Pesan:* ${pesan}%0A%0ATerima kasih.`;
+
+            // Gabungkan link API WhatsApp dengan nomor tujuan dan pesan
+            const linkWA = `https://api.whatsapp.com/send?phone=${nomorTujuan}&text=${teksPesan}`;
+            
+            // Buka link tersebut di tab baru
+            window.open(linkWA, '_blank');
         }        
     </script>
 </body>
