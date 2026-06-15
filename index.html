@@ -146,8 +146,8 @@
                 <div class="h-1 w-20 bg-emas mx-auto rounded-full"></div>
             </div>
             
-            <div id="struktur-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <p class="text-center text-gray-500 col-span-full py-10">⏳ Memuat struktur organisasi...</p>
+            <div id="struktur-container" class="flex flex-wrap justify-center gap-6">
+                <p class="text-center text-gray-500 w-full py-10">⏳ Memuat struktur organisasi...</p>
             </div>
         </div>
     </section>
@@ -326,7 +326,7 @@
                         if(!item.nama) return; 
 
                         const card = `
-                        <div class="bg-[#FAFAF9] rounded-2xl overflow-hidden shadow-sm text-center border border-gray-100 p-6 hover:shadow-md transition-shadow">
+                        <div class="w-full sm:w-64 bg-[#FAFAF9] rounded-2xl overflow-hidden shadow-sm text-center border border-gray-100 p-6 hover:shadow-md transition-shadow">
                             <img src="${item.fotoUrl}" alt="${item.nama}" class="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-emas/20">
                             <h3 class="text-lg font-bold text-zamrud leading-tight">${item.nama}</h3>
                             <p class="text-emas text-sm font-semibold mt-1">${item.jabatan}</p>
