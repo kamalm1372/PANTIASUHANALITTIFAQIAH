@@ -103,7 +103,28 @@
                     <input type="file" id="fotoPengurus" accept="image/*" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
                 </div>
                 <button onclick="tambahPengurus()" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-3.5 rounded-xl transition-colors mt-4">Simpan Pengurus</button>
+                <!-- Garis Pemisah -->
+                <hr class="my-10 border-gray-200">
+                
+                <!-- Tabel Daftar Pengurus -->
+                <h3 class="text-xl font-bold mb-4">Daftar Pengurus Saat Ini</h3>
+                <div class="overflow-x-auto rounded-xl border border-gray-200">
+                    <table class="w-full text-left border-collapse bg-white">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-sm">
+                                <th class="p-4 border-b w-20">Foto</th>
+                                <th class="p-4 border-b">Nama</th>
+                                <th class="p-4 border-b">Jabatan</th>
+                                <th class="p-4 border-b w-24 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelPengurus">
+                            <tr><td colspan="4" class="p-4 text-center text-gray-500">Silakan tunggu...</td></tr>
+                        </tbody>
+                    </table>
+                </div>            
             </div>
+            
         </div>
     </div>
 
@@ -127,17 +148,19 @@
         }
 
         function bukaTab(tabId, btnElement) {
-            // Sembunyikan semua tab
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            // Reset warna semua tombol
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('bg-zamrud', 'text-white');
                 btn.classList.add('bg-gray-200', 'text-gray-700');
             });
-            // Tampilkan tab yang dipilih & ubah warna tombolnya
             document.getElementById(tabId).classList.remove('hidden');
             btnElement.classList.remove('bg-gray-200', 'text-gray-700');
             btnElement.classList.add('bg-zamrud', 'text-white');
+
+            // Tambahan: Muat tabel jika tab Struktur yang diklik
+            if(tabId === 'formStruktur') {
+                muatDaftarPengurus();
+            }
         }
 
         // --- FUNGSI UPLOAD BERITA ---
@@ -270,6 +293,67 @@
                 }
             };
         }
+// --- FUNGSI TAMPILKAN DAFTAR PENGURUS ---
+        async function muatDaftarPengurus() {
+            const tbody = document.getElementById('tabelPengurus');
+            tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">Memuat data dari database...</td></tr>';
+            try {
+                const response = await fetch(URL_API + "?sheet=Struktur");
+                const data = await response.json();
+                
+                if (data.length > 0) {
+                    tbody.innerHTML = '';
+                    // Balik data agar yang terbaru di atas
+                    data.reverse().forEach(item => {
+                        if(!item.nama) return;
+                        tbody.innerHTML += `
+                        <tr class="border-b hover:bg-gray-50 transition-colors">
+                            <td class="p-3 text-center">
+                                <img src="${item.fotoUrl}" class="w-12 h-12 rounded-full object-cover mx-auto border border-gray-200" onerror="this.src='https://via.placeholder.com/50'">
+                            </td>
+                            <td class="p-3 font-bold text-zamrud">${item.nama}</td>
+                            <td class="p-3 text-sm text-gray-600">${item.jabatan}</td>
+                            <td class="p-3 text-center">
+                                <button onclick="hapusData('Struktur', ${item.row})" class="text-red-500 hover:text-white border border-red-500 hover:bg-red-500 text-xs font-bold px-3 py-1.5 rounded transition-colors">Hapus</button>
+                            </td>
+                        </tr>`;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">Belum ada data pengurus.</td></tr>';
+                }
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-red-500">Gagal memuat data.</td></tr>';
+            }
+        }
+
+        // --- FUNGSI HAPUS DATA ---
+        async function hapusData(sheetName, row) {
+            if(!confirm("Anda yakin ingin menghapus data ini?")) return;
+            
+            try {
+                const payload = { action: "hapus_data", sheetName: sheetName, row: row };
+                
+                // Ubah teks tombol sementara proses
+                const eventTarget = event.target;
+                const originalText = eventTarget.innerText;
+                eventTarget.innerText = "⏳";
+                eventTarget.disabled = true;
+
+                const response = await fetch(URL_API, { method: "POST", body: JSON.stringify(payload) });
+                const result = await response.json();
+                
+                if(result.status === "success") {
+                    alert("✅ Data berhasil dihapus.");
+                    if(sheetName === 'Struktur') muatDaftarPengurus(); // Segarkan tabel
+                } else {
+                    alert("❌ Gagal menghapus data.");
+                    eventTarget.innerText = originalText;
+                    eventTarget.disabled = false;
+                }
+            } catch(e) {
+                alert("Terjadi kesalahan saat menghapus data.");
+            }
+        }        
     </script>
 </body>
 </html>
