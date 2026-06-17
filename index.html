@@ -131,7 +131,7 @@
         
         <div class="relative z-10 w-full max-w-[1000px] mx-auto px-5 lg:px-8 py-16 flex flex-col items-center">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold tracking-widest uppercase mb-8">
-                <i data-lucide="home" class="w-3.5 h-3.5 text-[#D4AF37]"></i> Panti Asuhan Islam Al-Ittifaqiah 
+                <i data-lucide="home" class="w-3.5 h-3.5 text-[#D4AF37]"></i> Panti Asuhan Islam Al-Ittifaqiah
             </div>
             
             <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.15] mb-6">
@@ -245,7 +245,8 @@
                 <div class="w-20 h-1 bg-[#D4AF37] mx-auto mt-6 rounded-full"></div>
             </div>
             
-            <div id="struktur-container" class="flex flex-wrap justify-center gap-6 md:gap-8">
+            <!-- Mengubah class pembungkus utama agar tidak sejajar (flex-wrap) dari awal -->
+            <div id="struktur-container" class="w-full">
                 <!-- Skeleton Loader -->
                 <div class="w-full flex flex-col items-center py-10">
                     <div class="w-8 h-8 border-4 border-[#14362B] border-t-transparent rounded-full animate-spin mb-4"></div>
@@ -388,6 +389,10 @@
                             <i data-lucide="phone" class="w-5 h-5 text-[#D4AF37] flex-shrink-0"></i>
                             <span class="text-emerald-100/50 text-sm">+62 857-0930-8034</span>
                         </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-[#D4AF37] flex-shrink-0"></i>
+                            <a href="mailto:panti@ittifaqiah.ac.id" class="text-emerald-100/50 text-sm hover:text-[#D4AF37] transition-colors">panti@ittifaqiah.ac.id</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -468,18 +473,41 @@
                 
                 if (data.length > 0) {
                     container.innerHTML = ''; 
-                    data.forEach(item => {
-                        if(!item.nama) return; 
+                    
+                    // Pisahkan data urutan pertama (Ketua) dan sisanya
+                    const ketua = data[0];
+                    const anggota = data.slice(1);
 
-                        const card = `
-                        <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[220px]">
-                            <img src="${item.fotoUrl}" alt="${item.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(item.nama)}&background=14362B&color=D4AF37'" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm group-hover:scale-105 transition-transform">
-                            <h3 class="text-base font-bold text-[#14362B] text-center leading-tight mb-1">${item.nama}</h3>
-                            <p class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider text-center">${item.jabatan}</p>
+                    // 1. Render Ketua (Paling Atas & Lebih Besar)
+                    if (ketua && ketua.nama) {
+                        container.innerHTML += `
+                        <div class="w-full flex justify-center mb-10 md:mb-14">
+                            <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-lg hover:shadow-xl transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[350px]">
+                                <img src="${ketua.fotoUrl}" alt="${ketua.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(ketua.nama)}&background=14362B&color=D4AF37'" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mb-6 shadow-md group-hover:scale-105 transition-transform">
+                                <h3 class="text-xl md:text-2xl font-extrabold text-[#14362B] text-center leading-tight mb-2">${ketua.nama}</h3>
+                                <p class="text-[#D4AF37] text-sm font-bold uppercase tracking-widest text-center">${ketua.jabatan}</p>
+                            </div>
                         </div>
                         `;
-                        container.innerHTML += card;
-                    });
+                    }
+
+                    // 2. Render Sisa Pengurus (Di Bawahnya dengan grid/flex sejajar)
+                    if (anggota.length > 0) {
+                        let htmlAnggota = '<div class="flex flex-wrap justify-center gap-6 md:gap-8 w-full">';
+                        anggota.forEach(item => {
+                            if(!item.nama) return; 
+
+                            htmlAnggota += `
+                            <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[220px]">
+                                <img src="${item.fotoUrl}" alt="${item.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(item.nama)}&background=14362B&color=D4AF37'" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm group-hover:scale-105 transition-transform">
+                                <h3 class="text-base font-bold text-[#14362B] text-center leading-tight mb-1">${item.nama}</h3>
+                                <p class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider text-center">${item.jabatan}</p>
+                            </div>
+                            `;
+                        });
+                        htmlAnggota += '</div>';
+                        container.innerHTML += htmlAnggota;
+                    }
                 } else {
                     container.innerHTML = '<p class="text-center text-slate-500 col-span-full py-10">Belum ada pengurus.</p>';
                 }
