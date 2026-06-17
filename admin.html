@@ -5,170 +5,285 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Panti Al-Ittifaqiah</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        body { font-family: 'Inter', sans-serif; }
         .text-emas { color: #D4AF37; }
         .bg-zamrud { background-color: #14362B; }
+        .border-zamrud-focus:focus { border-color: #14362B; ring-color: #14362B; }
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body class="bg-slate-50 min-h-screen text-slate-800 antialiased flex items-center justify-center" id="bodyCtx">
 
-    <!-- LAYER LOGIN -->
-    <div id="loginPanel" class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-zamrud">Login Admin</h1>
-            <p class="text-gray-500 text-sm">Panti Asuhan Al-Ittifaqiah</p>
-        </div>
-        <div class="space-y-4">
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Username <span class="text-emas">*WAJIB DIISI</span></label>
-                <input type="text" id="username" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
+    <div id="loginPanel" class="w-full max-w-md mx-4 transition-all duration-300">
+        <div class="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200/80 border border-slate-100">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-[#14362B]"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-[#14362B] tracking-tight">Login Admin</h1>
+                <p class="text-slate-400 text-sm mt-1">Panti Asuhan Islam Al-Ittifaqiah</p>
             </div>
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Password <span class="text-emas">*WAJIB DIISI</span></label>
-                <input type="password" id="password" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
+            
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Username</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+                            <i data-lucide="user" class="w-5 h-5"></i>
+                        </span>
+                        <input type="text" id="username" placeholder="Masukkan username" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+                            <i data-lucide="lock" class="w-5 h-5"></i>
+                        </span>
+                        <input type="password" id="password" placeholder="••••••••" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all">
+                    </div>
+                </div>
+                
+                <button onclick="prosesLogin()" class="w-full bg-[#14362B] hover:bg-[#0c241c] text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-900/10 active:scale-[0.99] mt-2 flex items-center justify-center gap-2">
+                    <span>Masuk ke Panel</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+                
+                <div class="pt-2 text-center">
+                    <a href="index.html" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-[#14362B] font-medium transition-colors">
+                        <i data-lucide="move-left" class="w-4 h-4"></i> Kembali ke Website
+                    </a>
+                </div>        
             </div>
-            <button onclick="prosesLogin()" class="w-full bg-zamrud hover:bg-[#0c241c] text-white font-bold py-3.5 rounded-xl transition-colors mt-2">Masuk</button>
-            <div class="mt-4 text-center">
-                <a href="index.html" class="text-sm text-gray-500 hover:text-zamrud hover:underline font-semibold transition-colors">
-                    &larr; Kembali ke halaman Website
-                </a>
-            </div>        
         </div>
     </div>
 
-    <!-- LAYER DASHBOARD (Tersembunyi secara default) -->
-    <div id="dashboardPanel" class="hidden w-full max-w-4xl p-6">
-        <div class="bg-white rounded-2xl shadow-lg p-8">
-            <div class="flex justify-between items-center mb-8 border-b pb-4">
-                <h2 class="text-3xl font-bold text-zamrud">Dashboard Admin</h2>
-                <button onclick="location.reload()" class="text-red-500 hover:bg-red-50 px-4 py-2 rounded-lg font-semibold transition-colors">Logout</button>
+    <div id="dashboardPanel" class="hidden w-full min-h-screen flex flex-col md:flex-row bg-slate-50">
+        
+        <aside class="w-full md:w-64 bg-[#14362B] text-slate-200 flex flex-col border-r border-emerald-950">
+            <div class="p-6 border-b border-emerald-900/50 flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 text-amber-400"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-white tracking-wide text-sm leading-tight"> Panti Asuhan Islam Al-Ittifaqiah</h2>
+                    <span class="text-xs text-emerald-300/70">Panel Kendali</span>
+                </div>
             </div>
             
-            <div class="flex gap-4 mb-8">
-                <button onclick="bukaTab('formBerita', this)" class="tab-btn bg-zamrud text-white px-6 py-2 rounded-lg font-semibold transition-colors">Upload Berita</button>
-                <button onclick="bukaTab('formKeuangan', this)" class="tab-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-2 rounded-lg font-semibold transition-colors">Laporan Keuangan</button>
-                <button onclick="bukaTab('formStruktur', this)" class="tab-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-2 rounded-lg font-semibold transition-colors">Struktur Organisasi</button>
+            <nav class="flex-1 p-4 space-y-1.5">
+                <button onclick="bukaTab('formBerita', this)" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all bg-white/10 text-white">
+                    <i data-lucide="newspaper" class="w-5 h-5"></i>
+                    <span>Upload Berita</span>
+                </button>
+                <button onclick="bukaTab('formKeuangan', this)" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-emerald-100/70 hover:bg-white/5 hover:text-white">
+                    <i data-lucide="wallet" class="w-5 h-5"></i>
+                    <span>Laporan Keuangan</span>
+                </button>
+                <button onclick="bukaTab('formStruktur', this)" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-emerald-100/70 hover:bg-white/5 hover:text-white">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span>Struktur Organisasi</span>
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-emerald-900/50 bg-black/10 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-amber-400 text-[#14362B] font-bold text-xs flex items-center justify-center">
+                        AD
+                    </div>
+                    <span class="text-xs font-medium text-white">Administrator</span>
+                </div>
+                <button onclick="location.reload()" class="p-2 text-rose-300 hover:text-rose-400 hover:bg-white/5 rounded-lg transition-colors" title="Keluar">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-6 lg:p-10 max-w-5xl">
+            
+            <div id="formBerita" class="tab-content space-y-6">
+                <div class="border-b border-slate-200 pb-4">
+                    <h3 class="text-2xl font-bold text-slate-800">Tambah Berita Baru</h3>
+                    <p class="text-sm text-slate-500 mt-1">Publikasikan informasi atau kegiatan terbaru panti asuhan.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Judul Berita <span class="text-xs font-normal text-amber-600">(Wajib)</span></label>
+                        <input type="text" id="judulBerita" placeholder="Masukkan judul utama berita..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Unggah Foto Berita <span class="text-xs font-normal text-amber-600">(Wajib)</span></label>
+                        <div class="border-2 border-dashed border-slate-200 hover:border-[#14362B]/40 rounded-xl p-4 bg-slate-50/50 transition-colors">
+                            <input type="file" id="fotoBerita" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-[#14362B] hover:file:bg-emerald-100 cursor-pointer">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Isi Berita Lengkap</label>
+                        <textarea id="isiBerita" rows="6" placeholder="Tuliskan narasi berita di sini..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all"></textarea>
+                    </div>
+                    <button onclick="kirimBerita()" class="w-full bg-amber-400 hover:bg-amber-500 text-[#14362B] font-bold py-3.5 rounded-xl transition-all shadow-md shadow-amber-400/10 active:scale-[0.99] flex items-center justify-center gap-2">
+                        <i data-lucide="save" class="w-4 h-4"></i> Simpan & Publikasikan Berita
+                    </button>
+                </div>
             </div>
 
-            <div id="formBerita" class="tab-content space-y-5">
-                <h3 class="text-xl font-bold mb-4">Tambah Berita Baru</h3>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Judul Berita <span class="text-emas">*WAJIB DIISI</span></label>
-                    <input type="text" id="judulBerita" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
+            <div id="formKeuangan" class="tab-content hidden space-y-6">
+                <div class="border-b border-slate-200 pb-4">
+                    <h3 class="text-2xl font-bold text-slate-800">Input Pencatatan Kas</h3>
+                    <p class="text-sm text-slate-500 mt-1">Kelola transparansi dana masuk dan keluar panti.</p>
                 </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Foto <span class="text-emas">*WAJIB DIISI</span></label>
-                    <input type="file" id="fotoBerita" accept="image/*" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm space-y-5">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Jenis Transaksi</label>
+                        <select id="jenisKeuangan" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] bg-white transition-all">
+                            <option value="Pemasukan">🟢 Pemasukan (Dana Masuk / Donasi)</option>
+                            <option value="Pengeluaran">🔴 Pengeluaran (Dana Keluar / Operasional)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Nominal Dana <span class="text-xs font-normal text-amber-600">(Wajib)</span></label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 font-semibold text-slate-400 text-sm">Rp</span>
+                            <input type="number" id="nominalKeuangan" placeholder="0" class="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Keterangan Transaksi <span class="text-xs font-normal text-amber-600">(Wajib)</span></label>
+                        <textarea id="ketKeuangan" rows="3" placeholder="Contoh: Donasi hamba Allah untuk sembako bulanan" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all"></textarea>
+                    </div>
+                    <button onclick="simpanKeuangan()" class="w-full bg-amber-400 hover:bg-amber-500 text-[#14362B] font-bold py-3.5 rounded-xl transition-all shadow-md shadow-amber-400/10 active:scale-[0.99] flex items-center justify-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> Simpan Laporan Keuangan
+                    </button>
                 </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Isi Berita</label>
-                    <textarea id="isiBerita" rows="5" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud"></textarea>
-                </div>
-                <button onclick="kirimBerita()" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-3.5 rounded-xl transition-colors mt-4">Simpan Berita</button>
             </div>
 
-            <div id="formKeuangan" class="tab-content hidden space-y-5">
-                <h3 class="text-xl font-bold mb-4">Input Data Keuangan</h3>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Jenis Transaksi <span class="text-emas">*WAJIB DIISI</span></label>
-                    <select id="jenisKeuangan" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
-                        <option value="Pemasukan">Pemasukan</option>
-                        <option value="Pengeluaran">Pengeluaran</option>
-                    </select>
+            <div id="formStruktur" class="tab-content hidden space-y-8">
+                <div class="border-b border-slate-200 pb-4">
+                    <h3 class="text-2xl font-bold text-slate-800">Manajemen Struktur Pengurus</h3>
+                    <p class="text-sm text-slate-500 mt-1">Perbarui daftar pengurus dan jajaran kehormatan panti.</p>
                 </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nominal (Rp) <span class="text-emas">*WAJIB DIISI</span></label>
-                    <input type="number" id="nominalKeuangan" placeholder="Contoh: 500000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Keterangan <span class="text-emas">*WAJIB DIISI</span></label>
-                    <textarea id="ketKeuangan" rows="3" placeholder="Contoh: Donasi dari Hamba Allah / Pembelian Beras" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud"></textarea>
-                </div>
-                <button onclick="simpanKeuangan()" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-3.5 rounded-xl transition-colors mt-4">Simpan Laporan</button>
-            </div>
-
-            <!-- TAB 3: Form Struktur Organisasi -->
-            <div id="formStruktur" class="tab-content hidden space-y-5">
-                <h3 class="text-xl font-bold mb-4">Tambah / Edit Pengurus</h3>
                 
                 <input type="hidden" id="editRowId" value="">
 
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap <span class="text-emas">*WAJIB DIISI</span></label>
-                    <input type="text" id="namaPengurus" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm space-y-5">
+                    <h4 class="text-md font-bold text-[#14362B] flex items-center gap-2">
+                        <i data-lucide="user-plus" class="w-4 h-4"></i> Formulir Pengurus
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label>
+                            <input type="text" id="namaPengurus" placeholder="Nama Lengkap & Gelar" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Jabatan Resmi</label>
+                            <input type="text" id="jabatanPengurus" placeholder="Contoh: Ketua Yayasan, Bendahara" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Foto Profil <span id="labelFoto" class="text-xs font-normal text-amber-600">(Wajib)</span></label>
+                        <div class="border-2 border-dashed border-slate-200 hover:border-[#14362B]/40 rounded-xl p-4 bg-slate-50/50 transition-colors">
+                            <input type="file" id="fotoPengurus" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-[#14362B] hover:file:bg-emerald-100 cursor-pointer">
+                        </div>
+                        <p id="infoFotoEdit" class="text-xs text-slate-400 mt-2 hidden flex items-center gap-1">
+                            <i data-lucide="info" class="w-3.5 h-3.5"></i> Biarkan kosong jika tidak ingin merubah foto lama.
+                        </p>
+                    </div>
+                    <button onclick="tambahPengurus()" id="btnSimpanPengurus" class="w-full bg-amber-400 hover:bg-amber-500 text-[#14362B] font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2">
+                        <i data-lucide="user-check" class="w-4 h-4"></i> Simpan Data Pengurus
+                    </button>
                 </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Jabatan <span class="text-emas">*WAJIB DIISI</span></label>
-                    <input type="text" id="jabatanPengurus" placeholder="Contoh: Pimpinan Panti, Sekretaris, dll" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Foto <span id="labelFoto" class="text-emas">*WAJIB DIISI</span></label>
-                    <input type="file" id="fotoPengurus" accept="image/*" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:border-zamrud">
-                    <p id="infoFotoEdit" class="text-xs text-gray-500 mt-1 hidden">Biarkan kosong jika tidak ingin mengubah foto.</p>
-                </div>
-                <button onclick="tambahPengurus()" id="btnSimpanPengurus" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-3.5 rounded-xl transition-colors mt-4">Simpan Pengurus</button>
                 
-                <!-- Garis Pemisah agar rapi -->
-                <hr class="my-10 border-gray-200">
-                
-                <!-- Tabel Daftar Pengurus -->
-                <h3 class="text-xl font-bold mb-4">Daftar Pengurus Saat Ini</h3>
-                <div class="overflow-x-auto rounded-xl border border-gray-200">
-                    <table class="w-full text-left border-collapse bg-white">
-                        <thead>
-                            <tr class="bg-gray-100 text-gray-700 text-sm">
-                                <th class="p-4 border-b w-20">Foto</th>
-                                <th class="p-4 border-b">Nama</th>
-                                <th class="p-4 border-b">Jabatan</th>
-                                <th class="p-4 border-b w-24 text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelPengurus">
-                            <tr><td colspan="4" class="p-4 text-center text-gray-500">Silakan tunggu...</td></tr>
-                        </tbody>
-                    </table>
+                <div class="space-y-3">
+                    <h4 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="list" class="w-5 h-5 text-slate-400"></i> Daftar Pengurus Saat Ini
+                    </h4>
+                    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 border-b border-slate-200 text-xs font-bold uppercase tracking-wider">
+                                        <th class="p-4 w-24 text-center">Foto</th>
+                                        <th class="p-4">Nama Lengkap</th>
+                                        <th class="p-4">Jabatan</th>
+                                        <th class="p-4 w-32 text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelPengurus" class="divide-y divide-slate-100 text-sm">
+                                    <tr>
+                                        <td colspan="4" class="p-8 text-center text-slate-400">
+                                            <div class="flex flex-col items-center justify-center gap-2">
+                                                <div class="w-6 h-6 border-2 border-[#14362B] border-t-transparent rounded-full animate-spin"></div>
+                                                <span>Silakan tunggu sebentar...</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </div> <!-- Ini penutup formStruktur yang benar -->
+            </div>
             
-        </div>
+        </main>
     </div>
 
     <script>
-        // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+        // Inisialisasi awal icon Lucide
+        lucide.createIcons();
+
         const URL_API = 'https://script.google.com/macros/s/AKfycbyY_jo_Fqm5fRzj-b1hehIlE6ZclTV8rHrBnTrpRZlfssbKmSltRXMlbr50WPoR9Z2FlA/exec'; 
 
-        // --- SISTEM LOGIN & TAB ---
+        // --- LOGIN & LAYOUT ENGINE ---
         function prosesLogin() {
             let u = document.getElementById('username').value;
             let p = document.getElementById('password').value;
             
             if(u === 'admin' && p === 'admin') {
+                // Sembunyikan panel login
                 document.getElementById('loginPanel').classList.add('hidden');
+                
+                // Konfigurasi ulang body flex agar mengisi dashboard dengan benar
+                const bodyCtx = document.getElementById('bodyCtx');
+                bodyCtx.classList.remove('items-center', 'justify-center', 'bg-slate-50');
+                bodyCtx.classList.add('bg-slate-100');
+                
+                // Tampilkan Dashboard
                 document.getElementById('dashboardPanel').classList.remove('hidden');
-                document.body.classList.remove('items-center', 'justify-center');
-                document.body.classList.add('items-start', 'pt-10');
             } else {
                 alert('Username atau Password salah!');
             }
         }
 
         function bukaTab(tabId, btnElement) {
+            // Sembunyikan semua tab content
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Setel ulang semua desain tombol menu sidebar ke status tidak aktif
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-zamrud', 'text-white');
-                btn.classList.add('bg-gray-200', 'text-gray-700');
+                btn.classList.remove('bg-white/10', 'text-white');
+                btn.classList.add('text-emerald-100/70', 'hover:bg-white/5', 'hover:text-white');
             });
+            
+            // Tampilkan tab kontent aktif
             document.getElementById(tabId).classList.remove('hidden');
-            btnElement.classList.remove('bg-gray-200', 'text-gray-700');
-            btnElement.classList.add('bg-zamrud', 'text-white');
+            
+            // Tandai tombol menu aktif
+            btnElement.classList.remove('text-emerald-100/70', 'hover:bg-white/5', 'hover:text-white');
+            btnElement.classList.add('bg-white/10', 'text-white');
 
-            // Tambahan: Muat tabel jika tab Struktur yang diklik
+            // Trigger fetch data pengurus apabila tab terkait dibuka
             if(tabId === 'formStruktur') {
                 muatDaftarPengurus();
             }
         }
 
-        // --- FUNGSI UPLOAD BERITA ---
+        // --- SISTEM HANDLER BERITA ---
         async function kirimBerita() {
             const judul = document.getElementById('judulBerita').value;
             const isi = document.getElementById('isiBerita').value;
@@ -181,7 +296,7 @@
             }
 
             const file = fileInput.files[0];
-            tombol.innerText = "⏳ Sedang Menyimpan...";
+            tombol.innerHTML = `<div class="w-4 h-4 border-2 border-[#14362B] border-t-transparent rounded-full animate-spin"></div> <span>Sedang Menyimpan...</span>`;
             tombol.disabled = true;
 
             const reader = new FileReader();
@@ -207,13 +322,14 @@
                 } catch (error) {
                     alert("Terjadi kesalahan koneksi!");
                 } finally {
-                    tombol.innerText = "Simpan Berita";
+                    tombol.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan & Publikasikan Berita`;
                     tombol.disabled = false;
+                    lucide.createIcons();
                 }
             };
         }
 
-        // --- FUNGSI LAPORAN KEUANGAN ---
+        // --- SISTEM HANDLER KEUANGAN ---
         async function simpanKeuangan() {
             const jenis = document.getElementById('jenisKeuangan').value;
             const nominal = document.getElementById('nominalKeuangan').value;
@@ -225,7 +341,7 @@
                 return;
             }
 
-            tombol.innerText = "⏳ Sedang Menyimpan...";
+            tombol.innerHTML = `<div class="w-4 h-4 border-2 border-[#14362B] border-t-transparent rounded-full animate-spin"></div> <span>Sedang Menyimpan...</span>`;
             tombol.disabled = true;
 
             const payload = {
@@ -249,41 +365,37 @@
             } catch (error) {
                 alert("Terjadi kesalahan koneksi!");
             } finally {
-                tombol.innerText = "Simpan Laporan";
+                tombol.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4"></i> Simpan Laporan Keuangan`;
                 tombol.disabled = false;
+                lucide.createIcons();
             }
         }
 
-        // --- FUNGSI TAMBAH PENGURUS ---
+        // --- SISTEM PREPARASI EDIT STRUKTUR ---
         function siapkanEditStruktur(row, nama, jabatan) {
-            // Isi form dengan data yang ditarik dari tabel
             document.getElementById('namaPengurus').value = nama;
             document.getElementById('jabatanPengurus').value = jabatan;
             document.getElementById('editRowId').value = row; 
 
-            // Ubah tampilan form agar sesuai mode Edit
             document.getElementById('labelFoto').classList.add('hidden');
             document.getElementById('infoFotoEdit').classList.remove('hidden');
             
             const btn = document.getElementById('btnSimpanPengurus');
-            btn.innerText = "Update Data Pengurus";
-            btn.classList.replace('bg-emas', 'bg-blue-500');
-            btn.classList.replace('hover:bg-[#b5952f]', 'hover:bg-blue-600');
-            btn.classList.replace('text-zamrud', 'text-white');
+            btn.innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> Perbarui Data Pengurus`;
+            btn.className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2";
 
-            // Scroll perlahan ke atas form
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            lucide.createIcons();
         }
 
-        // --- FUNGSI TAMBAH ATAU UPDATE PENGURUS ---
+        // --- SISTEM HANDLER TAMBAH/UPDATE PENGURUS ---
         async function tambahPengurus() {
             const nama = document.getElementById('namaPengurus').value;
             const jabatan = document.getElementById('jabatanPengurus').value;
             const fileInput = document.getElementById('fotoPengurus');
-            const rowId = document.getElementById('editRowId').value; // Jika ada isinya, berarti mode Edit
+            const rowId = document.getElementById('editRowId').value; 
             const tombol = document.getElementById('btnSimpanPengurus');
 
-            // Validasi Input
             if (!nama || !jabatan) {
                 alert("Nama dan Jabatan WAJIB diisi!");
                 return;
@@ -293,7 +405,7 @@
                 return;
             }
 
-            tombol.innerText = "⏳ Sedang Menyimpan...";
+            tombol.innerHTML = `<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> <span>Sedang Menyimpan...</span>`;
             tombol.disabled = true;
 
             let actionType = rowId ? "update_pengurus" : "tambah_pengurus";
@@ -306,7 +418,6 @@
                     if (result.status === "success") {
                         alert("✅ " + result.message);
                         
-                        // Bersihkan dan kembalikan form ke mode default (Tambah)
                         document.getElementById('namaPengurus').value = '';
                         document.getElementById('jabatanPengurus').value = '';
                         document.getElementById('fotoPengurus').value = '';
@@ -315,25 +426,21 @@
                         document.getElementById('labelFoto').classList.remove('hidden');
                         document.getElementById('infoFotoEdit').classList.add('hidden');
 
-                        tombol.innerText = "Simpan Pengurus";
-                        tombol.classList.replace('bg-blue-500', 'bg-emas');
-                        tombol.classList.replace('hover:bg-blue-600', 'hover:bg-[#b5952f]');
-                        tombol.classList.replace('text-white', 'text-zamrud');
+                        tombol.className = "w-full bg-amber-400 hover:bg-amber-500 text-[#14362B] font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2";
 
-                        muatDaftarPengurus(); // Refresh tabel
+                        muatDaftarPengurus(); 
                     } else {
                         alert("❌ Gagal: " + result.message);
-                        tombol.innerText = rowId ? "Update Data Pengurus" : "Simpan Pengurus";
                     }
                 } catch (error) {
                     alert("Terjadi kesalahan koneksi!");
-                    tombol.innerText = rowId ? "Update Data Pengurus" : "Simpan Pengurus";
                 } finally {
+                    tombol.innerHTML = `<i data-lucide="user-check" class="w-4 h-4"></i> Simpan Data Pengurus`;
                     tombol.disabled = false;
+                    lucide.createIcons();
                 }
             };
 
-            // Jika ada foto baru yang diupload
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const reader = new FileReader();
@@ -349,7 +456,6 @@
                     });
                 };
             } else {
-                // Jika hanya update teks tanpa mengubah foto
                 kirimDataPayload({
                     action: actionType,
                     row: rowId,
@@ -359,50 +465,50 @@
                 });
             }
         }
-        // --- FUNGSI TAMPILKAN DAFTAR PENGURUS ---
+
+        // --- SISTEM EMBED & FETCH TABEL DAFTAR PENGURUS ---
         async function muatDaftarPengurus() {
             const tbody = document.getElementById('tabelPengurus');
-            tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">Memuat data dari database...</td></tr>';
+            tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400"><div class="flex flex-col items-center justify-center gap-2"><div class="w-6 h-6 border-2 border-[#14362B] border-t-transparent rounded-full animate-spin"></div><span>Memuat database...</span></div></td></tr>`;
+            
             try {
                 const response = await fetch(URL_API + "?sheet=Struktur");
                 const data = await response.json();
                 
                 if (data.length > 0) {
                     tbody.innerHTML = '';
-                    // Balik data agar yang terbaru di atas
                     data.reverse().forEach(item => {
                         if(!item.nama) return;
                         tbody.innerHTML += `
-                        <tr class="border-b hover:bg-gray-50 transition-colors">
-                            <td class="p-3 text-center">
-                                <img src="${item.fotoUrl}" class="w-12 h-12 rounded-full object-cover mx-auto border border-gray-200" onerror="this.src='https://via.placeholder.com/50'">
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-4 text-center">
+                                <img src="${item.fotoUrl}" class="w-10 h-10 rounded-full object-cover mx-auto ring-2 ring-slate-100" onerror="this.src='https://via.placeholder.com/50'">
                             </td>
-                            <td class="p-3 font-bold text-zamrud">${item.nama}</td>
-                            <td class="p-3 text-sm text-gray-600">${item.jabatan}</td>
-                            <td class="p-3 text-center whitespace-nowrap">
-                                <button onclick="siapkanEditStruktur(${item.row}, '${item.nama}', '${item.jabatan}')" class="text-blue-500 hover:text-white border border-blue-500 hover:bg-blue-500 text-xs font-bold px-3 py-1.5 rounded transition-colors mr-1">Edit</button>
-                                <button onclick="hapusData('Struktur', ${item.row})" class="text-red-500 hover:text-white border border-red-500 hover:bg-red-500 text-xs font-bold px-3 py-1.5 rounded transition-colors">Hapus</button>
+                            <td class="p-4 font-semibold text-slate-800">${item.nama}</td>
+                            <td class="p-4 text-slate-500 font-medium">${item.jabatan}</td>
+                            <td class="p-4 text-center whitespace-nowrap">
+                                <button onclick="siapkanEditStruktur(${item.row}, '${item.nama}', '${item.jabatan}')" class="text-blue-600 hover:bg-blue-50 border border-blue-200 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors mr-1.5">Edit</button>
+                                <button onclick="hapusData('Struktur', ${item.row})" class="text-rose-600 hover:bg-rose-50 border border-rose-200 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors">Hapus</button>
                             </td>
                         </tr>`;
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">Belum ada data pengurus.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" class="p-8 text-center text-slate-400">Belum ada data pengurus yang terdaftar.</td></tr>';
                 }
             } catch (error) {
-                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-red-500">Gagal memuat data.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" class="p-8 text-center text-rose-500 font-medium">Gagal memuat data dari API. Periksa URL Anda.</td></tr>';
             }
         }
 
-        // --- FUNGSI HAPUS DATA ---
+        // --- SISTEM DELETE DATA ---
         async function hapusData(sheetName, row) {
-            if(!confirm("Anda yakin ingin menghapus data ini?")) return;
+            if(!confirm("Apakah Anda yakin ingin menghapus data pengurus ini permanen?")) return;
             
             try {
                 const payload = { action: "hapus_data", sheetName: sheetName, row: row };
-                
-                // Ubah teks tombol sementara proses
                 const eventTarget = event.target;
                 const originalText = eventTarget.innerText;
+                
                 eventTarget.innerText = "⏳";
                 eventTarget.disabled = true;
 
@@ -410,15 +516,15 @@
                 const result = await response.json();
                 
                 if(result.status === "success") {
-                    alert("✅ Data berhasil dihapus.");
-                    if(sheetName === 'Struktur') muatDaftarPengurus(); // Segarkan tabel
+                    alert("✅ Data sukses dihapus.");
+                    if(sheetName === 'Struktur') muatDaftarPengurus(); 
                 } else {
                     alert("❌ Gagal menghapus data.");
                     eventTarget.innerText = originalText;
                     eventTarget.disabled = false;
                 }
             } catch(e) {
-                alert("Terjadi kesalahan saat menghapus data.");
+                alert("Terjadi kesalahan sistem eksternal saat menghapus.");
             }
         }        
     </script>
