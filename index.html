@@ -27,7 +27,7 @@
         }
         
         .hero-overlay {
-            background: linear-gradient(180deg, rgba(20, 54, 43, 0.45) 0%, rgba(20, 54, 43, 0.75) 100%);
+            background: linear-gradient(180deg, rgba(20, 54, 43, 0.45) 0%, rgba(20, 54, 43, 0.95) 100%);
         }
 
         /* Toast Notification Custom CSS */
@@ -72,7 +72,6 @@
             <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
                 <a href="#" class="flex items-center gap-3 group">
-                    <!-- Link logo dari github kamalm1372 -->
                     <img src="https://raw.githubusercontent.com/kamalm1372/PANTIASUHANALITTIFAQIAH/main/logo.png" alt="Logo" class="w-12 h-12 md:w-14 md:h-14 object-contain group-hover:scale-105 transition-transform" onerror="this.src='https://ui-avatars.com/api/?name=AI&background=14362B&color=D4AF37&rounded=true'">
                     <div class="leading-tight">
                         <div class="text-[15px] md:text-[17px] font-bold text-[#14362B] tracking-wide leading-none mb-1">Panti Asuhan Islam</div>
@@ -121,17 +120,17 @@
 
     <!-- ================= HERO SECTION (CENTERED) ================= -->
     <section class="relative min-h-[95vh] flex items-center justify-center pt-20 overflow-hidden text-center">
-        <!-- BACKGROUND IMAGE DARI GITHUB kamalm1372 -->
+        <!-- BACKGROUND IMAGE DARI GITHUB -->
         <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105" 
              style="background-image: url('https://raw.githubusercontent.com/kamalm1372/PANTIASUHANALITTIFAQIAH/main/hero.JPG'); background-attachment: fixed;">
         </div>
         
-        <!-- Overlay gelap agar teks terbaca -->
+        <!-- Overlay gelap -->
         <div class="absolute inset-0 hero-overlay"></div>
         
         <div class="relative z-10 w-full max-w-[1000px] mx-auto px-5 lg:px-8 py-16 flex flex-col items-center">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold tracking-widest uppercase mb-8">
-                <i data-lucide="home" class="w-3.5 h-3.5 text-[#D4AF37]"></i> Panti Asuhan Islam Al-Ittifaqiah
+                <i data-lucide="home" class="w-3.5 h-3.5 text-[#D4AF37]"></i> Panti Asuhan Islam
             </div>
             
             <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.15] mb-6">
@@ -168,9 +167,7 @@
     <!-- ================= PROFIL SECTION ================= -->
     <section id="profil" class="py-20 bg-white relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <!-- Versi 2: Teks di kiri, Gambar di kanan -->
             <div class="flex flex-col-reverse lg:flex-row gap-16 items-center">
-                
                 <!-- Text Side -->
                 <div class="w-full lg:w-1/2">
                     <div class="inline-flex items-center gap-2 text-[#D4AF37] font-bold text-sm tracking-widest uppercase mb-4">
@@ -206,20 +203,16 @@
 
                 <!-- Image Side -->
                 <div class="w-full lg:w-1/2 relative">
-                    <!-- Pola titik latar belakang -->
                     <div class="absolute -right-8 -top-8 w-32 h-32 opacity-20 hidden md:block" style="background-image: radial-gradient(#14362B 2px, transparent 2px); background-size: 16px 16px;"></div>
                     
                     <div class="relative rounded-bl-[4rem] rounded-tr-[4rem] rounded-tl-xl rounded-br-xl overflow-hidden shadow-2xl group border-4 border-white">
-                        <!-- FOTO ABOUT DARI GITHUB kamalm1372 -->
                         <img src="https://raw.githubusercontent.com/kamalm1372/PANTIASUHANALITTIFAQIAH/main/about.JPG" 
                              alt="Panti Asuhan Al-Ittifaqiah" 
                              class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-110" 
                              onerror="this.src='https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=1000&auto=format&fit=crop'">
-                        
                         <div class="absolute inset-0 bg-[#14362B]/10 group-hover:bg-transparent transition-colors duration-500"></div>
                     </div>
 
-                    <!-- Badge Info -->
                     <div class="absolute -left-6 bottom-10 bg-white px-6 py-4 rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-50 flex items-center gap-4">
                         <div class="text-[#D4AF37] bg-amber-50 p-3 rounded-full">
                             <i data-lucide="users-round" class="w-6 h-6"></i>
@@ -245,7 +238,6 @@
                 <div class="w-20 h-1 bg-[#D4AF37] mx-auto mt-6 rounded-full"></div>
             </div>
             
-            <!-- Mengubah class pembungkus utama agar tidak sejajar (flex-wrap) dari awal -->
             <div id="struktur-container" class="w-full">
                 <!-- Skeleton Loader -->
                 <div class="w-full flex flex-col items-center py-10">
@@ -283,7 +275,6 @@
             <div class="bg-[#14362B] rounded-[2rem] shadow-2xl relative overflow-hidden">
                 <div class="grid lg:grid-cols-5 items-stretch">
                     
-                    <!-- Kiri: Info Rekening -->
                     <div class="lg:col-span-2 p-8 md:p-12 text-white flex flex-col justify-center relative bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] bg-blend-overlay bg-black/20">
                         <div class="relative z-10">
                             <h2 class="text-3xl font-bold mb-4 leading-tight">Salurkan <br/><span class="text-[#D4AF37]">Infaq & Sedekah</span></h2>
@@ -314,7 +305,6 @@
                         </div>
                     </div>
                     
-                    <!-- Kanan: Form Konfirmasi -->
                     <div class="lg:col-span-3 bg-white p-8 md:p-12 lg:rounded-l-3xl shadow-[-10px_0_30px_rgba(0,0,0,0.1)] z-20 relative">
                         <div class="mb-8">
                             <h3 class="text-2xl font-bold text-slate-800">Konfirmasi Donasi</h3>
@@ -357,7 +347,6 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
                 <div class="col-span-1">
                     <div class="flex items-center gap-4 mb-6">
-                        <!-- Link logo footer dari github kamalm1372 -->
                         <img src="https://raw.githubusercontent.com/kamalm1372/PANTIASUHANALITTIFAQIAH/main/logo.png" alt="Logo" class="w-12 h-12 grayscale opacity-70" onerror="this.src='https://ui-avatars.com/api/?name=AI&background=0c241c&color=ffffff&rounded=true'">
                         <div>
                             <div class="text-lg font-bold tracking-wide">Panti Asuhan Islam</div>
@@ -408,114 +397,142 @@
     <script>
         lucide.createIcons();
 
-        // Menu Mobile
         function toggleMenu() {
             const menu = document.getElementById('mobileMenu');
             menu.classList.toggle('hidden');
         }
         document.getElementById('mobileMenuBtn').addEventListener('click', toggleMenu);
 
-        // Toast Notification System (Bebas Alert)
         function showToast(message, iconName = 'info') {
             const toast = document.getElementById('toast');
             const messageEl = document.getElementById('toastMessage');
-            
             messageEl.innerHTML = message;
             toast.className = "show";
-            
-            setTimeout(() => { 
-                toast.className = toast.className.replace("show", ""); 
-            }, 3000);
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
-        // Konstanta URL API dari Apps Script Anda
         const URL_API = 'https://script.google.com/macros/s/AKfycbyY_jo_Fqm5fRzj-b1hehIlE6ZclTV8rHrBnTrpRZlfssbKmSltRXMlbr50WPoR9Z2FlA/exec'; 
 
-        // Fungsi Memuat Berita
-        async function muatBerita() {
+        // ================= SISTEM RENDER & CACHE =================
+
+        // 1. Fungsi Gambar HTML Berita
+        function renderBeritaHTML(data) {
             const container = document.getElementById('galeri-container');
+            if (data.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-500 col-span-full py-10">Belum ada publikasi.</p>';
+                return;
+            }
+            
+            let htmlHTML = '';
+            // Gunakan [...data] agar array asli tidak berubah saat di reverse
+            [...data].reverse().forEach(item => {
+                if(!item.judul) return; 
+                htmlHTML += `
+                <div class="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-white border border-slate-100 h-[300px] flex flex-col justify-end">
+                    <img src="${item.fotoUrl}" alt="${item.judul}" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop'" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#14362B] via-[#14362B]/50 to-transparent opacity-90"></div>
+                    <div class="relative z-10 p-6">
+                        <h3 class="text-lg font-bold text-white mb-2 leading-tight">${item.judul}</h3>
+                        <p class="text-emerald-100/70 text-sm line-clamp-2">${item.isi}</p>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = htmlHTML;
+        }
+
+        // 2. Fungsi Mengambil Berita dengan Sistem Cache Instan
+        async function muatBerita() {
+            const cacheKey = 'cache_panti_berita';
+            const cachedData = localStorage.getItem(cacheKey);
+
+            // A. Tampilkan data dari memori browser SECARA INSTAN jika ada
+            if (cachedData) {
+                try { renderBeritaHTML(JSON.parse(cachedData)); } catch(e){}
+            }
+
+            // B. Diam-diam ambil data terbaru dari Google Sheets
             try {
                 const response = await fetch(URL_API);
                 const data = await response.json();
                 
-                if (data.length > 0) {
-                    container.innerHTML = ''; 
-                    data.reverse().forEach(item => {
-                        if(!item.judul) return; 
-
-                        const card = `
-                        <div class="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-white border border-slate-100 h-[300px] flex flex-col justify-end">
-                            <img src="${item.fotoUrl}" alt="${item.judul}" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop'" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#14362B] via-[#14362B]/50 to-transparent opacity-90"></div>
-                            
-                            <div class="relative z-10 p-6">
-                                <h3 class="text-lg font-bold text-white mb-2 leading-tight">${item.judul}</h3>
-                                <p class="text-emerald-100/70 text-sm line-clamp-2">${item.isi}</p>
-                            </div>
-                        </div>
-                        `;
-                        container.innerHTML += card;
-                    });
-                } else {
-                    container.innerHTML = '<p class="text-center text-slate-500 col-span-full py-10">Belum ada publikasi.</p>';
+                // C. Jika data baru berbeda dari yang ada di memori, perbarui tampilan & simpan yang baru
+                if (JSON.stringify(data) !== cachedData) {
+                    localStorage.setItem(cacheKey, JSON.stringify(data));
+                    renderBeritaHTML(data);
                 }
             } catch (error) {
-                container.innerHTML = '<p class="text-center text-rose-500 col-span-full py-10">Gagal memuat data.</p>';
+                if (!cachedData) document.getElementById('galeri-container').innerHTML = '<p class="text-center text-rose-500 col-span-full py-10">Gagal memuat data.</p>';
             }
         }
 
-        // Fungsi Memuat Struktur Organisasi
-        async function muatStruktur() {
+
+        // 3. Fungsi Gambar HTML Struktur Organisasi
+        function renderStrukturHTML(data) {
             const container = document.getElementById('struktur-container');
+            if (data.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-500 col-span-full py-10">Belum ada pengurus.</p>';
+                return;
+            }
+
+            const ketua = data[0];
+            const anggota = data.slice(1);
+            let htmlContent = '';
+
+            // Render Ketua (Besar)
+            if (ketua && ketua.nama) {
+                htmlContent += `
+                <div class="w-full flex justify-center mb-10 md:mb-14">
+                    <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-lg hover:shadow-xl transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[350px]">
+                        <img src="${ketua.fotoUrl}" alt="${ketua.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(ketua.nama)}&background=14362B&color=D4AF37'" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mb-6 shadow-md group-hover:scale-105 transition-transform">
+                        <h3 class="text-xl md:text-2xl font-extrabold text-[#14362B] text-center leading-tight mb-2">${ketua.nama}</h3>
+                        <p class="text-[#D4AF37] text-sm font-bold uppercase tracking-widest text-center">${ketua.jabatan}</p>
+                    </div>
+                </div>`;
+            }
+
+            // Render Sisa Pengurus (Kecil)
+            if (anggota.length > 0) {
+                htmlContent += '<div class="flex flex-wrap justify-center gap-6 md:gap-8 w-full">';
+                anggota.forEach(item => {
+                    if(!item.nama) return; 
+                    htmlContent += `
+                    <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[220px]">
+                        <img src="${item.fotoUrl}" alt="${item.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(item.nama)}&background=14362B&color=D4AF37'" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm group-hover:scale-105 transition-transform">
+                        <h3 class="text-base font-bold text-[#14362B] text-center leading-tight mb-1">${item.nama}</h3>
+                        <p class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider text-center">${item.jabatan}</p>
+                    </div>`;
+                });
+                htmlContent += '</div>';
+            }
+            container.innerHTML = htmlContent;
+        }
+
+        // 4. Fungsi Mengambil Struktur dengan Sistem Cache Instan
+        async function muatStruktur() {
+            const cacheKey = 'cache_panti_struktur';
+            const cachedData = localStorage.getItem(cacheKey);
+
+            // A. Tampilkan Instan
+            if (cachedData) {
+                try { renderStrukturHTML(JSON.parse(cachedData)); } catch(e){}
+            }
+
+            // B. Fetch Latar Belakang
             try {
                 const response = await fetch(URL_API + "?sheet=Struktur");
                 const data = await response.json();
                 
-                if (data.length > 0) {
-                    container.innerHTML = ''; 
-                    
-                    // Pisahkan data urutan pertama (Ketua) dan sisanya
-                    const ketua = data[0];
-                    const anggota = data.slice(1);
-
-                    // 1. Render Ketua (Paling Atas & Lebih Besar)
-                    if (ketua && ketua.nama) {
-                        container.innerHTML += `
-                        <div class="w-full flex justify-center mb-10 md:mb-14">
-                            <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-lg hover:shadow-xl transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[350px]">
-                                <img src="${ketua.fotoUrl}" alt="${ketua.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(ketua.nama)}&background=14362B&color=D4AF37'" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mb-6 shadow-md group-hover:scale-105 transition-transform">
-                                <h3 class="text-xl md:text-2xl font-extrabold text-[#14362B] text-center leading-tight mb-2">${ketua.nama}</h3>
-                                <p class="text-[#D4AF37] text-sm font-bold uppercase tracking-widest text-center">${ketua.jabatan}</p>
-                            </div>
-                        </div>
-                        `;
-                    }
-
-                    // 2. Render Sisa Pengurus (Di Bawahnya dengan grid/flex sejajar)
-                    if (anggota.length > 0) {
-                        let htmlAnggota = '<div class="flex flex-wrap justify-center gap-6 md:gap-8 w-full">';
-                        anggota.forEach(item => {
-                            if(!item.nama) return; 
-
-                            htmlAnggota += `
-                            <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[220px]">
-                                <img src="${item.fotoUrl}" alt="${item.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(item.nama)}&background=14362B&color=D4AF37'" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm group-hover:scale-105 transition-transform">
-                                <h3 class="text-base font-bold text-[#14362B] text-center leading-tight mb-1">${item.nama}</h3>
-                                <p class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider text-center">${item.jabatan}</p>
-                            </div>
-                            `;
-                        });
-                        htmlAnggota += '</div>';
-                        container.innerHTML += htmlAnggota;
-                    }
-                } else {
-                    container.innerHTML = '<p class="text-center text-slate-500 col-span-full py-10">Belum ada pengurus.</p>';
+                // C. Update jika ada perubahan
+                if (JSON.stringify(data) !== cachedData) {
+                    localStorage.setItem(cacheKey, JSON.stringify(data));
+                    renderStrukturHTML(data);
                 }
             } catch (error) {
-                container.innerHTML = '<p class="text-center text-rose-500 col-span-full py-10">Gagal memuat pengurus.</p>';
+                if (!cachedData) document.getElementById('struktur-container').innerHTML = '<p class="text-center text-rose-500 col-span-full py-10">Gagal memuat pengurus.</p>';
             }
         }
 
+        // Jalankan saat web dibuka
         document.addEventListener("DOMContentLoaded", () => {
             muatBerita();
             muatStruktur();
@@ -528,7 +545,6 @@
             tempInput.value = noRek;
             document.body.appendChild(tempInput);
             tempInput.select();
-            
             try {
                 document.execCommand("copy");
                 showToast("Nomor Rekening berhasil disalin!");
