@@ -3,242 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panti Asuhan Al-Ittifaqiah</title>
+    <title>Panti Asuhan Al-Ittifaqiah - Berkhidmat untuk Umat</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap');
-        
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-arabic { font-family: 'Amiri', serif; }
         
-        /* Palet Warna Megah */
-        .text-emas { color: #D4AF37; }
-        .bg-emas { background-color: #D4AF37; }
+        /* Custom Colors & Gradients */
         .text-emas-gradient {
-            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .bg-zamrud { background-color: #14362B; }
-        .text-zamrud { color: #14362B; }
         
-        /* Efek Warm Film & Soft Matte Fade */
-        .film-overlay {
-            background: linear-gradient(150deg, rgba(20,54,43,.85) 0%, rgba(45, 35, 20, 0.6) 50%, rgba(31,111,99,.75) 100%);
-            mix-blend-mode: multiply;
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(20, 54, 43, 0.85) 0%, rgba(20, 54, 43, 0.95) 100%);
         }
-        .matte-fade {
-            filter: sepia(0.2) contrast(0.95) brightness(0.9);
+
+        /* Toast Notification Custom CSS */
+        #toast {
+            visibility: hidden;
+            min-width: 280px;
+            background-color: #14362B;
+            color: #fff;
+            text-align: center;
+            border-radius: 12px;
+            padding: 16px 20px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+        #toast.show {
+            visibility: visible;
+            bottom: 40px;
+            opacity: 1;
         }
     </style>
 </head>
-<body class="bg-[#FAFAF9] text-gray-800 antialiased selection:bg-emerald-100 selection:text-emerald-900 flex flex-col min-h-screen">
+<body class="bg-[#FAFAF9] text-slate-800 antialiased selection:bg-[#D4AF37] selection:text-white flex flex-col min-h-screen">
 
-    <!-- Navbar -->
-    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white shadow-md border-b border-gray-100">
+    <!-- Toast Notification Element -->
+    <div id="toast"><i data-lucide="info" class="w-5 h-5 text-[#D4AF37]"></i> <span id="toastMessage">Pesan</span></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <a href="#" class="flex items-center gap-4">
-                    <img src="logo.png" alt="Logo Al-Ittifaqiah" class="w-14 h-14 object-contain" onerror="this.style.display='none'">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <!-- Ganti link github logo di sini jika ada -->
+                    <img src="https://raw.githubusercontent.com/USERNAME/REPO/main/logo.png" alt="Logo" class="w-12 h-12 md:w-14 md:h-14 object-contain group-hover:scale-105 transition-transform" onerror="this.src='https://ui-avatars.com/api/?name=AI&background=14362B&color=D4AF37&rounded=true'">
                     <div class="leading-tight">
-                        <!-- Teks "Panti Asuhan Islam" diubah menjadi text-zamrud agar terlihat di background putih -->
-                        <div class="text-[17px] font-bold text-zamrud tracking-wide leading-none mb-1">Panti Asuhan Islam</div>
-                        <div class="text-[12px] text-emas font-bold tracking-[0.15em] leading-none uppercase">Al-Ittifaqiah</div>
+                        <div class="text-[15px] md:text-[17px] font-bold text-[#14362B] tracking-wide leading-none mb-1">Panti Asuhan Islam</div>
+                        <div class="text-[10px] md:text-[12px] text-[#D4AF37] font-bold tracking-[0.15em] leading-none uppercase">Al-Ittifaqiah</div>
                     </div>
                 </a>
-                <nav class="hidden lg:block">
-                    <!-- Teks menu diubah menjadi text-gray-700 -->
-                    <ul class="flex items-center gap-1 text-sm font-semibold text-gray-700">
-                        <li><a href="#" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-gray-50 transition-all">Beranda</a></li>
-                        <li><a href="#profil" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-gray-50 transition-all">Profil</a></li>
-                        <li><a href="#kegiatan" class="px-5 py-2.5 rounded-lg hover:text-emas hover:bg-gray-50 transition-all">Kegiatan</a></li>
-                        <li><a href="#kontak" class="px-5 py-2.5 rounded-lg text-zamrud bg-emas hover:bg-[#b5952f] transition-all shadow-sm ml-2">Donasi</a></li>
-                        
-                        <!-- Ikon Login Admin diubah warnanya agar gelap -->
-                        <li>
-                            <a href="admin.html" title="Login Admin" class="flex items-center justify-center w-10 h-10 ml-2 rounded-full border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-emas transition-all">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                </svg>
-                            </a>
-                        </li>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex items-center gap-1">
+                    <ul class="flex items-center gap-2 text-sm font-semibold text-slate-600 mr-4">
+                        <li><a href="#" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Beranda</a></li>
+                        <li><a href="#profil" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Profil</a></li>
+                        <li><a href="#struktur" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Pengurus</a></li>
+                        <li><a href="#kegiatan" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Kegiatan</a></li>
                     </ul>
+                    <a href="#kontak" class="px-6 py-2.5 rounded-full text-[#14362B] font-bold bg-[#D4AF37] hover:bg-[#b5952f] transition-all shadow-[0_4px_14px_0_rgba(212,175,55,0.39)] hover:shadow-[0_6px_20px_rgba(212,175,55,0.23)] hover:-translate-y-0.5 flex items-center gap-2">
+                        <i data-lucide="heart-handshake" class="w-4 h-4"></i> Donasi
+                    </a>
+                    <a href="admin.html" title="Login Admin" class="flex items-center justify-center w-10 h-10 ml-2 rounded-full border border-slate-200 text-slate-400 hover:bg-slate-50 hover:text-[#D4AF37] transition-all">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </a>
                 </nav>
+
+                <!-- Mobile Menu Toggle -->
+                <button id="mobileMenuBtn" class="lg:hidden p-2 text-slate-600 hover:text-[#14362B]">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
             </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg">
+            <ul class="flex flex-col px-5 py-4 space-y-2 text-sm font-semibold text-slate-600">
+                <li><a href="#" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Beranda</a></li>
+                <li><a href="#profil" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Profil</a></li>
+                <li><a href="#struktur" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Pengurus</a></li>
+                <li><a href="#kegiatan" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Kegiatan</a></li>
+                <li class="pt-2">
+                    <a href="#kontak" onclick="toggleMenu()" class="flex justify-center items-center gap-2 w-full py-3 rounded-xl text-[#14362B] font-bold bg-[#D4AF37]">
+                        <i data-lucide="heart-handshake" class="w-4 h-4"></i> Salurkan Donasi
+                    </a>
+                </li>
+            </ul>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-[100vh] flex items-center justify-center overflow-hidden pt-20">
-        <!-- Background Image with Warm Matte Tone -->
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat matte-fade scale-105" style="background-image: url('hero.JPG');"></div>
-        <div class="absolute inset-0 film-overlay"></div>
+    <!-- ================= HERO SECTION (CENTERED) ================= -->
+    <section class="relative min-h-[95vh] flex items-center justify-center pt-20 overflow-hidden text-center">
+        <!-- BACKGROUND IMAGE DARI GITHUB -->
+        <!-- GANTI URL DI BAWAH INI DENGAN URL RAW GITHUB ANDA -->
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105" 
+             style="background-image: url('https://raw.githubusercontent.com/USERNAME/NAMA_REPO/main/hero.JPG'); background-attachment: fixed;">
+        </div>
         
-        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto pt-10 pb-16">
-            <p class="font-arabic text-4xl md:text-5xl text-emas mb-8 drop-shadow-lg" lang="ar" dir="rtl">SELAMAT DATANG DI WEBSITE RESMI</p>
-            
-            <div class="flex items-center justify-center gap-3 mb-8">
-                <div class="h-px w-20 bg-gradient-to-r from-transparent to-emas"></div>
-                <div class="w-2 h-2 rotate-45 bg-emas"></div>
-                <div class="h-px w-20 bg-gradient-to-l from-transparent to-emas"></div>
+        <!-- Overlay gelap agar teks terbaca -->
+        <div class="absolute inset-0 hero-overlay backdrop-blur-[2px]"></div>
+        
+        <div class="relative z-10 w-full max-w-[1000px] mx-auto px-5 lg:px-8 py-16 flex flex-col items-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold tracking-widest uppercase mb-8">
+                <i data-lucide="home" class="w-3.5 h-3.5 text-[#D4AF37]"></i> Panti Asuhan Islam
             </div>
             
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6 drop-shadow-md">
-                Panti Asuhan Islam<br/>
-                <span class="text-emas-gradient font-arabic font-normal text-6xl md:text-8xl block mt-4 drop-shadow-xl">Al-Ittifaqiah</span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.15] mb-6">
+                Berkhidmat Membangun <br class="hidden md:block"/>
+                Generasi <span class="text-emas-gradient drop-shadow-xl relative inline-block">
+                    Qur'ani & Mandiri
+                    <!-- Garis bawah melengkung hiasan -->
+                    <svg class="absolute w-full h-3 -bottom-1 left-0 text-[#D4AF37] opacity-70" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 15 100 5" stroke="currentColor" stroke-width="4" fill="transparent"/></svg>
+                </span>
             </h1>
-            <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-medium mb-12 drop-shadow">
-                Membina generasi Qur'ani yang mandiri, berilmu, dan berakhlak mulia di lingkungan Pondok Pesantren Al-Ittifaqiah, Indralaya.
+            
+            <p class="text-emerald-50 text-lg md:text-xl leading-relaxed font-medium mb-10 max-w-2xl">
+                Membina anak yatim dan dhuafa di lingkungan Pondok Pesantren Al-Ittifaqiah menjadi pribadi berilmu, berakhlak mulia, dan siap berkontribusi.
             </p>
+            
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="#kontak" class="px-8 py-4 rounded-full text-[#14362B] font-bold bg-[#D4AF37] hover:bg-[#b5952f] transition-all shadow-[0_10px_25px_rgba(212,175,55,0.4)] hover:-translate-y-1 flex items-center gap-2">
+                    <i data-lucide="heart" class="w-5 h-5"></i> Salurkan Donasi
+                </a>
+                <a href="#profil" class="px-8 py-4 rounded-full text-white font-semibold bg-white/10 border border-white/20 hover:bg-white/20 backdrop-blur-sm transition-all flex items-center gap-2">
+                    Lebih Lanjut <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Wave Element di bagian bawah hero -->
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" class="w-full h-auto text-white fill-current">
+                <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+            </svg>
         </div>
     </section>
 
-    <!-- Section Profil -->
-    <section id="profil" class="py-24 bg-[#FAFAF9] relative overflow-hidden">
+    <!-- ================= PROFIL SECTION ================= -->
+    <section id="profil" class="py-20 bg-white relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <div class="flex flex-col lg:flex-row gap-16 items-center">
-                <!-- Image Side -->
-                <div class="w-full lg:w-1/2 relative">
-                    <div class="absolute -inset-4 border-2 border-emas/30 rounded-2xl translate-x-4 translate-y-4"></div>
-                    <div class="relative rounded-2xl overflow-hidden shadow-2xl group">
-                        <div class="absolute inset-0 bg-amber-900/10 mix-blend-overlay z-10 transition-opacity group-hover:opacity-0"></div>
-                        <img src="about.JPG" alt="Keluarga Besar Panti Asuhan Al-Ittifaqiah" class="w-full h-auto object-cover matte-fade transition-transform duration-700 group-hover:scale-105">
-                    </div>
-                </div>
+            <!-- Versi 2: Teks di kiri, Gambar di kanan -->
+            <div class="flex flex-col-reverse lg:flex-row gap-16 items-center">
                 
                 <!-- Text Side -->
                 <div class="w-full lg:w-1/2">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emas/10 text-emas font-bold text-sm tracking-widest uppercase mb-6 border border-emas/20">
-                        <span class="w-2 h-2 rounded-full bg-emas"></span>
-                        Tentang Kami
+                    <div class="inline-flex items-center gap-2 text-[#D4AF37] font-bold text-sm tracking-widest uppercase mb-4">
+                        <span class="w-8 h-[2px] bg-[#D4AF37]"></span> Profil Yayasan
                     </div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-zamrud mb-6 leading-snug">Berkhidmat Membangun Generasi Penerus Umat</h2>
-                    <div class="w-16 h-1 bg-emas rounded-full mb-8"></div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-[#14362B] mb-6 leading-tight">Mencetak Kader Umat di Lingkungan Pesantren</h2>
                     
-                    <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                        Panti Asuhan Islam Al-Ittifaqiah hadir sebagai wadah pengasuhan, pendidikan, dan pembinaan anak-anak yatim dan dhuafa. Kami berkomitmen untuk tidak hanya memberikan perlindungan fisik, tetapi juga pembekalan ilmu agama, keterampilan, dan kemandirian.
+                    <p class="text-slate-600 text-lg leading-relaxed mb-6">
+                        Panti Asuhan Islam Al-Ittifaqiah hadir sebagai wadah pengasuhan, pendidikan, dan pembinaan anak-anak yatim dan dhuafa. Kami berkomitmen memberikan perlindungan fisik sekaligus pembekalan ilmu agama.
                     </p>
-                    <p class="text-gray-600 text-lg leading-relaxed mb-8">
-                        Dengan dukungan lingkungan Pondok Pesantren di Indralaya, anak-anak asuh kami dibina agar tumbuh menjadi pribadi yang memegang teguh nilai-nilai Al-Qur'an dan siap berkontribusi untuk masyarakat.
+                    <p class="text-slate-600 text-lg leading-relaxed mb-8">
+                        Berada di dalam lingkungan Pondok Pesantren di Indralaya, anak asuh mendapatkan gemblengan moral, spiritual, dan life-skill agar siap menatap masa depan secara mandiri.
                     </p>
                     
-                    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-200">
-                        <div>
-                            <div class="text-3xl font-extrabold text-emas mb-1">Berakhlak</div>
-                            <div class="text-sm font-semibold text-zamrud">Pendidikan Karakter</div>
+                    <div class="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-6">
+                        <h4 class="font-bold text-[#14362B] flex items-center gap-2 mb-3"><i data-lucide="target" class="w-5 h-5 text-[#D4AF37]"></i> Fokus Utama Kami</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 flex-shrink-0"></i>
+                                <span class="text-slate-700 text-sm">Pendidikan formal dan diniyah berstandar pesantren.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 flex-shrink-0"></i>
+                                <span class="text-slate-700 text-sm">Pembentukan akhlakul karimah dan tahfidz Al-Qur'an.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 flex-shrink-0"></i>
+                                <span class="text-slate-700 text-sm">Pelatihan keterampilan untuk kemandirian ekonomi.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Image Side -->
+                <div class="w-full lg:w-1/2 relative">
+                    <!-- Pola titik latar belakang -->
+                    <div class="absolute -right-8 -top-8 w-32 h-32 opacity-20 hidden md:block" style="background-image: radial-gradient(#14362B 2px, transparent 2px); background-size: 16px 16px;"></div>
+                    
+                    <div class="relative rounded-bl-[4rem] rounded-tr-[4rem] rounded-tl-xl rounded-br-xl overflow-hidden shadow-2xl group border-4 border-white">
+                        <!-- FOTO ABOUT DARI GITHUB -->
+                        <!-- GANTI URL DI BAWAH INI DENGAN URL RAW GITHUB ANDA -->
+                        <img src="https://raw.githubusercontent.com/USERNAME/NAMA_REPO/main/about.JPG" 
+                             alt="Panti Asuhan Al-Ittifaqiah" 
+                             class="w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-110" 
+                             onerror="this.src='https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=1000&auto=format&fit=crop'">
+                        
+                        <div class="absolute inset-0 bg-[#14362B]/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                    </div>
+
+                    <!-- Badge Info -->
+                    <div class="absolute -left-6 bottom-10 bg-white px-6 py-4 rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-50 flex items-center gap-4">
+                        <div class="text-[#D4AF37] bg-amber-50 p-3 rounded-full">
+                            <i data-lucide="users-round" class="w-6 h-6"></i>
                         </div>
                         <div>
-                            <div class="text-3xl font-extrabold text-emas mb-1">Mandiri</div>
-                            <div class="text-sm font-semibold text-zamrud">Pembekalan Skill</div>
+                            <div class="text-2xl font-black text-[#14362B] leading-none">100+</div>
+                            <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Anak Asuh</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Section Struktur Organisasi -->
-    <section id="struktur" class="py-20 bg-white border-t border-gray-100">
+
+    <!-- ================= PENGURUS SECTION ================= -->
+    <section id="struktur" class="py-24 bg-[#FAFAF9] border-t border-slate-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16">
-                <span class="text-emas font-bold tracking-widest uppercase text-sm mb-3 block">Pengurus</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-zamrud mb-6">Struktur Organisasi</h2>
-                <div class="h-1 w-20 bg-emas mx-auto rounded-full"></div>
+                <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-sm mb-3 block flex items-center justify-center gap-2">
+                    <i data-lucide="users" class="w-4 h-4"></i> Jajaran Pengurus
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-[#14362B]">Pengabdi Umat</h2>
+                <div class="w-20 h-1 bg-[#D4AF37] mx-auto mt-6 rounded-full"></div>
             </div>
             
-            <div id="struktur-container" class="flex flex-wrap justify-center gap-6">
-                <p class="text-center text-gray-500 w-full py-10">⏳ Memuat struktur organisasi...</p>
+            <div id="struktur-container" class="flex flex-wrap justify-center gap-6 md:gap-8">
+                <!-- Skeleton Loader -->
+                <div class="w-full flex flex-col items-center py-10">
+                    <div class="w-8 h-8 border-4 border-[#14362B] border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p class="text-slate-500 font-medium">Memuat data pengurus...</p>
+                </div>
             </div>
-        </div>
-    </section>
-    <!-- Section Kegiatan / Galeri -->
-    <!-- Section Kegiatan / Galeri -->
-    <section id="kegiatan" class="py-24 bg-white border-y border-gray-100">
-        <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <span class="text-emas font-bold tracking-widest uppercase text-sm mb-3 block">Dokumentasi Kegiatan</span>
-                <div class="h-1 w-20 bg-emas mx-auto rounded-full"></div>
-            </div>
-            
-            <!-- Tempat foto akan dimunculkan oleh JavaScript -->
-            <div id="galeri-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <p class="text-center text-gray-500 col-span-full py-10">⏳ Sedang memuat kegiatan terbaru...</p>
-            </div>
-            
         </div>
     </section>
 
-    <!-- Form & Kontak -->
-    <section id="kontak" class="py-24 bg-[#FAFAF9]">
-        <div class="max-w-[1000px] mx-auto px-5 lg:px-8">
-            <div class="bg-zamrud rounded-[2rem] p-8 md:p-14 text-white shadow-2xl relative overflow-hidden">
-                <!-- Ornamen Latar -->
-                <div class="absolute top-0 right-0 w-64 h-64 bg-emas/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                <div class="absolute bottom-0 left-0 w-64 h-64 bg-emas/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-                
-                <div class="relative z-10 grid md:grid-cols-5 gap-12 items-center">
-                    <div class="md:col-span-2">
-                        <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">Mari Menjadi <br/><span class="text-emas">Jalan Kebaikan</span></h2>
-                        <p class="text-white/70 mb-8 leading-relaxed">
-                            Dukungan Anda sangat berarti bagi kelangsungan pendidikan dan kesejahteraan anak-anak kami. Hubungi kami untuk informasi donasi atau kunjungan.
-                        </p>
-                        <div class="space-y-6">
-                            <!-- Alamat -->
-                            <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 text-emas">📍</div>
-                                <p class="text-sm text-white/80 mt-1">Pondok Pesantren Al-Ittifaqiah,<br/>Indralaya, Ogan Ilir, Sumatera Selatan</p>
-                            </div>
+    <!-- ================= KEGIATAN SECTION ================= -->
+    <section id="kegiatan" class="py-24 bg-white border-y border-slate-100">
+        <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-sm mb-3 block flex items-center justify-center gap-2">
+                    <i data-lucide="image" class="w-4 h-4"></i> Dokumentasi
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-[#14362B]">Kegiatan Terbaru</h2>
+                <div class="w-20 h-1 bg-[#D4AF37] mx-auto mt-6 rounded-full"></div>
+            </div>
+            
+            <div id="galeri-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Skeleton Loader -->
+                <div class="col-span-full flex flex-col items-center py-16">
+                    <div class="w-8 h-8 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p class="text-slate-500 font-medium">Memuat publikasi kegiatan...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= KONTAK & DONASI ================= -->
+    <section id="kontak" class="py-24 bg-[#FAFAF9] relative overflow-hidden">
+        <div class="max-w-[1100px] mx-auto px-5 lg:px-8 relative z-10">
+            <div class="bg-[#14362B] rounded-[2rem] shadow-2xl relative overflow-hidden">
+                <div class="grid lg:grid-cols-5 items-stretch">
+                    
+                    <!-- Kiri: Info Rekening -->
+                    <div class="lg:col-span-2 p-8 md:p-12 text-white flex flex-col justify-center relative bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] bg-blend-overlay bg-black/20">
+                        <div class="relative z-10">
+                            <h2 class="text-3xl font-bold mb-4 leading-tight">Salurkan <br/><span class="text-[#D4AF37]">Infaq & Sedekah</span></h2>
+                            <p class="text-emerald-100/80 mb-8 text-sm leading-relaxed">
+                                Uluran tangan Anda menjadi saksi kebaikan bagi pendidikan anak-anak kami.
+                            </p>
                             
-                            <!-- Kotak Rekening Donasi -->
-                            <div class="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm relative overflow-hidden">
-                                <!-- Efek Cahaya Emas di Sudut -->
-                                <div class="absolute top-0 right-0 w-32 h-32 bg-emas/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-                                
-                                <p class="text-[11px] text-white/60 mb-3 uppercase tracking-widest font-bold">Rekening Donasi Resmi</p>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
+                                <p class="text-xs text-emerald-200 uppercase tracking-widest font-bold mb-4 flex items-center gap-2">
+                                    <i data-lucide="credit-card" class="w-4 h-4"></i> Rekening Resmi
+                                </p>
                                 
                                 <div class="flex items-center gap-3 mb-4">
-                                    <!-- Logo BRI otomatis dari internet -->
-                                    <div class="bg-white px-2 py-1.5 rounded-md flex items-center justify-center">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="Logo BRI" class="h-4 w-auto">
+                                    <div class="bg-white p-1 rounded flex items-center justify-center h-8 w-12">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" alt="BRI" class="h-full object-contain">
                                     </div>
-                                    <p class="text-sm font-semibold text-white/90">Bank Rakyat Indonesia</p>
+                                    <p class="font-semibold text-white text-sm">Bank Rakyat Indonesia</p>
                                 </div>
 
-                                <div class="flex items-center justify-between gap-2 bg-black/20 border border-white/10 rounded-xl p-3 mb-3">
-                                    <!-- Ukuran teks disesuaikan untuk mobile (text-sm) dan dipaksa 1 baris (whitespace-nowrap) -->
-                                    <span class="text-sm lg:text-base font-bold text-emas tracking-wider lg:tracking-widest font-mono whitespace-nowrap">5637-0101-8872-53-6</span>
-                                    
-                                    <!-- Ditambahkan flex-shrink-0 agar tombol tidak terhimpit -->
-                                    <button onclick="salinRekening()" class="flex-shrink-0 flex items-center gap-1.5 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition-all" title="Salin Nomor Rekening">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
-                                        </svg>
-                                        <span class="text-xs font-bold uppercase hidden sm:block">Salin</span>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-black/40 rounded-xl p-3 mb-3 border border-white/5">
+                                    <span class="text-lg font-bold text-[#D4AF37] tracking-widest font-mono">5637-0101-8872-53-6</span>
+                                    <button onclick="salinRekening()" class="flex-shrink-0 px-3 py-2 text-xs font-bold uppercase text-white bg-[#D4AF37] hover:bg-amber-500 rounded-lg transition-all flex items-center justify-center gap-2">
+                                        Salin
                                     </button>
                                 </div>
-                                
-                                <p class="text-sm text-white/80">a.n. <span class="font-bold text-white">Panti Asuhan Al-Ittifaqiah</span></p>
+                                <p class="text-xs text-emerald-100/80">a.n. <span class="font-bold text-white">Panti Asuhan Al-Ittifaqiah</span></p>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Form Pendaftaran / Kontak -->
-                    <div class="md:col-span-3 bg-white/5 p-6 md:p-8 rounded-2xl border border-white/10 backdrop-blur-sm">
+                    <!-- Kanan: Form Konfirmasi -->
+                    <div class="lg:col-span-3 bg-white p-8 md:p-12 lg:rounded-l-3xl shadow-[-10px_0_30px_rgba(0,0,0,0.1)] z-20 relative">
+                        <div class="mb-8">
+                            <h3 class="text-2xl font-bold text-slate-800">Konfirmasi Donasi</h3>
+                            <p class="text-slate-500 text-sm mt-1">Beritahu kami agar donasi Anda tercatat dan didoakan oleh anak asuh.</p>
+                        </div>
+
                         <form class="space-y-5">
                             <div>
-                                <label class="block text-[13px] font-bold text-white/90 mb-2 uppercase tracking-wide">Nama Lengkap <span class="text-emas normal-case font-normal">*WAJIB DIISI</span></label>
-                                <input type="text" id="namaDonatur" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all" placeholder="Masukkan nama Anda">
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Nama Lengkap / Hamba Allah</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400"><i data-lucide="user" class="w-5 h-5"></i></span>
+                                    <input type="text" id="namaDonatur" class="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all" placeholder="Masukkan nama">
+                                </div>
                             </div>
                             <div>
-                                <label class="block text-[13px] font-bold text-white/90 mb-2 uppercase tracking-wide">Nomor WhatsApp <span class="text-emas normal-case font-normal">*WAJIB DIISI</span></label>
-                                <input type="tel" id="noWaDonatur" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all" placeholder="Contoh: 08123456789">
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Nomor WhatsApp</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400"><i data-lucide="phone" class="w-5 h-5"></i></span>
+                                    <input type="tel" id="noWaDonatur" class="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all" placeholder="Contoh: 08123456789">
+                                </div>
                             </div>
                             <div>
-                                <label class="block text-[13px] font-bold text-white/90 mb-2 uppercase tracking-wide">Pesan / Niat Donasi</label>
-                                <textarea rows="3" id="pesanDonatur" class="w-full px-5 py-3.5 rounded-xl bg-black/20 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-emas focus:ring-1 focus:ring-emas transition-all resize-none" placeholder="Tuliskan pesan Anda di sini..."></textarea>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Pesan / Doa (Opsional)</label>
+                                <textarea rows="3" id="pesanDonatur" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all resize-none" placeholder="Tuliskan doa yang ingin diaminkan..."></textarea>
                             </div>
-                            <button type="button" onclick="kirimPesanWA()" class="w-full bg-emas hover:bg-[#b5952f] text-zamrud font-bold py-4 rounded-xl transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] mt-2">
-                                Kirim Pesan ke Whatsapp Pengurus
+                            
+                            <button type="button" onclick="kirimPesanWA()" class="w-full bg-[#14362B] hover:bg-[#0c241c] text-white font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-[0.98] mt-2 flex items-center justify-center gap-2">
+                                <i data-lucide="send" class="w-5 h-5"></i> Konfirmasi via WhatsApp
                             </button>
                         </form>
                     </div>
@@ -247,76 +352,119 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-[#0c241c] text-white pt-16 pb-8 border-t border-white/5 mt-auto">
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-[#0c241c] text-white pt-16 pb-8 mt-auto">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
-                <div class="flex items-center gap-4">
-                    <img src="logo.png" alt="Logo" class="w-12 h-12 grayscale opacity-50" onerror="this.style.display='none'">
-                    <div>
-                        <div class="text-lg font-bold tracking-wide">Panti Asuhan Islam</div>
-                        <div class="text-xs text-white/40 uppercase tracking-widest">Al-Ittifaqiah</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+                <div class="col-span-1">
+                    <div class="flex items-center gap-4 mb-6">
+                        <!-- Ganti link github logo di sini jika ada -->
+                        <img src="https://raw.githubusercontent.com/USERNAME/REPO/main/logo.png" alt="Logo" class="w-12 h-12 grayscale opacity-70" onerror="this.src='https://ui-avatars.com/api/?name=AI&background=0c241c&color=ffffff&rounded=true'">
+                        <div>
+                            <div class="text-lg font-bold tracking-wide">Panti Asuhan Islam</div>
+                            <div class="text-xs text-[#D4AF37] uppercase tracking-widest font-bold">Al-Ittifaqiah</div>
+                        </div>
                     </div>
+                    <p class="text-emerald-100/50 text-sm leading-relaxed">
+                        Mewujudkan generasi Qur'ani yang mandiri, berilmu, dan siap mengabdi di tengah masyarakat berlandaskan nilai-nilai Islam.
+                    </p>
                 </div>
-                <div class="flex gap-6">
-                    <a href="#" class="text-white/40 hover:text-emas transition-colors text-sm font-semibold">Beranda</a>
-                    <a href="#profil" class="text-white/40 hover:text-emas transition-colors text-sm font-semibold">Profil</a>
-                    <a href="#kegiatan" class="text-white/40 hover:text-emas transition-colors text-sm font-semibold">Kegiatan</a>
+                
+                <div class="col-span-1 md:ml-auto">
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Navigasi</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#profil" class="text-emerald-100/50 hover:text-[#D4AF37] transition-colors text-sm">Profil Yayasan</a></li>
+                        <li><a href="#struktur" class="text-emerald-100/50 hover:text-[#D4AF37] transition-colors text-sm">Susunan Pengurus</a></li>
+                        <li><a href="#kegiatan" class="text-emerald-100/50 hover:text-[#D4AF37] transition-colors text-sm">Galeri Kegiatan</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-span-1 md:ml-auto">
+                    <h4 class="text-white font-bold mb-4 uppercase tracking-wider text-sm">Kontak Info</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5"></i>
+                            <span class="text-emerald-100/50 text-sm">Pondok Pesantren Al-Ittifaqiah, Indralaya, Ogan Ilir, Sumatera Selatan</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-[#D4AF37] flex-shrink-0"></i>
+                            <span class="text-emerald-100/50 text-sm">+62 857-0930-8034</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
             
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-white/30 text-sm">© 2026 Panti Asuhan Islam Al-Ittifaqiah. Indralaya.</p>
-                <p class="font-arabic text-emas/40 text-xl" lang="ar" dir="rtl">خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ</p>
+            <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-emerald-100/30 text-sm">© 2026 Panti Asuhan Islam Al-Ittifaqiah.</p>
+                <p class="font-arabic text-[#D4AF37]/50 text-xl" lang="ar" dir="rtl">خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ</p>
             </div>
         </div>
     </footer>
-    <!-- Script untuk menyedot data dari Google Sheets -->
+
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
-        // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+        lucide.createIcons();
+
+        // Menu Mobile
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+        document.getElementById('mobileMenuBtn').addEventListener('click', toggleMenu);
+
+        // Toast Notification System (Bebas Alert)
+        function showToast(message, iconName = 'info') {
+            const toast = document.getElementById('toast');
+            const messageEl = document.getElementById('toastMessage');
+            
+            messageEl.innerHTML = message;
+            toast.className = "show";
+            
+            setTimeout(() => { 
+                toast.className = toast.className.replace("show", ""); 
+            }, 3000);
+        }
+
+        // Konstanta URL API dari Apps Script Anda
         const URL_API = 'https://script.google.com/macros/s/AKfycbyY_jo_Fqm5fRzj-b1hehIlE6ZclTV8rHrBnTrpRZlfssbKmSltRXMlbr50WPoR9Z2FlA/exec'; 
 
+        // Fungsi Memuat Berita
         async function muatBerita() {
             const container = document.getElementById('galeri-container');
             try {
-                // Ambil data dari Apps Script
                 const response = await fetch(URL_API);
                 const data = await response.json();
                 
                 if (data.length > 0) {
-                    container.innerHTML = ''; // Bersihkan teks "Sedang memuat..."
-                    
-                    // Kita balik datanya (reverse) agar berita terbaru (baris paling bawah di sheet) muncul duluan
+                    container.innerHTML = ''; 
                     data.reverse().forEach(item => {
-                        // Lewati baris yang kosong
                         if(!item.judul) return; 
 
                         const card = `
-                        <div class="relative rounded-2xl overflow-hidden shadow-lg group h-[300px]">
-                            <div class="absolute inset-0 bg-gradient-to-t from-zamrud/90 via-zamrud/20 to-transparent z-10 opacity-80 group-hover:opacity-100 transition-opacity"></div>
-                            <img src="${item.fotoUrl}" alt="${item.judul}" class="w-full h-full object-cover matte-fade transition-transform duration-1000 group-hover:scale-110">
-                            <div class="absolute bottom-0 left-0 right-0 z-20 p-6 translate-y-2 group-hover:translate-y-0 transition-transform">
-                                <h3 class="text-xl font-bold text-white mb-1 drop-shadow-md">${item.judul}</h3>
-                                <p class="text-white/80 text-sm line-clamp-2">${item.isi}</p>
+                        <div class="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-white border border-slate-100 h-[300px] flex flex-col justify-end">
+                            <img src="${item.fotoUrl}" alt="${item.judul}" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop'" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#14362B] via-[#14362B]/50 to-transparent opacity-90"></div>
+                            
+                            <div class="relative z-10 p-6">
+                                <h3 class="text-lg font-bold text-white mb-2 leading-tight">${item.judul}</h3>
+                                <p class="text-emerald-100/70 text-sm line-clamp-2">${item.isi}</p>
                             </div>
                         </div>
                         `;
                         container.innerHTML += card;
                     });
                 } else {
-                    container.innerHTML = '<p class="text-center text-gray-500 col-span-full py-10">Belum ada kegiatan yang diunggah.</p>';
+                    container.innerHTML = '<p class="text-center text-slate-500 col-span-full py-10">Belum ada publikasi.</p>';
                 }
             } catch (error) {
-                console.error("Gagal memuat data:", error);
-                container.innerHTML = '<p class="text-center text-red-500 col-span-full py-10">Gagal memuat kegiatan. Periksa koneksi internet Anda.</p>';
+                container.innerHTML = '<p class="text-center text-rose-500 col-span-full py-10">Gagal memuat data.</p>';
             }
         }
 
-        // Jalankan fungsi otomatis saat halaman web dibuka
+        // Fungsi Memuat Struktur Organisasi
         async function muatStruktur() {
             const container = document.getElementById('struktur-container');
             try {
-                // Perhatikan penambahan "?sheet=Struktur" di akhir URL
                 const response = await fetch(URL_API + "?sheet=Struktur");
                 const data = await response.json();
                 
@@ -326,63 +474,59 @@
                         if(!item.nama) return; 
 
                         const card = `
-                        <div class="w-full sm:w-64 bg-[#FAFAF9] rounded-2xl overflow-hidden shadow-sm text-center border border-gray-100 p-6 hover:shadow-md transition-shadow">
-                            <img src="${item.fotoUrl}" alt="${item.nama}" class="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-emas/20">
-                            <h3 class="text-lg font-bold text-zamrud leading-tight">${item.nama}</h3>
-                            <p class="text-emas text-sm font-semibold mt-1">${item.jabatan}</p>
+                        <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[220px]">
+                            <img src="${item.fotoUrl}" alt="${item.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(item.nama)}&background=14362B&color=D4AF37'" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm group-hover:scale-105 transition-transform">
+                            <h3 class="text-base font-bold text-[#14362B] text-center leading-tight mb-1">${item.nama}</h3>
+                            <p class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider text-center">${item.jabatan}</p>
                         </div>
                         `;
                         container.innerHTML += card;
                     });
                 } else {
-                    container.innerHTML = '<p class="text-center text-gray-500 col-span-full py-10">Struktur organisasi belum diunggah.</p>';
+                    container.innerHTML = '<p class="text-center text-slate-500 col-span-full py-10">Belum ada pengurus.</p>';
                 }
             } catch (error) {
-                console.error("Gagal memuat struktur:", error);
+                container.innerHTML = '<p class="text-center text-rose-500 col-span-full py-10">Gagal memuat pengurus.</p>';
             }
         }
 
-        // Jalankan kedua fungsi secara berurutan saat web dibuka
         document.addEventListener("DOMContentLoaded", () => {
             muatBerita();
             muatStruktur();
         });
-        // Fungsi untuk menyalin nomor rekening ke clipboard perangkat pengunjung
+
+        // --- SISTEM COPY NOMOR REKENING ---
         function salinRekening() {
-            // Menyalin angka saja agar mudah di-paste ke aplikasi m-banking (tanpa tanda strip)
             const noRek = "563701018872536"; 
+            const tempInput = document.createElement("input");
+            tempInput.value = noRek;
+            document.body.appendChild(tempInput);
+            tempInput.select();
             
-            navigator.clipboard.writeText(noRek).then(() => {
-                alert("✅ Nomor Rekening BRI berhasil disalin!");
-            }).catch(err => {
-                alert("❌ Gagal menyalin nomor rekening. Silakan salin secara manual.");
-                console.error('Gagal menyalin:', err);
-            });
-        }    
-        // --- FUNGSI KIRIM PESAN KE WHATSAPP ---
+            try {
+                document.execCommand("copy");
+                showToast("Nomor Rekening berhasil disalin!");
+            } catch (err) {
+                showToast("Gagal menyalin nomor.");
+            }
+            document.body.removeChild(tempInput);
+        }  
+        
+        // --- SISTEM REDIRECT WHATSAPP ---
         function kirimPesanWA() {
-            // Ambil data dari inputan form
             const nama = document.getElementById('namaDonatur').value;
             const noWa = document.getElementById('noWaDonatur').value;
             const pesan = document.getElementById('pesanDonatur').value;
 
-            // Validasi: pastikan nama dan no WA tidak kosong
             if (!nama || !noWa) {
-                alert("Mohon lengkapi Nama dan Nomor WhatsApp Anda terlebih dahulu.");
+                showToast("Mohon isi Nama dan Nomor WhatsApp.");
                 return;
             }
 
-            // Nomor tujuan (085... diubah menjadi format internasional 6285...)
             const nomorTujuan = "6285709308034";
-            
-            // Format pesan yang akan muncul di WhatsApp
-            // %0A adalah kode HTML untuk baris baru (Enter)
-            const teksPesan = `Assalamu'alaikum, Pengurus Panti Asuhan Al-Ittifaqiah.%0A%0ASaya ingin menyampaikan pesan/niat donasi:%0A%0A*Nama:* ${nama}%0A*No. WhatsApp:* ${noWa}%0A*Pesan:* ${pesan}%0A%0ATerima kasih.`;
+            const teksPesan = `Assalamu'alaikum, Pengurus Panti Asuhan Al-Ittifaqiah.%0A%0ASaya ingin menyampaikan pesan / konfirmasi donasi:%0A%0A*Nama:* ${nama}%0A*No. WhatsApp:* ${noWa}%0A*Pesan:* ${pesan ? pesan : '-' }%0A%0ATerima kasih.`;
 
-            // Gabungkan link API WhatsApp dengan nomor tujuan dan pesan
             const linkWA = `https://api.whatsapp.com/send?phone=${nomorTujuan}&text=${teksPesan}`;
-            
-            // Buka link tersebut di tab baru
             window.open(linkWA, '_blank');
         }        
     </script>
