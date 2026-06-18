@@ -59,6 +59,29 @@
             bottom: 40px;
             opacity: 1;
         }
+
+        /* ================= ANIMASI SCROLL CSS ================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px); /* Default: Bergerak dari bawah */
+            transition: all 0.9s cubic-bezier(0.5, 0, 0, 1);
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) translateX(0) scale(1);
+        }
+        
+        /* Variasi Arah Animasi */
+        .reveal.fade-left { transform: translateX(-60px); }
+        .reveal.fade-right { transform: translateX(60px); }
+        .reveal.zoom-in { transform: scale(0.9) translateY(30px); }
+        
+        /* Delay Animasi untuk Elemen Berjejer */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
     </style>
 </head>
 <body class="bg-[#FAFAF9] text-slate-800 antialiased selection:bg-[#D4AF37] selection:text-white flex flex-col min-h-screen">
@@ -118,9 +141,9 @@
         </div>
     </header>
 
-    <!-- ================= HERO SECTION (CENTERED) ================= -->
+    <!-- ================= HERO SECTION ================= -->
     <section class="relative min-h-[95vh] flex items-center justify-center pt-20 overflow-hidden text-center">
-        <!-- BACKGROUND IMAGE DARI GITHUB -->
+        <!-- BACKGROUND IMAGE -->
         <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105" 
              style="background-image: url('https://raw.githubusercontent.com/kamalm1372/PANTIASUHANALITTIFAQIAH/main/hero.JPG'); background-attachment: fixed;">
         </div>
@@ -129,24 +152,23 @@
         <div class="absolute inset-0 hero-overlay"></div>
         
         <div class="relative z-10 w-full max-w-[1000px] mx-auto px-5 lg:px-8 py-16 flex flex-col items-center">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold tracking-widest uppercase mb-8">
-                <i data-lucide="home" class="w-3.5 h-3.5 text-[#D4AF37]"></i> Panti Asuhan Islam Al-Ittifaqiah
+            <div class="reveal delay-100 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold tracking-widest uppercase mb-8">
+                <i data-lucide="home" class="w-3.5 h-3.5 text-[#D4AF37]"></i> Panti Asuhan Islam
             </div>
             
-            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.15] mb-6">
+            <h1 class="reveal delay-200 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.15] mb-6">
                 Berkhidmat Membangun <br class="hidden md:block"/>
                 Generasi <span class="text-emas-gradient drop-shadow-xl relative inline-block">
                     Qur'ani & Mandiri
-                    <!-- Garis bawah melengkung hiasan -->
                     <svg class="absolute w-full h-3 -bottom-1 left-0 text-[#D4AF37] opacity-70" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 15 100 5" stroke="currentColor" stroke-width="4" fill="transparent"/></svg>
                 </span>
             </h1>
             
-            <p class="text-emerald-50 text-lg md:text-xl leading-relaxed font-medium mb-10 max-w-2xl">
+            <p class="reveal delay-300 text-emerald-50 text-lg md:text-xl leading-relaxed font-medium mb-10 max-w-2xl">
                 Membina anak yatim dan dhuafa di lingkungan Pondok Pesantren Al-Ittifaqiah menjadi pribadi berilmu, berakhlak mulia, dan siap berkontribusi.
             </p>
             
-            <div class="flex flex-wrap items-center justify-center gap-4">
+            <div class="reveal delay-400 flex flex-wrap items-center justify-center gap-4">
                 <a href="#kontak" class="px-8 py-4 rounded-full text-[#14362B] font-bold bg-[#D4AF37] hover:bg-[#b5952f] transition-all shadow-[0_10px_25px_rgba(212,175,55,0.4)] hover:-translate-y-1 flex items-center gap-2">
                     <i data-lucide="heart" class="w-5 h-5"></i> Salurkan Donasi
                 </a>
@@ -156,7 +178,7 @@
             </div>
         </div>
 
-        <!-- Wave Element di bagian bawah hero -->
+        <!-- Wave Element -->
         <div class="absolute bottom-0 left-0 right-0">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" class="w-full h-auto text-white fill-current">
                 <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
@@ -168,8 +190,8 @@
     <section id="profil" class="py-20 bg-white relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
             <div class="flex flex-col-reverse lg:flex-row gap-16 items-center">
-                <!-- Text Side -->
-                <div class="w-full lg:w-1/2">
+                <!-- Text Side (Slide from Left) -->
+                <div class="w-full lg:w-1/2 reveal fade-left">
                     <div class="inline-flex items-center gap-2 text-[#D4AF37] font-bold text-sm tracking-widest uppercase mb-4">
                         <span class="w-8 h-[2px] bg-[#D4AF37]"></span> Profil Yayasan
                     </div>
@@ -201,8 +223,8 @@
                     </div>
                 </div>
 
-                <!-- Image Side -->
-                <div class="w-full lg:w-1/2 relative">
+                <!-- Image Side (Slide from Right) -->
+                <div class="w-full lg:w-1/2 relative reveal fade-right delay-200">
                     <div class="absolute -right-8 -top-8 w-32 h-32 opacity-20 hidden md:block" style="background-image: radial-gradient(#14362B 2px, transparent 2px); background-size: 16px 16px;"></div>
                     
                     <div class="relative rounded-bl-[4rem] rounded-tr-[4rem] rounded-tl-xl rounded-br-xl overflow-hidden shadow-2xl group border-4 border-white">
@@ -213,7 +235,7 @@
                         <div class="absolute inset-0 bg-[#14362B]/10 group-hover:bg-transparent transition-colors duration-500"></div>
                     </div>
 
-                    <div class="absolute -left-6 bottom-10 bg-white px-6 py-4 rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-50 flex items-center gap-4">
+                    <div class="absolute -left-6 bottom-10 bg-white px-6 py-4 rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-50 flex items-center gap-4 reveal zoom-in delay-400">
                         <div class="text-[#D4AF37] bg-amber-50 p-3 rounded-full">
                             <i data-lucide="users-round" class="w-6 h-6"></i>
                         </div>
@@ -230,7 +252,7 @@
     <!-- ================= PENGURUS SECTION ================= -->
     <section id="struktur" class="py-24 bg-[#FAFAF9] border-t border-slate-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-16">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal">
                 <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-sm mb-3 block flex items-center justify-center gap-2">
                     <i data-lucide="users" class="w-4 h-4"></i> Jajaran Pengurus
                 </span>
@@ -240,7 +262,7 @@
             
             <div id="struktur-container" class="w-full">
                 <!-- Skeleton Loader -->
-                <div class="w-full flex flex-col items-center py-10">
+                <div class="w-full flex flex-col items-center py-10 reveal">
                     <div class="w-8 h-8 border-4 border-[#14362B] border-t-transparent rounded-full animate-spin mb-4"></div>
                     <p class="text-slate-500 font-medium">Memuat data pengurus...</p>
                 </div>
@@ -251,7 +273,7 @@
     <!-- ================= KEGIATAN SECTION ================= -->
     <section id="kegiatan" class="py-24 bg-white border-y border-slate-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 reveal">
                 <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-sm mb-3 block flex items-center justify-center gap-2">
                     <i data-lucide="image" class="w-4 h-4"></i> Dokumentasi
                 </span>
@@ -261,7 +283,7 @@
             
             <div id="galeri-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Skeleton Loader -->
-                <div class="col-span-full flex flex-col items-center py-16">
+                <div class="col-span-full flex flex-col items-center py-16 reveal">
                     <div class="w-8 h-8 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mb-4"></div>
                     <p class="text-slate-500 font-medium">Memuat publikasi kegiatan...</p>
                 </div>
@@ -272,7 +294,7 @@
     <!-- ================= KONTAK & DONASI ================= -->
     <section id="kontak" class="py-24 bg-[#FAFAF9] relative overflow-hidden">
         <div class="max-w-[1100px] mx-auto px-5 lg:px-8 relative z-10">
-            <div class="bg-[#14362B] rounded-[2rem] shadow-2xl relative overflow-hidden">
+            <div class="bg-[#14362B] rounded-[2rem] shadow-2xl relative overflow-hidden reveal zoom-in">
                 <div class="grid lg:grid-cols-5 items-stretch">
                     
                     <div class="lg:col-span-2 p-8 md:p-12 text-white flex flex-col justify-center relative bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] bg-blend-overlay bg-black/20">
@@ -343,7 +365,7 @@
 
     <!-- ================= FOOTER ================= -->
     <footer class="bg-[#0c241c] text-white pt-16 pb-8 mt-auto">
-        <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
+        <div class="max-w-[1200px] mx-auto px-5 lg:px-8 reveal">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
                 <div class="col-span-1">
                     <div class="flex items-center gap-4 mb-6">
@@ -411,6 +433,29 @@
             setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
+        // ================= SISTEM ANIMASI SCROLL =================
+        function initScrollAnimations() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Animasi mulai saat 15% elemen terlihat di layar
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Animasi dimainkan 1x saja
+                    }
+                });
+            }, observerOptions);
+
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(reveal => {
+                observer.observe(reveal);
+            });
+        }
+
         const URL_API = 'https://script.google.com/macros/s/AKfycbyY_jo_Fqm5fRzj-b1hehIlE6ZclTV8rHrBnTrpRZlfssbKmSltRXMlbr50WPoR9Z2FlA/exec'; 
 
         // ================= SISTEM RENDER & CACHE =================
@@ -424,11 +469,13 @@
             }
             
             let htmlHTML = '';
-            // Gunakan [...data] agar array asli tidak berubah saat di reverse
-            [...data].reverse().forEach(item => {
+            [...data].reverse().forEach((item, index) => {
                 if(!item.judul) return; 
+                // Hitung delay untuk efek tangga (stagger) maksimal sampai delay-300
+                let delayClass = `delay-${((index % 3) + 1) * 100}`; 
+                
                 htmlHTML += `
-                <div class="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-white border border-slate-100 h-[300px] flex flex-col justify-end">
+                <div class="reveal ${delayClass} group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-white border border-slate-100 h-[300px] flex flex-col justify-end">
                     <img src="${item.fotoUrl}" alt="${item.judul}" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop'" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#14362B] via-[#14362B]/50 to-transparent opacity-90"></div>
                     <div class="relative z-10 p-6">
@@ -438,24 +485,22 @@
                 </div>`;
             });
             container.innerHTML = htmlHTML;
+            // Panggil ulang animasi agar elemen yang baru dirender ikut bergerak
+            setTimeout(initScrollAnimations, 100); 
         }
 
-        // 2. Fungsi Mengambil Berita dengan Sistem Cache Instan
         async function muatBerita() {
             const cacheKey = 'cache_panti_berita';
             const cachedData = localStorage.getItem(cacheKey);
 
-            // A. Tampilkan data dari memori browser SECARA INSTAN jika ada
             if (cachedData) {
                 try { renderBeritaHTML(JSON.parse(cachedData)); } catch(e){}
             }
 
-            // B. Diam-diam ambil data terbaru dari Google Sheets
             try {
                 const response = await fetch(URL_API);
                 const data = await response.json();
                 
-                // C. Jika data baru berbeda dari yang ada di memori, perbarui tampilan & simpan yang baru
                 if (JSON.stringify(data) !== cachedData) {
                     localStorage.setItem(cacheKey, JSON.stringify(data));
                     renderBeritaHTML(data);
@@ -481,7 +526,7 @@
             // Render Ketua (Besar)
             if (ketua && ketua.nama) {
                 htmlContent += `
-                <div class="w-full flex justify-center mb-10 md:mb-14">
+                <div class="w-full flex justify-center mb-10 md:mb-14 reveal zoom-in">
                     <div class="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-lg hover:shadow-xl transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[350px]">
                         <img src="${ketua.fotoUrl}" alt="${ketua.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(ketua.nama)}&background=14362B&color=D4AF37'" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mb-6 shadow-md group-hover:scale-105 transition-transform">
                         <h3 class="text-xl md:text-2xl font-extrabold text-[#14362B] text-center leading-tight mb-2">${ketua.nama}</h3>
@@ -493,10 +538,12 @@
             // Render Sisa Pengurus (Kecil)
             if (anggota.length > 0) {
                 htmlContent += '<div class="flex flex-wrap justify-center gap-6 md:gap-8 w-full">';
-                anggota.forEach(item => {
+                anggota.forEach((item, index) => {
                     if(!item.nama) return; 
+                    let delayClass = `delay-${((index % 4) + 1) * 100}`;
+                    
                     htmlContent += `
-                    <div class="bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[220px]">
+                    <div class="reveal ${delayClass} bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[220px]">
                         <img src="${item.fotoUrl}" alt="${item.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(item.nama)}&background=14362B&color=D4AF37'" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm group-hover:scale-105 transition-transform">
                         <h3 class="text-base font-bold text-[#14362B] text-center leading-tight mb-1">${item.nama}</h3>
                         <p class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider text-center">${item.jabatan}</p>
@@ -505,24 +552,22 @@
                 htmlContent += '</div>';
             }
             container.innerHTML = htmlContent;
+            // Panggil ulang animasi
+            setTimeout(initScrollAnimations, 100);
         }
 
-        // 4. Fungsi Mengambil Struktur dengan Sistem Cache Instan
         async function muatStruktur() {
             const cacheKey = 'cache_panti_struktur';
             const cachedData = localStorage.getItem(cacheKey);
 
-            // A. Tampilkan Instan
             if (cachedData) {
                 try { renderStrukturHTML(JSON.parse(cachedData)); } catch(e){}
             }
 
-            // B. Fetch Latar Belakang
             try {
                 const response = await fetch(URL_API + "?sheet=Struktur");
                 const data = await response.json();
                 
-                // C. Update jika ada perubahan
                 if (JSON.stringify(data) !== cachedData) {
                     localStorage.setItem(cacheKey, JSON.stringify(data));
                     renderStrukturHTML(data);
@@ -534,8 +579,9 @@
 
         // Jalankan saat web dibuka
         document.addEventListener("DOMContentLoaded", () => {
-            muatBerita();
-            muatStruktur();
+            initScrollAnimations(); // Inisialisasi animasi untuk HTML statis
+            muatBerita();           // Render data & animasi untuk HTML dinamis
+            muatStruktur();         // Render data & animasi untuk HTML dinamis
         });
 
         // --- SISTEM COPY NOMOR REKENING ---
