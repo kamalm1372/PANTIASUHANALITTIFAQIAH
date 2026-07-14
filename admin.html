@@ -107,28 +107,54 @@
             
             <div id="formBerita" class="tab-content space-y-6">
                 <div class="border-b border-slate-200 pb-4">
-                    <h3 class="text-2xl font-bold text-slate-800">Tambah Berita Baru</h3>
-                    <p class="text-sm text-slate-500 mt-1">Publikasikan informasi atau kegiatan terbaru panti asuhan.</p>
+                    <h3 class="text-2xl font-bold text-slate-800">Manajemen Berita</h3>
+                    <p class="text-sm text-slate-500 mt-1">Publikasikan dan kelola informasi terbaru panti asuhan.</p>
                 </div>
                 
+                <input type="hidden" id="editRowIdBerita" value="">
+
                 <div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm space-y-5">
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-2">Judul Berita <span class="text-xs font-normal text-amber-600">(Wajib)</span></label>
                         <input type="text" id="judulBerita" placeholder="Masukkan judul utama berita..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Unggah Foto Berita <span class="text-xs font-normal text-amber-600">(Wajib)</span></label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Unggah Foto Berita <span id="labelFotoBerita" class="text-xs font-normal text-amber-600">(Wajib)</span></label>
                         <div class="border-2 border-dashed border-slate-200 hover:border-[#14362B]/40 rounded-xl p-4 bg-slate-50/50 transition-colors">
                             <input type="file" id="fotoBerita" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-[#14362B] hover:file:bg-emerald-100 cursor-pointer">
                         </div>
+                        <p id="infoFotoBeritaEdit" class="text-xs text-slate-400 mt-2 hidden flex items-center gap-1">
+                            <i data-lucide="info" class="w-3.5 h-3.5"></i> Biarkan kosong jika tidak ingin merubah foto lama.
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 mb-2">Isi Berita Lengkap</label>
                         <textarea id="isiBerita" rows="6" placeholder="Tuliskan narasi berita di sini..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all"></textarea>
                     </div>
-                    <button onclick="kirimBerita()" class="w-full bg-amber-400 hover:bg-amber-500 text-[#14362B] font-bold py-3.5 rounded-xl transition-all shadow-md shadow-amber-400/10 active:scale-[0.99] flex items-center justify-center gap-2">
+                    <button onclick="kirimBerita()" id="btnSimpanBerita" class="w-full bg-amber-400 hover:bg-amber-500 text-[#14362B] font-bold py-3.5 rounded-xl transition-all shadow-md shadow-amber-400/10 active:scale-[0.99] flex items-center justify-center gap-2">
                         <i data-lucide="save" class="w-4 h-4"></i> Simpan & Publikasikan Berita
                     </button>
+                </div>
+
+                <div class="space-y-3 mt-8">
+                    <h4 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="list" class="w-5 h-5 text-slate-400"></i> Daftar Berita Saat Ini
+                    </h4>
+                    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-500 border-b border-slate-200 text-xs font-bold uppercase tracking-wider">
+                                        <th class="p-4 w-24 text-center">Foto</th>
+                                        <th class="p-4">Judul Berita</th>
+                                        <th class="p-4 w-32 text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelBerita" class="divide-y divide-slate-100 text-sm">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -280,45 +306,55 @@
             // Trigger fetch data pengurus apabila tab terkait dibuka
             if(tabId === 'formStruktur') {
                 muatDaftarPengurus();
+            } else if(tabId === 'formBerita') {
+                muatDaftarBerita(); // <-- Tambahkan baris ini
             }
         }
 
-        // --- SISTEM HANDLER BERITA ---
         async function kirimBerita() {
             const judul = document.getElementById('judulBerita').value;
             const isi = document.getElementById('isiBerita').value;
             const fileInput = document.getElementById('fotoBerita');
-            const tombol = document.querySelector('button[onclick="kirimBerita()"]');
+            const rowId = document.getElementById('editRowIdBerita').value; 
+            const tombol = document.getElementById('btnSimpanBerita');
 
-            if (!judul || fileInput.files.length === 0) {
-                alert("Judul dan Foto WAJIB diisi!");
+            if (!judul) {
+                alert("Judul WAJIB diisi!");
+                return;
+            }
+            if (!rowId && fileInput.files.length === 0) {
+                alert("Foto WAJIB diisi untuk berita baru!");
                 return;
             }
 
-            const file = fileInput.files[0];
             tombol.innerHTML = `<div class="w-4 h-4 border-2 border-[#14362B] border-t-transparent rounded-full animate-spin"></div> <span>Sedang Menyimpan...</span>`;
             tombol.disabled = true;
 
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = async function () {
-                const payload = {
-                    action: "upload_berita",
-                    judul: judul,
-                    isi: isi,
-                    namaFile: file.name,
-                    fotoBase64: reader.result
-                };
+            let actionType = rowId ? "update_berita" : "upload_berita";
 
+            const kirimDataPayload = async (payload) => {
                 try {
                     const response = await fetch(URL_API, { method: "POST", body: JSON.stringify(payload) });
                     const result = await response.json();
+                    
                     if (result.status === "success") {
                         alert("✅ " + result.message);
+                        
+                        // Reset Form
                         document.getElementById('judulBerita').value = '';
                         document.getElementById('isiBerita').value = '';
                         document.getElementById('fotoBerita').value = '';
-                    } else alert("❌ Gagal: " + result.message);
+                        document.getElementById('editRowIdBerita').value = '';
+                        
+                        document.getElementById('labelFotoBerita').classList.remove('hidden');
+                        document.getElementById('infoFotoBeritaEdit').classList.add('hidden');
+
+                        tombol.className = "w-full bg-amber-400 hover:bg-amber-500 text-[#14362B] font-bold py-3.5 rounded-xl transition-all shadow-md shadow-amber-400/10 active:scale-[0.99] flex items-center justify-center gap-2";
+
+                        muatDaftarBerita(); // Refresh tabel
+                    } else {
+                        alert("❌ Gagal: " + result.message);
+                    }
                 } catch (error) {
                     alert("Terjadi kesalahan koneksi!");
                 } finally {
@@ -327,6 +363,84 @@
                     lucide.createIcons();
                 }
             };
+
+            // Cek apakah ada upload gambar baru
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    kirimDataPayload({
+                        action: actionType,
+                        row: rowId,
+                        judul: judul,
+                        isi: isi,
+                        namaFile: file.name,
+                        fotoBase64: reader.result
+                    });
+                };
+            } else {
+                kirimDataPayload({
+                    action: actionType,
+                    row: rowId,
+                    judul: judul,
+                    isi: isi,
+                    fotoBase64: "" 
+                });
+            }
+        }
+        function siapkanEditBerita(row, judul, isi) {
+            document.getElementById('judulBerita').value = judul;
+            document.getElementById('isiBerita').value = isi;
+            document.getElementById('editRowIdBerita').value = row; 
+
+            document.getElementById('labelFotoBerita').classList.add('hidden');
+            document.getElementById('infoFotoBeritaEdit').classList.remove('hidden');
+            
+            const btn = document.getElementById('btnSimpanBerita');
+            btn.innerHTML = `<i data-lucide="refresh-cw" class="w-4 h-4"></i> Perbarui Berita`;
+            btn.className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2";
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            lucide.createIcons();
+        }
+
+        async function muatDaftarBerita() {
+            const tbody = document.getElementById('tabelBerita');
+            tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-slate-400"><div class="flex flex-col items-center justify-center gap-2"><div class="w-6 h-6 border-2 border-[#14362B] border-t-transparent rounded-full animate-spin"></div><span>Memuat database...</span></div></td></tr>`;
+            
+            try {
+                // Pastikan nama sheet di database sesuai (contoh: 'Berita')
+                const response = await fetch(URL_API + "?sheet=Berita");
+                const data = await response.json();
+                
+                if (data.length > 0) {
+                    tbody.innerHTML = '';
+                    data.reverse().forEach(item => {
+                        if(!item.judul) return;
+                        
+                        // Menghindari error quotes (') atau (") pada parameter fungsi JS
+                        const safeJudul = item.judul.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                        const safeIsi = item.isi ? item.isi.replace(/'/g, "\\'").replace(/"/g, '&quot;') : '';
+
+                        tbody.innerHTML += `
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="p-4 text-center">
+                                <img src="${item.fotoUrl || 'https://via.placeholder.com/50'}" class="w-12 h-10 object-cover mx-auto ring-1 ring-slate-200 rounded">
+                            </td>
+                            <td class="p-4 font-semibold text-slate-800">${item.judul}</td>
+                            <td class="p-4 text-center whitespace-nowrap">
+                                <button onclick="siapkanEditBerita(${item.row}, '${safeJudul}', '${safeIsi}')" class="text-blue-600 hover:bg-blue-50 border border-blue-200 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors mr-1.5">Edit</button>
+                                <button onclick="hapusData('Berita', ${item.row})" class="text-rose-600 hover:bg-rose-50 border border-rose-200 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors">Hapus</button>
+                            </td>
+                        </tr>`;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="3" class="p-8 text-center text-slate-400">Belum ada data berita.</td></tr>';
+                }
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-8 text-center text-rose-500 font-medium">Gagal memuat data dari API.</td></tr>';
+            }
         }
 
         // --- SISTEM HANDLER KEUANGAN ---
@@ -518,6 +632,7 @@
                 if(result.status === "success") {
                     alert("✅ Data sukses dihapus.");
                     if(sheetName === 'Struktur') muatDaftarPengurus(); 
+                    if(sheetName === 'Berita') muatDaftarBerita(); // <-- Tambahkan baris ini
                 } else {
                     alert("❌ Gagal menghapus data.");
                     eventTarget.innerText = originalText;
