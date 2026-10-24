@@ -84,6 +84,9 @@
         .delay-300 { transition-delay: 300ms; }
         .delay-400 { transition-delay: 400ms; }
 
+        /* ===== SLIDER FOTO KEGIATAN ===== */
+        .slider { scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain; }
+        .slider::-webkit-scrollbar { display: none; }
         /* ===== PERBAIKAN MOBILE-FIRST ===== */
         html { scroll-padding-top: 5rem; }     /* judul section tidak tertutup navbar */
         body { overflow-x: hidden; }           /* cegah halaman bisa digeser menyamping */
@@ -595,12 +598,13 @@
                         <input type="text" id="judulBerita" placeholder="Masukkan judul utama berita..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#14362B]/20 focus:border-[#14362B] transition-all">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Unggah Foto Berita <span id="labelFotoBerita" class="text-xs font-normal text-amber-600">(Wajib)</span></label>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Unggah Foto Kegiatan <span class="text-xs font-normal text-slate-400">(maks. 5 foto)</span> <span id="labelFotoBerita" class="text-xs font-normal text-amber-600">(Wajib)</span></label>
                         <div class="border-2 border-dashed border-slate-200 hover:border-[#14362B]/40 rounded-xl p-4 bg-slate-50/50 transition-colors">
-                            <input type="file" id="fotoBerita" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-[#14362B] hover:file:bg-emerald-100 cursor-pointer">
+                            <input type="file" id="fotoBerita" accept="image/*" multiple onchange="previewFotoBerita(this)" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-[#14362B] hover:file:bg-emerald-100 cursor-pointer">
                         </div>
+                        <div id="previewFotoBerita" class="flex flex-wrap gap-2 mt-3"></div>
                         <p id="infoFotoBeritaEdit" class="text-xs text-slate-400 mt-2 hidden flex items-center gap-1">
-                            <i data-lucide="info" class="w-3.5 h-3.5"></i> Biarkan kosong jika tidak ingin merubah foto lama.
+                            <i data-lucide="info" class="w-3.5 h-3.5"></i> Kosongkan untuk mempertahankan foto lama. Jika memilih foto baru, semua foto lama akan diganti.
                         </p>
                     </div>
                     <div>
@@ -752,31 +756,55 @@
         // ================= SISTEM RENDER & CACHE =================
 
         // 1. Fungsi Gambar HTML Berita
+        function kelasDot(aktif) { return 'dot h-1.5 rounded-full transition-all ' + (aktif ? 'w-4 bg-white' : 'w-1.5 bg-white/50'); }
+
+        function sliderScroll(el) {
+            const i = Math.round(el.scrollLeft / el.clientWidth);
+            el.parentElement.querySelectorAll('.dot').forEach((d, n) => d.className = kelasDot(n === i));
+        }
+
+        function geserFoto(btn, arah) {
+            const el = btn.parentElement.querySelector('.slider');
+            const diAkhir = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+            if (arah > 0 && diAkhir) el.scrollTo({ left: 0, behavior: 'smooth' });
+            else el.scrollBy({ left: arah * el.clientWidth, behavior: 'smooth' });
+        }
+
         function renderBeritaHTML(data) {
             const container = document.getElementById('galeri-container');
             if (data.length === 0) {
                 container.innerHTML = '<p class="text-center text-slate-500 col-span-full py-10">Belum ada publikasi.</p>';
                 return;
             }
-            
+            const fallback = 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop';
+
             let htmlHTML = '';
             [...data].reverse().forEach((item, index) => {
                 if(!item.judul) return; 
-                // Hitung delay untuk efek tangga (stagger) maksimal sampai delay-300
                 let delayClass = `delay-${((index % 3) + 1) * 100}`; 
-                
+                const fotos = (item.fotos && item.fotos.length) ? item.fotos : (item.fotoUrl ? [item.fotoUrl] : [fallback]);
+                const banyak = fotos.length > 1;
+
+                const slides = fotos.map(u => `<img src="${u}" alt="${item.judul}" loading="lazy" decoding="async" draggable="false" onerror="this.src='${fallback}'" class="w-full h-full flex-shrink-0 snap-center object-cover">`).join('');
+                const dots = banyak ? `<div class="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 bg-black/30 backdrop-blur-sm rounded-full px-2.5 py-1.5 pointer-events-none">${fotos.map((_, i) => `<span class="${kelasDot(i === 0)}"></span>`).join('')}</div>` : '';
+                const panah = banyak ? `
+                    <button onclick="geserFoto(this, -1)" aria-label="Foto sebelumnya" class="hidden md:flex absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 items-center justify-center rounded-full bg-black/35 hover:bg-black/60 text-white text-xl leading-none opacity-0 group-hover:opacity-100 transition-all">‹</button>
+                    <button onclick="geserFoto(this, 1)" aria-label="Foto berikutnya" class="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 items-center justify-center rounded-full bg-black/35 hover:bg-black/60 text-white text-xl leading-none opacity-0 group-hover:opacity-100 transition-all">›</button>` : '';
+
                 htmlHTML += `
                 <div class="reveal ${delayClass} group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-white border border-slate-100 h-[300px] flex flex-col justify-end">
-                    <img src="${item.fotoUrl}" alt="${item.judul}" loading="lazy" decoding="async" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop'" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#14362B] via-[#14362B]/50 to-transparent opacity-90"></div>
-                    <div class="relative z-10 p-6">
+                    <div class="absolute inset-0">
+                        <div class="slider flex h-full overflow-x-auto snap-x snap-mandatory scroll-smooth" onscroll="sliderScroll(this)">${slides}</div>
+                        ${dots}${panah}
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#14362B] via-[#14362B]/50 to-transparent opacity-90 pointer-events-none"></div>
+                    <div class="relative z-10 p-6 pointer-events-none">
                         <h3 class="text-lg font-bold text-white mb-2 leading-tight">${item.judul}</h3>
                         <p class="text-emerald-100/70 text-sm line-clamp-2">${item.isi}</p>
                     </div>
                 </div>`;
             });
             container.innerHTML = htmlHTML;
-            // Panggil ulang animasi agar elemen yang baru dirender ikut bergerak
             setTimeout(initScrollAnimations, 100); 
         }
 
@@ -937,82 +965,98 @@
             }
         }
 
+        // --- UPLOAD BERITA / DOKUMENTASI (maks. 5 foto) ---
+        const MAKS_FOTO = 5;
+
+        // Perkecil foto (maks. 1600 px) agar unggahan ringan
+        function kompresFoto(file, maxSisi = 1600, kualitas = 0.82) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                const url = URL.createObjectURL(file);
+                img.onload = () => {
+                    const skala = Math.min(1, maxSisi / Math.max(img.width, img.height));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(img.width * skala);
+                    canvas.height = Math.round(img.height * skala);
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    URL.revokeObjectURL(url);
+                    resolve({ namaFile: file.name.replace(/\.[^.]+$/, '') + '.jpg', base64: canvas.toDataURL('image/jpeg', kualitas) });
+                };
+                img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Gagal membaca foto: ' + file.name)); };
+                img.src = url;
+            });
+        }
+
+        function previewFotoBerita(input) {
+            const box = document.getElementById('previewFotoBerita');
+            let files = Array.from(input.files);
+            if (files.length > MAKS_FOTO) {
+                alert('Maksimal ' + MAKS_FOTO + ' foto. Hanya ' + MAKS_FOTO + ' foto pertama yang dipakai.');
+                const dt = new DataTransfer();
+                files.slice(0, MAKS_FOTO).forEach(f => dt.items.add(f));
+                input.files = dt.files;
+                files = files.slice(0, MAKS_FOTO);
+            }
+            box.innerHTML = files.map((f, i) => `
+                <div class="relative">
+                    <img src="${URL.createObjectURL(f)}" class="w-16 h-16 object-cover rounded-lg ring-1 ring-slate-200">
+                    <span class="absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full bg-[#14362B] text-white text-[10px] font-bold flex items-center justify-center">${i + 1}</span>
+                </div>`).join('');
+        }
+
         async function kirimBerita() {
             const judul = document.getElementById('judulBerita').value;
             const isi = document.getElementById('isiBerita').value;
             const fileInput = document.getElementById('fotoBerita');
             const rowId = document.getElementById('editRowIdBerita').value; 
             const tombol = document.getElementById('btnSimpanBerita');
+            const files = Array.from(fileInput.files).slice(0, MAKS_FOTO);
 
             if (!judul) {
                 alert("Judul WAJIB diisi!");
                 return;
             }
-            if (!rowId && fileInput.files.length === 0) {
-                alert("Foto WAJIB diisi untuk berita baru!");
+            if (!rowId && files.length === 0) {
+                alert("Minimal 1 foto WAJIB diisi untuk berita baru!");
                 return;
             }
 
-            tombol.innerHTML = `<div class="w-4 h-4 border-2 border-[#14362B] border-t-transparent rounded-full animate-spin"></div> <span>Sedang Menyimpan...</span>`;
+            const spinner = `<div class="w-4 h-4 border-2 border-[#14362B] border-t-transparent rounded-full animate-spin"></div>`;
+            tombol.innerHTML = `${spinner} <span>Memproses foto...</span>`;
             tombol.disabled = true;
 
-            let actionType = rowId ? "update_berita" : "upload_berita";
+            try {
+                const fotos = await Promise.all(files.map(f => kompresFoto(f)));
+                tombol.innerHTML = `${spinner} <span>Sedang Menyimpan...</span>`;
 
-            const kirimDataPayload = async (payload) => {
-                try {
-                    const response = await fetch(URL_API, { method: "POST", body: JSON.stringify(payload) });
-                    const result = await response.json();
-                    
-                    if (result.status === "success") {
-                        alert("✅ " + result.message);
-                        
-                        // Reset Form
-                        document.getElementById('judulBerita').value = '';
-                        document.getElementById('isiBerita').value = '';
-                        document.getElementById('fotoBerita').value = '';
-                        document.getElementById('editRowIdBerita').value = '';
-                        
-                        document.getElementById('labelFotoBerita').classList.remove('hidden');
-                        document.getElementById('infoFotoBeritaEdit').classList.add('hidden');
+                const payload = { action: rowId ? "update_berita" : "upload_berita", row: rowId, judul: judul, isi: isi, fotos: fotos };
+                const response = await fetch(URL_API, { method: "POST", body: JSON.stringify(payload) });
+                const result = await response.json();
 
-                        tombol.className = "w-full bg-amber-400 hover:bg-amber-500 text-[#14362B] font-bold py-3.5 rounded-xl transition-all shadow-md shadow-amber-400/10 active:scale-[0.99] flex items-center justify-center gap-2";
+                if (result.status === "success") {
+                    alert("✅ " + result.message);
 
-                        muatDaftarBerita(); // Refresh tabel
-                    } else {
-                        alert("❌ Gagal: " + result.message);
-                    }
-                } catch (error) {
-                    alert("Terjadi kesalahan koneksi!");
-                } finally {
-                    tombol.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan & Publikasikan Berita`;
-                    tombol.disabled = false;
-                    lucide.createIcons();
+                    document.getElementById('judulBerita').value = '';
+                    document.getElementById('isiBerita').value = '';
+                    document.getElementById('fotoBerita').value = '';
+                    document.getElementById('previewFotoBerita').innerHTML = '';
+                    document.getElementById('editRowIdBerita').value = '';
+
+                    document.getElementById('labelFotoBerita').classList.remove('hidden');
+                    document.getElementById('infoFotoBeritaEdit').classList.add('hidden');
+
+                    tombol.className = "w-full bg-amber-400 hover:bg-amber-500 text-[#14362B] font-bold py-3.5 rounded-xl transition-all shadow-md shadow-amber-400/10 active:scale-[0.99] flex items-center justify-center gap-2";
+
+                    muatDaftarBerita();
+                } else {
+                    alert("❌ Gagal: " + result.message);
                 }
-            };
-
-            // Cek apakah ada upload gambar baru
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function () {
-                    kirimDataPayload({
-                        action: actionType,
-                        row: rowId,
-                        judul: judul,
-                        isi: isi,
-                        namaFile: file.name,
-                        fotoBase64: reader.result
-                    });
-                };
-            } else {
-                kirimDataPayload({
-                    action: actionType,
-                    row: rowId,
-                    judul: judul,
-                    isi: isi,
-                    fotoBase64: "" 
-                });
+            } catch (error) {
+                alert("Terjadi kesalahan: " + (error.message || "koneksi bermasalah!"));
+            } finally {
+                tombol.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan & Publikasikan Berita`;
+                tombol.disabled = false;
+                lucide.createIcons();
             }
         }
         function siapkanEditBerita(row, judul, isi) {
@@ -1052,7 +1096,10 @@
                         tbody.innerHTML += `
                         <tr class="hover:bg-slate-50/80 transition-colors">
                             <td class="p-4 text-center">
-                                <img src="${item.fotoUrl || 'https://via.placeholder.com/50'}" class="w-12 h-10 object-cover mx-auto ring-1 ring-slate-200 rounded">
+                                <div class="relative w-12 mx-auto">
+                                    <img src="${item.fotoUrl || 'https://via.placeholder.com/50'}" class="w-12 h-10 object-cover ring-1 ring-slate-200 rounded">
+                                    ${item.fotos && item.fotos.length > 1 ? `<span class="absolute -bottom-1 -right-2 bg-[#14362B] text-white text-[10px] font-bold px-1.5 rounded-full">${item.fotos.length}</span>` : ''}
+                                </div>
                             </td>
                             <td class="p-4 font-semibold text-slate-800">${item.judul}</td>
                             <td class="p-4 text-center whitespace-nowrap">
