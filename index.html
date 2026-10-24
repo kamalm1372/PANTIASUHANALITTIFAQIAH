@@ -83,6 +83,29 @@
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
         .delay-400 { transition-delay: 400ms; }
+                /* ===== PERBAIKAN MOBILE-FIRST ===== */
+        html { scroll-padding-top: 4.5rem; }   /* judul section tidak tertutup navbar */
+        body { overflow-x: hidden; }           /* cegah halaman bisa digeser menyamping */
+
+        /* Bug fix: elemen geser/zoom kembali ke posisi normal setelah aktif */
+        .reveal.active.fade-left,
+        .reveal.active.fade-right,
+        .reveal.active.zoom-in { transform: translate(0, 0) scale(1); }
+
+        /* Background fixed hanya di desktop (di HP/iOS gambar jadi patah) */
+        .hero-bg { background-attachment: scroll; }
+        @media (min-width: 1024px) and (hover: hover) { .hero-bg { background-attachment: fixed; } }
+
+        /* Gerakan masuk lebih pendek di layar kecil */
+        @media (max-width: 767px) {
+            .reveal { transform: translateY(30px); }
+            .reveal.fade-left { transform: translateX(-24px); }
+            .reveal.fade-right { transform: translateX(24px); }
+        }
+        /* Hormati pengguna yang mematikan animasi di perangkatnya */
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        }
     </style>
 </head>
 <body class="bg-[#FAFAF9] text-slate-800 antialiased selection:bg-[#D4AF37] selection:text-white">
@@ -107,7 +130,7 @@
                 </a>
 
                 <!-- Desktop Menu -->
-                <nav class="hidden lg:flex items-center gap-1">
+                <nav class="hidden xl:flex items-center gap-1">
                     <ul class="flex items-center gap-2 text-sm font-semibold text-slate-600 mr-4">
                         <li><a href="#" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Beranda</a></li>
                         <li><a href="#profil" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Profil</a></li>
@@ -125,14 +148,14 @@
                 </nav>
 
                 <!-- Mobile Menu Toggle -->
-                <button id="mobileMenuBtn" class="lg:hidden p-2 text-slate-600 hover:text-[#14362B]">
+                <button id="mobileMenuBtn" class="xl:hidden p-3 -mr-3 text-slate-600 hover:text-[#14362B]">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
 
         <!-- Mobile Menu Dropdown -->
-        <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg">
+       <div id="mobileMenu" class="hidden xl:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
             <ul class="flex flex-col px-5 py-4 space-y-2 text-sm font-semibold text-slate-600">
                 <li><a href="#" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Beranda</a></li>
                 <li><a href="#profil" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Profil</a></li>
@@ -155,10 +178,10 @@
     </header>
 
     <!-- ================= HERO SECTION ================= -->
-    <section class="relative min-h-[95vh] flex items-center justify-center pt-20 overflow-hidden text-center">
+    <section class="relative min-h-[85vh] sm:min-h-[95vh] flex items-center justify-center pt-20 overflow-hidden text-center">
         <!-- BACKGROUND IMAGE -->
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105" 
-             style="background-image: url('https://raw.githubusercontent.com/kamalm1372/PANTIASUHANALITTIFAQIAH/main/hero.JPG'); background-attachment: fixed;">
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105 hero-bg"
+             style="background-image: url('https://raw.githubusercontent.com/kamalm1372/PANTIASUHANALITTIFAQIAH/main/hero.JPG');"
         </div>
         
         <!-- Overlay gelap -->
@@ -202,7 +225,7 @@
     <!-- ================= PROFIL SECTION ================= -->
     <section id="profil" class="py-20 bg-white relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
-            <div class="flex flex-col-reverse lg:flex-row gap-16 items-center">
+            <div class="flex flex-col-reverse lg:flex-row gap-10 lg:gap-16 items-center">
                 <!-- Text Side (Slide from Left) -->
                 <div class="w-full lg:w-1/2 reveal fade-left">
                     <div class="inline-flex items-center gap-2 text-[#D4AF37] font-bold text-sm tracking-widest uppercase mb-4">
@@ -213,7 +236,7 @@
                     <p class="text-slate-600 text-lg leading-relaxed mb-6">
                         Panti Asuhan Islam Al-Ittifaqiah hadir sebagai wadah pengasuhan, pendidikan, dan pembinaan anak-anak yatim dan dhuafa. Kami berkomitmen memberikan perlindungan fisik sekaligus pembekalan ilmu agama.
                     </p>
-                    <p class="text-slate-600 text-lg leading-relaxed mb-8">
+                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
                         Berada di dalam lingkungan Pondok Pesantren di Indralaya, anak asuh mendapatkan gemblengan moral, spiritual, dan life-skill agar siap menatap masa depan secara mandiri.
                     </p>
                     
@@ -248,7 +271,7 @@
                         <div class="absolute inset-0 bg-[#14362B]/10 group-hover:bg-transparent transition-colors duration-500"></div>
                     </div>
 
-                    <div class="absolute -left-6 bottom-10 bg-white px-6 py-4 rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-50 flex items-center gap-4 reveal zoom-in delay-400">
+                    <div class="absolute -left-2 sm:-left-6 bottom-6 sm:bottom-10 bg-white px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-50 flex items-center gap-4 reveal zoom-in delay-400">
                         <div class="text-[#D4AF37] bg-amber-50 p-3 rounded-full">
                             <i data-lucide="users-round" class="w-6 h-6"></i>
                         </div>
@@ -263,7 +286,7 @@
     </section>
 
     <!-- ================= PENGURUS SECTION ================= -->
-    <section id="struktur" class="py-24 bg-[#FAFAF9] border-t border-slate-100">
+    <section id="struktur" class="py-16 md:py-24 bg-[#FAFAF9] border-t border-slate-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-16 reveal">
                 <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-sm mb-3 block flex items-center justify-center gap-2">
@@ -283,7 +306,7 @@
         </div>
     </section>
         <!-- ================= ANAK ASUH SECTION ================= -->
-    <section id="anak-asuh" class="py-24 bg-[#14362B] relative overflow-hidden">
+    <section id="anak-asuh" class="py-16 md:py-24 bg-[#14362B] relative overflow-hidden">
         <div class="absolute inset-0 opacity-[0.06] bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
         <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[#D4AF37]/10 blur-3xl"></div>
         <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-emerald-400/10 blur-3xl"></div>
@@ -306,7 +329,7 @@
         </div>
     </section>
         <!-- ================= KEUANGAN SECTION ================= -->
-    <section id="keuangan" class="py-24 bg-[#FAFAF9] relative overflow-hidden">
+    <section id="keuangan" class="py-16 md:py-24 bg-[#FAFAF9] relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8 relative z-10">
             <div class="text-center max-w-2xl mx-auto mb-12 reveal">
                 <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-sm mb-3 flex items-center justify-center gap-2">
@@ -326,7 +349,7 @@
         </div>
     </section>
     <!-- ================= KEGIATAN SECTION ================= -->
-    <section id="kegiatan" class="py-24 bg-white border-y border-slate-100">
+    <section id="kegiatan" class="py-16 md:py-24 bg-white border-y border-slate-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
             <div class="text-center mb-16 reveal">
                 <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-sm mb-3 block flex items-center justify-center gap-2">
@@ -347,7 +370,7 @@
     </section>
 
     <!-- ================= KONTAK & DONASI ================= -->
-    <section id="kontak" class="py-24 bg-[#FAFAF9] relative overflow-hidden">
+    <section id="kontak" class="py-16 md:py-16 md:py-24 bg-[#FAFAF9] relative overflow-hidden">
         <div class="max-w-[1100px] mx-auto px-5 lg:px-8 relative z-10">
             <div class="bg-[#14362B] rounded-[2rem] shadow-2xl relative overflow-hidden reveal zoom-in">
                 <div class="grid lg:grid-cols-5 items-stretch">
@@ -843,16 +866,16 @@
 
             // Render Sisa Pengurus (Kecil)
             if (anggota.length > 0) {
-                htmlContent += '<div class="flex flex-wrap justify-center gap-6 md:gap-8 w-full">';
+                htmlContent += '<div class="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 w-full">';
                 anggota.forEach((item, index) => {
                     if(!item.nama) return; 
                     let delayClass = `delay-${((index % 4) + 1) * 100}`;
                     
                     htmlContent += `
-                    <div class="reveal ${delayClass} bg-white rounded-3xl p-6 shadow-sm hover:shadow-md transition-all border border-slate-100 flex flex-col items-center group w-full sm:w-[220px]">
-                        <img src="${item.fotoUrl}" alt="${item.nama}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(item.nama)}&background=14362B&color=D4AF37'" class="w-24 h-24 rounded-full object-cover mb-4 shadow-sm group-hover:scale-105 transition-transform">
-                        <h3 class="text-base font-bold text-[#14362B] text-center leading-tight mb-1">${item.nama}</h3>
-                        <p class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider text-center">${item.jabatan}</p>
+                    <div class="reveal ${delayClass} bg-white rounded-3xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all border border-slate-100 flex flex-col items-center group w-[calc(50%-0.5rem)] sm:w-[220px]">
+                        <img src="${item.fotoUrl}" alt="${item.nama}" loading="lazy" decoding="async" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURI(item.nama)}&background=14362B&color=D4AF37'" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover mb-3 sm:mb-4 shadow-sm group-hover:scale-105 transition-transform">
+                        <h3 class="text-sm sm:text-base font-bold text-[#14362B] text-center leading-tight mb-1 break-words">${item.nama}</h3>
+                        <p class="text-[#D4AF37] text-[10px] sm:text-xs font-bold uppercase tracking-wider text-center">${item.jabatan}</p>
                     </div>`;
                 });
                 htmlContent += '</div>';
