@@ -83,26 +83,20 @@
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
         .delay-400 { transition-delay: 400ms; }
-                /* ===== PERBAIKAN MOBILE-FIRST ===== */
-        html { scroll-padding-top: 4.5rem; }   /* judul section tidak tertutup navbar */
-        body { overflow-x: hidden; }           /* cegah halaman bisa digeser menyamping */
 
-        /* Bug fix: elemen geser/zoom kembali ke posisi normal setelah aktif */
+        /* ===== PERBAIKAN MOBILE-FIRST ===== */
+        html { scroll-padding-top: 5rem; }     /* judul section tidak tertutup navbar */
+        body { overflow-x: hidden; }           /* cegah halaman bisa digeser menyamping */
         .reveal.active.fade-left,
         .reveal.active.fade-right,
         .reveal.active.zoom-in { transform: translate(0, 0) scale(1); }
-
-        /* Background fixed hanya di desktop (di HP/iOS gambar jadi patah) */
         .hero-bg { background-attachment: scroll; }
         @media (min-width: 1024px) and (hover: hover) { .hero-bg { background-attachment: fixed; } }
-
-        /* Gerakan masuk lebih pendek di layar kecil */
         @media (max-width: 767px) {
             .reveal { transform: translateY(30px); }
             .reveal.fade-left { transform: translateX(-24px); }
             .reveal.fade-right { transform: translateX(24px); }
         }
-        /* Hormati pengguna yang mematikan animasi di perangkatnya */
         @media (prefers-reduced-motion: reduce) {
             .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
         }
@@ -155,7 +149,7 @@
         </div>
 
         <!-- Mobile Menu Dropdown -->
-       <div id="mobileMenu" class="hidden xl:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
+        <div id="mobileMenu" class="hidden xl:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
             <ul class="flex flex-col px-5 py-4 space-y-2 text-sm font-semibold text-slate-600">
                 <li><a href="#" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Beranda</a></li>
                 <li><a href="#profil" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Profil</a></li>
@@ -180,8 +174,8 @@
     <!-- ================= HERO SECTION ================= -->
     <section class="relative min-h-[85vh] sm:min-h-[95vh] flex items-center justify-center pt-20 overflow-hidden text-center">
         <!-- BACKGROUND IMAGE -->
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105 hero-bg"
-             style="background-image: url('https://raw.githubusercontent.com/kamalm1372/PANTIASUHANALITTIFAQIAH/main/hero.JPG');"
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105 hero-bg" 
+             style="background-image: url('https://raw.githubusercontent.com/kamalm1372/PANTIASUHANALITTIFAQIAH/main/hero.JPG');">
         </div>
         
         <!-- Overlay gelap -->
@@ -204,11 +198,11 @@
                 Membina anak yatim dan dhuafa di lingkungan Pondok Pesantren Al-Ittifaqiah menjadi pribadi berilmu, berakhlak mulia, dan siap berkontribusi.
             </p>
             
-            <div class="reveal delay-400 flex flex-wrap items-center justify-center gap-4">
-                <a href="#kontak" class="px-8 py-4 rounded-full text-[#14362B] font-bold bg-[#D4AF37] hover:bg-[#b5952f] transition-all shadow-[0_10px_25px_rgba(212,175,55,0.4)] hover:-translate-y-1 flex items-center gap-2">
+            <div class="reveal delay-400 w-full sm:w-auto flex flex-wrap items-center justify-center gap-4">
+                <a href="#kontak" class="w-full sm:w-auto justify-center px-8 py-4 rounded-full text-[#14362B] font-bold bg-[#D4AF37] hover:bg-[#b5952f] transition-all shadow-[0_10px_25px_rgba(212,175,55,0.4)] hover:-translate-y-1 flex items-center gap-2">
                     <i data-lucide="heart" class="w-5 h-5"></i> Salurkan Donasi
                 </a>
-                <a href="#profil" class="px-8 py-4 rounded-full text-white font-semibold bg-white/10 border border-white/20 hover:bg-white/20 backdrop-blur-sm transition-all flex items-center gap-2">
+                <a href="#profil" class="w-full sm:w-auto justify-center px-8 py-4 rounded-full text-white font-semibold bg-white/10 border border-white/20 hover:bg-white/20 backdrop-blur-sm transition-all flex items-center gap-2">
                     Lebih Lanjut <i data-lucide="arrow-down" class="w-4 h-4"></i>
                 </a>
             </div>
@@ -233,7 +227,7 @@
                     </div>
                     <h2 class="text-3xl md:text-4xl font-extrabold text-[#14362B] mb-6 leading-tight">Mencetak Kader Umat di Lingkungan Pesantren</h2>
                     
-                    <p class="text-slate-600 text-lg leading-relaxed mb-6">
+                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed mb-6">
                         Panti Asuhan Islam Al-Ittifaqiah hadir sebagai wadah pengasuhan, pendidikan, dan pembinaan anak-anak yatim dan dhuafa. Kami berkomitmen memberikan perlindungan fisik sekaligus pembekalan ilmu agama.
                     </p>
                     <p class="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
@@ -276,7 +270,7 @@
                             <i data-lucide="users-round" class="w-6 h-6"></i>
                         </div>
                         <div>
-                            <div class="text-2xl font-black text-[#14362B] leading-none">90+</div>
+                            <div class="text-2xl font-black text-[#14362B] leading-none">100+</div>
                             <div class="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Anak Asuh</div>
                         </div>
                     </div>
@@ -305,6 +299,7 @@
             </div>
         </div>
     </section>
+
         <!-- ================= ANAK ASUH SECTION ================= -->
     <section id="anak-asuh" class="py-16 md:py-24 bg-[#14362B] relative overflow-hidden">
         <div class="absolute inset-0 opacity-[0.06] bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
@@ -328,6 +323,7 @@
             </div>
         </div>
     </section>
+
         <!-- ================= KEUANGAN SECTION ================= -->
     <section id="keuangan" class="py-16 md:py-24 bg-[#FAFAF9] relative overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8 relative z-10">
@@ -348,6 +344,7 @@
             </div>
         </div>
     </section>
+
     <!-- ================= KEGIATAN SECTION ================= -->
     <section id="kegiatan" class="py-16 md:py-24 bg-white border-y border-slate-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
@@ -370,19 +367,19 @@
     </section>
 
     <!-- ================= KONTAK & DONASI ================= -->
-    <section id="kontak" class="py-16 md:py-16 md:py-24 bg-[#FAFAF9] relative overflow-hidden">
+    <section id="kontak" class="py-16 md:py-24 bg-[#FAFAF9] relative overflow-hidden">
         <div class="max-w-[1100px] mx-auto px-5 lg:px-8 relative z-10">
             <div class="bg-[#14362B] rounded-[2rem] shadow-2xl relative overflow-hidden reveal zoom-in">
                 <div class="grid lg:grid-cols-5 items-stretch">
                     
-                    <div class="lg:col-span-2 p-8 md:p-12 text-white flex flex-col justify-center relative bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] bg-blend-overlay bg-black/20">
+                    <div class="lg:col-span-2 p-6 sm:p-8 md:p-12 text-white flex flex-col justify-center relative bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] bg-blend-overlay bg-black/20">
                         <div class="relative z-10">
                             <h2 class="text-3xl font-bold mb-4 leading-tight">Salurkan <br/><span class="text-[#D4AF37]">Infaq & Sedekah</span></h2>
                             <p class="text-emerald-100/80 mb-8 text-sm leading-relaxed">
                                 Uluran tangan Anda menjadi saksi kebaikan bagi pendidikan anak-anak kami.
                             </p>
                             
-                            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
+                            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 sm:p-6">
                                 <p class="text-xs text-emerald-200 uppercase tracking-widest font-bold mb-4 flex items-center gap-2">
                                     <i data-lucide="credit-card" class="w-4 h-4"></i> Rekening Resmi
                                 </p>
@@ -395,7 +392,7 @@
                                 </div>
 
                                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-black/40 rounded-xl p-3 mb-3 border border-white/5">
-                                    <span class="text-lg font-bold text-[#D4AF37] tracking-widest font-mono">5637-0101-8872-53-6</span>
+                                    <span class="text-base sm:text-lg font-bold text-[#D4AF37] tracking-wider sm:tracking-widest font-mono">5637-0101-8872-53-6</span>
                                     <button onclick="salinRekening()" class="flex-shrink-0 px-3 py-2 text-xs font-bold uppercase text-white bg-[#D4AF37] hover:bg-amber-500 rounded-lg transition-all flex items-center justify-center gap-2">
                                         Salin
                                     </button>
@@ -405,7 +402,7 @@
                         </div>
                     </div>
                     
-                    <div class="lg:col-span-3 bg-white p-8 md:p-12 lg:rounded-l-3xl shadow-[-10px_0_30px_rgba(0,0,0,0.1)] z-20 relative">
+                    <div class="lg:col-span-3 bg-white p-6 sm:p-8 md:p-12 lg:rounded-l-3xl shadow-[-10px_0_30px_rgba(0,0,0,0.1)] z-20 relative">
                         <div class="mb-8">
                             <h3 class="text-2xl font-bold text-slate-800">Konfirmasi Donasi</h3>
                             <p class="text-slate-500 text-sm mt-1">Beritahu kami agar donasi Anda tercatat dan didoakan oleh anak asuh.</p>
@@ -416,14 +413,14 @@
                                 <label class="block text-sm font-bold text-slate-700 mb-2">Nama Lengkap / Hamba Allah</label>
                                 <div class="relative">
                                     <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400"><i data-lucide="user" class="w-5 h-5"></i></span>
-                                    <input type="text" id="namaDonatur" class="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all" placeholder="Masukkan nama">
+                                    <input type="text" id="namaDonatur" autocomplete="name" class="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all" placeholder="Masukkan nama">
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-slate-700 mb-2">Nomor WhatsApp</label>
                                 <div class="relative">
                                     <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400"><i data-lucide="phone" class="w-5 h-5"></i></span>
-                                    <input type="tel" id="noWaDonatur" class="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all" placeholder="Contoh: 08123456789">
+                                    <input type="tel" id="noWaDonatur" inputmode="tel" autocomplete="tel" class="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all" placeholder="Contoh: 08123456789">
                                 </div>
                             </div>
                             <div>
@@ -548,7 +545,7 @@
     <div id="dashboardPanel" class="hidden w-full min-h-screen flex flex-col md:flex-row bg-slate-50">
         
         <aside class="w-full md:w-64 bg-[#14362B] text-slate-200 flex flex-col border-r border-emerald-950">
-            <div class="p-6 border-b border-emerald-900/50 flex items-center gap-3">
+            <div class="p-4 md:p-6 border-b border-emerald-900/50 flex items-center gap-3">
                 <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
                     <i data-lucide="layout-dashboard" class="w-5 h-5 text-amber-400"></i>
                 </div>
@@ -558,16 +555,16 @@
                 </div>
             </div>
             
-            <nav class="flex-1 p-4 space-y-1.5">
-                <button onclick="bukaTab('formBerita', this)" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all bg-white/10 text-white">
+            <nav class="flex md:flex-col gap-2 md:gap-0 md:space-y-1.5 md:flex-1 p-3 md:p-4 overflow-x-auto">
+                <button onclick="bukaTab('formBerita', this)" class="tab-btn md:w-full shrink-0 whitespace-nowrap flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl text-sm font-medium transition-all bg-white/10 text-white">
                     <i data-lucide="newspaper" class="w-5 h-5"></i>
                     <span>Upload Berita</span>
                 </button>
-                <button onclick="bukaTab('formKeuangan', this)" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-emerald-100/70 hover:bg-white/5 hover:text-white">
+                <button onclick="bukaTab('formKeuangan', this)" class="tab-btn md:w-full shrink-0 whitespace-nowrap flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl text-sm font-medium transition-all text-emerald-100/70 hover:bg-white/5 hover:text-white">
                     <i data-lucide="wallet" class="w-5 h-5"></i>
                     <span>Laporan Keuangan</span>
                 </button>
-                <button onclick="bukaTab('formStruktur', this)" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-emerald-100/70 hover:bg-white/5 hover:text-white">
+                <button onclick="bukaTab('formStruktur', this)" class="tab-btn md:w-full shrink-0 whitespace-nowrap flex items-center gap-2 md:gap-3 px-4 py-2.5 md:py-3 rounded-xl text-sm font-medium transition-all text-emerald-100/70 hover:bg-white/5 hover:text-white">
                     <i data-lucide="users" class="w-5 h-5"></i>
                     <span>Struktur Organisasi</span>
                 </button>
@@ -586,7 +583,7 @@
             </div>
         </aside>
 
-        <main class="flex-1 p-6 lg:p-10 max-w-5xl">
+        <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-10 max-w-5xl">
             
             <div id="formBerita" class="tab-content space-y-6">
                 <div class="border-b border-slate-200 pb-4">
@@ -805,7 +802,7 @@
                 
                 htmlHTML += `
                 <div class="reveal ${delayClass} group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 bg-white border border-slate-100 h-[300px] flex flex-col justify-end">
-                    <img src="${item.fotoUrl}" alt="${item.judul}" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop'" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <img src="${item.fotoUrl}" alt="${item.judul}" loading="lazy" decoding="async" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop'" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#14362B] via-[#14362B]/50 to-transparent opacity-90"></div>
                     <div class="relative z-10 p-6">
                         <h3 class="text-lg font-bold text-white mb-2 leading-tight">${item.judul}</h3>
@@ -1306,7 +1303,8 @@
                 alert("Terjadi kesalahan sistem eksternal saat menghapus.");
             }
         }
-                // ================= ANAK ASUH (STATISTIK RINGKAS) =================
+
+        // ================= ANAK ASUH (STATISTIK RINGKAS) =================
         function animasiAngka(root) {
             const io = new IntersectionObserver((entries, obs) => {
                 entries.forEach(en => {
@@ -1347,8 +1345,8 @@
                 </div>`).join('');
 
             const jenjang = Object.entries(d.tingkat).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([k, v]) => `
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center gap-4 hover:bg-white/10 transition-colors">
-                    <div class="w-12 h-12 rounded-xl bg-[#D4AF37]/15 text-[#D4AF37] flex items-center justify-center flex-shrink-0"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-4 sm:p-5 flex items-center gap-3 sm:gap-4 hover:bg-white/10 transition-colors">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#D4AF37]/15 text-[#D4AF37] flex items-center justify-center flex-shrink-0"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
                     <div>
                         <div class="text-2xl font-black text-white leading-none count-up" data-target="${v}">0</div>
                         <div class="text-xs text-emerald-100/70 font-semibold mt-1">${namaJenjang[k] || k}</div>
@@ -1356,8 +1354,8 @@
                 </div>`).join('');
 
             c.innerHTML = `
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-4 reveal fade-left rounded-3xl p-8 text-center bg-gradient-to-br from-[#D4AF37] via-amber-300 to-[#B38728] text-[#14362B] shadow-2xl flex flex-col items-center justify-center">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+                <div class="md:col-span-2 lg:col-span-4 reveal fade-left rounded-3xl p-6 sm:p-8 text-center bg-gradient-to-br from-[#D4AF37] via-amber-300 to-[#B38728] text-[#14362B] shadow-2xl flex flex-col items-center justify-center">
                     <i data-lucide="users-round" class="w-10 h-10 mb-3"></i>
                     <div class="text-5xl sm:text-7xl font-black leading-none count-up" data-target="${d.total}">0</div>
                     <div class="text-sm font-bold uppercase tracking-widest mt-3">Anak Asuh Binaan</div>
@@ -1381,7 +1379,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-4 reveal fade-right delay-300 bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-sm">
+                <div class="lg:col-span-4 reveal fade-right delay-300 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-sm">
                     <h3 class="text-white font-bold mb-6 flex items-center gap-2"><i data-lucide="heart" class="w-5 h-5 text-[#D4AF37]"></i> Latar Belakang</h3>
                     <div class="space-y-6">${statusBars}</div>
                 </div>
@@ -1413,7 +1411,8 @@
                 if (!cachedData) document.getElementById('anak-container').innerHTML = '<p class="text-center text-rose-300 py-10">Gagal memuat data anak asuh.</p>';
             }
         }
-                // ================= KEUANGAN (RINGKASAN KAS) =================
+
+        // ================= KEUANGAN (RINGKASAN KAS) =================
         function animasiRupiah(root) {
             const io = new IntersectionObserver((entries, obs) => {
                 entries.forEach(en => {
@@ -1441,7 +1440,7 @@
 
             c.innerHTML = `
             <div class="reveal flex justify-center mb-10">
-                <div class="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 bg-white border border-amber-200 rounded-full px-6 py-3 shadow-sm text-sm">
+                <div class="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 bg-white border border-amber-200 rounded-2xl sm:rounded-full px-5 sm:px-6 py-3 shadow-sm text-xs sm:text-sm text-center">
                     <i data-lucide="calendar-range" class="w-4 h-4 text-[#D4AF37]"></i>
                     <span class="text-slate-500">Periode pencatatan</span>
                     <b class="text-[#14362B]">${tgl(d.dari)}</b>
@@ -1450,23 +1449,23 @@
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="reveal fade-left bg-white rounded-3xl p-8 border border-slate-100 border-t-4 border-t-emerald-500 shadow-lg shadow-slate-200/50">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <div class="reveal fade-left bg-white rounded-3xl p-6 md:p-8 border border-slate-100 border-t-4 border-t-emerald-500 shadow-lg shadow-slate-200/50">
                     <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-5"><i data-lucide="trending-up" class="w-6 h-6"></i></div>
                     <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Total Pemasukan</div>
-                    <div class="text-2xl lg:text-3xl font-black text-emerald-600 count-rp" data-rp="${d.masuk}">Rp 0</div>
+                    <div class="text-[1.65rem] sm:text-3xl lg:text-[1.65rem] xl:text-3xl font-black text-emerald-600 count-rp" data-rp="${d.masuk}">Rp 0</div>
                 </div>
 
-                <div class="reveal delay-200 bg-white rounded-3xl p-8 border border-slate-100 border-t-4 border-t-rose-500 shadow-lg shadow-slate-200/50">
+                <div class="reveal delay-200 bg-white rounded-3xl p-6 md:p-8 border border-slate-100 border-t-4 border-t-rose-500 shadow-lg shadow-slate-200/50">
                     <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mb-5"><i data-lucide="trending-down" class="w-6 h-6"></i></div>
                     <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Total Pengeluaran</div>
-                    <div class="text-2xl lg:text-3xl font-black text-rose-600 count-rp" data-rp="${d.keluar}">Rp 0</div>
+                    <div class="text-[1.65rem] sm:text-3xl lg:text-[1.65rem] xl:text-3xl font-black text-rose-600 count-rp" data-rp="${d.keluar}">Rp 0</div>
                 </div>
 
-                <div class="reveal fade-right delay-300 rounded-3xl p-8 bg-gradient-to-br from-[#14362B] to-[#1f4d3d] text-white shadow-2xl shadow-emerald-900/20">
+                <div class="reveal fade-right delay-300 md:col-span-2 lg:col-span-1 rounded-3xl p-6 md:p-8 bg-gradient-to-br from-[#14362B] to-[#1f4d3d] text-white shadow-2xl shadow-emerald-900/20">
                     <div class="w-12 h-12 rounded-2xl bg-[#D4AF37]/20 text-[#D4AF37] flex items-center justify-center mb-5"><i data-lucide="landmark" class="w-6 h-6"></i></div>
                     <div class="text-xs font-bold uppercase tracking-widest text-emerald-100/60 mb-2">Saldo Akhir</div>
-                    <div class="text-2xl lg:text-3xl font-black text-[#D4AF37] count-rp" data-rp="${d.saldo}">Rp 0</div>
+                    <div class="text-[1.65rem] sm:text-3xl lg:text-[1.65rem] xl:text-3xl font-black text-[#D4AF37] count-rp" data-rp="${d.saldo}">Rp 0</div>
                     <div class="text-xs text-emerald-100/60 mt-3">per ${tgl(d.sampai)}</div>
                 </div>
             </div>
@@ -1493,6 +1492,7 @@
                 if (!cachedData) document.getElementById('kas-container').innerHTML = '<p class="text-center text-rose-400 py-10">Gagal memuat laporan keuangan.</p>';
             }
         }
+
         // Jalankan saat web dibuka
         document.addEventListener("DOMContentLoaded", () => {
             initScrollAnimations(); // Inisialisasi animasi untuk HTML statis
