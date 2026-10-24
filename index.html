@@ -113,6 +113,7 @@
                         <li><a href="#profil" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Profil</a></li>
                         <li><a href="#struktur" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Pengurus</a></li>
                         <li><a href="#anak-asuh" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Anak Asuh</a></li>
+                        <li><a href="#keuangan" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Keuangan</a></li>
                         <li><a href="#kegiatan" class="px-4 py-2 rounded-lg hover:text-[#D4AF37] hover:bg-amber-50 transition-all">Kegiatan</a></li>
                     </ul>
                     <a href="#kontak" class="px-6 py-2.5 rounded-full text-[#14362B] font-bold bg-[#D4AF37] hover:bg-[#b5952f] transition-all shadow-[0_4px_14px_0_rgba(212,175,55,0.39)] hover:shadow-[0_6px_20px_rgba(212,175,55,0.23)] hover:-translate-y-0.5 flex items-center gap-2">
@@ -137,6 +138,7 @@
                 <li><a href="#profil" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Profil</a></li>
                 <li><a href="#struktur" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Pengurus</a></li>
                 <li><a href="#anak-asuh" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Anak Asuh</a></li>
+                <li><a href="#keuangan" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Keuangan</a></li>
                 <li><a href="#kegiatan" onclick="toggleMenu()" class="block px-4 py-3 rounded-lg hover:bg-slate-50">Kegiatan</a></li>
                 <li class="pt-2">
                     <a href="#kontak" onclick="toggleMenu()" class="flex justify-center items-center gap-2 w-full py-3 rounded-xl text-[#14362B] font-bold bg-[#D4AF37]">
@@ -303,6 +305,26 @@
             </div>
         </div>
     </section>
+        <!-- ================= KEUANGAN SECTION ================= -->
+    <section id="keuangan" class="py-24 bg-[#FAFAF9] relative overflow-hidden">
+        <div class="max-w-[1200px] mx-auto px-5 lg:px-8 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-12 reveal">
+                <span class="text-[#D4AF37] font-bold tracking-widest uppercase text-sm mb-3 flex items-center justify-center gap-2">
+                    <i data-lucide="wallet" class="w-4 h-4"></i> Transparansi
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-[#14362B]">Laporan Keuangan</h2>
+                <p class="text-slate-500 mt-4 text-sm md:text-base">Kami berkomitmen mengelola amanah para donatur secara terbuka. Berikut ringkasan kas Panti Asuhan Al-Ittifaqiah.</p>
+                <div class="w-20 h-1 bg-[#D4AF37] mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div id="kas-container" class="w-full">
+                <div class="w-full flex flex-col items-center py-10">
+                    <div class="w-8 h-8 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p class="text-slate-500 font-medium">Memuat laporan keuangan...</p>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- ================= KEGIATAN SECTION ================= -->
     <section id="kegiatan" class="py-24 bg-white border-y border-slate-100">
         <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
@@ -419,6 +441,7 @@
                         <li><a href="#profil" class="text-emerald-100/50 hover:text-[#D4AF37] transition-colors text-sm">Profil Yayasan</a></li>
                         <li><a href="#struktur" class="text-emerald-100/50 hover:text-[#D4AF37] transition-colors text-sm">Susunan Pengurus</a></li>
                         <li><a href="#anak-asuh" class="text-emerald-100/50 hover:text-[#D4AF37] transition-colors text-sm">Anak Asuh</a></li>
+                        <li><a href="#keuangan" class="text-emerald-100/50 hover:text-[#D4AF37] transition-colors text-sm">Laporan Keuangan</a></li>
                         <li><a href="#kegiatan" class="text-emerald-100/50 hover:text-[#D4AF37] transition-colors text-sm">Galeri Kegiatan</a></li>
                     </ul>
                 </div>
@@ -1367,12 +1390,93 @@
                 if (!cachedData) document.getElementById('anak-container').innerHTML = '<p class="text-center text-rose-300 py-10">Gagal memuat data anak asuh.</p>';
             }
         }
+                // ================= KEUANGAN (RINGKASAN KAS) =================
+        function animasiRupiah(root) {
+            const io = new IntersectionObserver((entries, obs) => {
+                entries.forEach(en => {
+                    if (!en.isIntersecting) return;
+                    const el = en.target, target = +el.dataset.rp, t0 = performance.now(), dur = 1600;
+                    const tick = now => {
+                        const p = Math.min((now - t0) / dur, 1);
+                        el.textContent = 'Rp ' + Math.round(target * (1 - Math.pow(1 - p, 3))).toLocaleString('id-ID');
+                        if (p < 1) requestAnimationFrame(tick);
+                    };
+                    requestAnimationFrame(tick);
+                    obs.unobserve(el);
+                });
+            }, { threshold: 0.4 });
+            root.querySelectorAll('.count-rp').forEach(el => io.observe(el));
+        }
+
+        function renderKasHTML(d) {
+            const c = document.getElementById('kas-container');
+            if (!d || !d.transaksi) {
+                c.innerHTML = '<p class="text-center text-slate-400 py-10">Data keuangan belum tersedia.</p>';
+                return;
+            }
+            const tgl = iso => new Date(iso + 'T00:00:00').toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            c.innerHTML = `
+            <div class="reveal flex justify-center mb-10">
+                <div class="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 bg-white border border-amber-200 rounded-full px-6 py-3 shadow-sm text-sm">
+                    <i data-lucide="calendar-range" class="w-4 h-4 text-[#D4AF37]"></i>
+                    <span class="text-slate-500">Periode pencatatan</span>
+                    <b class="text-[#14362B]">${tgl(d.dari)}</b>
+                    <span class="text-slate-400">s.d.</span>
+                    <b class="text-[#14362B]">${tgl(d.sampai)}</b>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="reveal fade-left bg-white rounded-3xl p-8 border border-slate-100 border-t-4 border-t-emerald-500 shadow-lg shadow-slate-200/50">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-5"><i data-lucide="trending-up" class="w-6 h-6"></i></div>
+                    <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Total Pemasukan</div>
+                    <div class="text-2xl lg:text-3xl font-black text-emerald-600 count-rp" data-rp="${d.masuk}">Rp 0</div>
+                </div>
+
+                <div class="reveal delay-200 bg-white rounded-3xl p-8 border border-slate-100 border-t-4 border-t-rose-500 shadow-lg shadow-slate-200/50">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mb-5"><i data-lucide="trending-down" class="w-6 h-6"></i></div>
+                    <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Total Pengeluaran</div>
+                    <div class="text-2xl lg:text-3xl font-black text-rose-600 count-rp" data-rp="${d.keluar}">Rp 0</div>
+                </div>
+
+                <div class="reveal fade-right delay-300 rounded-3xl p-8 bg-gradient-to-br from-[#14362B] to-[#1f4d3d] text-white shadow-2xl shadow-emerald-900/20">
+                    <div class="w-12 h-12 rounded-2xl bg-[#D4AF37]/20 text-[#D4AF37] flex items-center justify-center mb-5"><i data-lucide="landmark" class="w-6 h-6"></i></div>
+                    <div class="text-xs font-bold uppercase tracking-widest text-emerald-100/60 mb-2">Saldo Akhir</div>
+                    <div class="text-2xl lg:text-3xl font-black text-[#D4AF37] count-rp" data-rp="${d.saldo}">Rp 0</div>
+                    <div class="text-xs text-emerald-100/60 mt-3">per ${tgl(d.sampai)}</div>
+                </div>
+            </div>
+
+            <p class="reveal text-center text-xs text-slate-400 mt-8">Dihimpun dari ${d.transaksi} transaksi kas yang tercatat. Rincian dan bukti pembukuan tersedia di kantor panti.</p>`;
+
+            lucide.createIcons();
+            animasiRupiah(c);
+            setTimeout(initScrollAnimations, 100);
+        }
+
+        async function muatKas() {
+            const cacheKey = 'cache_panti_kas';
+            const cachedData = localStorage.getItem(cacheKey);
+            if (cachedData) { try { renderKasHTML(JSON.parse(cachedData)); } catch (e) {} }
+            try {
+                const response = await fetch(URL_API + "?sheet=KasStat");
+                const data = await response.json();
+                if (JSON.stringify(data) !== cachedData) {
+                    localStorage.setItem(cacheKey, JSON.stringify(data));
+                    renderKasHTML(data);
+                }
+            } catch (error) {
+                if (!cachedData) document.getElementById('kas-container').innerHTML = '<p class="text-center text-rose-400 py-10">Gagal memuat laporan keuangan.</p>';
+            }
+        }
         // Jalankan saat web dibuka
         document.addEventListener("DOMContentLoaded", () => {
             initScrollAnimations(); // Inisialisasi animasi untuk HTML statis
             muatBerita();           // Render data & animasi untuk HTML dinamis
             muatStruktur();         // Render data & animasi untuk HTML dinamis
             muatAnakAsuh();         // Statistik anak asuh
+            muatKas();              // Ringkasan keuangan
         });
 
         // --- SISTEM COPY NOMOR REKENING ---
